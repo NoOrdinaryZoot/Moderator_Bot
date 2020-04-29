@@ -1,9 +1,9 @@
-var config = require('./config.json');
+var app = require('./app.json');
 const Discord = require('discord.js');
 const schedule = require('node-schedule');
 const fs = require('fs');
 const client = new Discord.Client();
-var badlist = config.blacklist;
+var badlist = app.blacklist;
 
 client.on("ready", () => {
     client.user.setActivity('Life', { type: 'PLAYING' });
@@ -24,9 +24,9 @@ client.on("message", async message => {
     if (message.author.id != 97605170782826496 && message.author.id != 385166607225323521 && message.author.id != 526514389868871680) {
         return;
     }
-    if (message.content.indexOf(config.prefix) === 0) {
+    if (message.content.indexOf(app.prefix) === 0) {
 
-        let msg = message.content.slice(config.prefix.length);
+        let msg = message.content.slice(app.prefix.length);
 
         let args = msg.split(" ");
 
@@ -56,7 +56,7 @@ client.on("message", async message => {
                 try {
                     console.log(badlist);
                     badlist.push(args.toLowerCase());
-                    config.list = badlist;
+                    app.list = badlist;
                     message.channel.send(`${args} was succesfully added to the blacklist.`);
                 } catch {
                     message.channel.send(`${args} was unsuccessfully added to the blacklist.`);
@@ -66,7 +66,7 @@ client.on("message", async message => {
                 try {
                     console.log(badlist);
                     badlist = badlist.filter(e => e !== args.toLowerCase());
-                    config.list = badlist;
+                    app.list = badlist;
                     message.channel.send(`${args} was successfully removed from the blacklist.`);
                 } catch {
                     message.channel.send(`${args} was unsuccessfully removed from the blacklist.`);
@@ -114,4 +114,4 @@ function rand(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-client.login(config.token);
+client.login(app.token);
