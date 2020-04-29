@@ -2,7 +2,6 @@ var config = require('./config.json');
 const Discord = require('discord.js');
 const schedule = require('node-schedule');
 const fs = require('fs');
-const moment = require
 const client = new Discord.Client();
 var badlist = config.blacklist;
 
