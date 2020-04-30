@@ -21,7 +21,6 @@ client.on("message", async message => {
         return;
     }
 
-    console.log(message.content);
     if (message.author.id != 97605170782826496 && message.author.id != 385166607225323521 && message.author.id != 526514389868871680) {
         return;
     }
@@ -34,14 +33,14 @@ client.on("message", async message => {
         let command = args[0].toLowerCase();
 
         args.shift();
-
-        console.log('Args', args)
+        
         switch (command) {
             case 'hi' || 'hello':
                 message.channel.send(`Hi there ${message.author.toString()}`);
                 return;
             case 'filter':
                 message.channel.messages.fetch().then(messages => {
+                    var offendingAuthors = {"id" : "offenses"}
                     const botMessages = messages.filter(checker);
                     for (msg in botMessages) {
                         console.log(msg.content);
@@ -59,8 +58,10 @@ client.on("message", async message => {
                     badlist.push(args.toLowerCase());
                     process.env.blacklist = badlist.join(",");
                     message.channel.send(`${args} was succesfully added to the blacklist.`);
-                } catch {
+                } catch (err) {
                     message.channel.send(`${args} was unsuccessfully added to the blacklist.`);
+                    console.log(err);
+                    console.log('stupid')
                 }
                 return;
             case 'remove':
@@ -69,15 +70,17 @@ client.on("message", async message => {
                     badlist = badlist.filter(e => e !== args.toLowerCase());
                     process.env.blacklist = badlist.join(",");
                     message.channel.send(`${args} was successfully removed from the blacklist.`);
-                } catch {
+                } catch (err) {
                     message.channel.send(`${args} was unsuccessfully removed from the blacklist.`);
+                    console.log(err);
                 }
                 return;
             case 'blacklist':
                 try {
                     message.channel.send(`${badlist}`);
-                } catch {
+                } catch (err) {
                     message.channel.send('Error when displaying blacklist');
+                    console.log(err);
                 }
                 return;
             case 'purge':
@@ -87,19 +90,17 @@ client.on("message", async message => {
                 return;
             case 'haha':
                 console.log(message.channel)
+                return;
         }
     }
     return;
 });
 
 function checker(value) {
-    console.log(badlist[0]);
     var prohibited = badlist;
-    console.log(value.content);
     checkCont = value.content.toLowerCase()
     for (var i = 0; i < prohibited.length; i++) {
         for (proh in prohibited[i]) {
-            console.log(proh);
             if (checkCont.includes(proh)) {
                 return true;
             }
