@@ -39,8 +39,6 @@ client.on("guildCreate", guild => {
 });
 
 client.on("message", async message => {
-    console.log(message.channel.guild.users.size);
-    console.log(client.guilds.size);
     if (message.content.toLowerCase().includes('heh')) {
         if (rand(0, 1) == 1) {
             message.channel.send("Hey Gordon it's me Barney from Black Mesa!");
