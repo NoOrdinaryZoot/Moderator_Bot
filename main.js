@@ -8,6 +8,7 @@ var badlist = process.env.blacklist.split(",");
 var offendingUsers = process.env.leaderboard
 console.log(badlist);
 console.log(offendingUsers);
+console.log(offendingUsers["CT"])
 // console.log(offendingUsers.CT);
 // offendingUsers.AU[0] = 'CUnt'
 // console.log(offendingUsers);
@@ -15,9 +16,6 @@ console.log(offendingUsers);
 client.on("ready", () => {
     client.user.setActivity('Life', { type: 'PLAYING' });
     console.log(`client is online!\n${client.users.size} users, in ${client.guilds.size} servers connected.`);
-    console.log(`${client.guilds}`);
-    console.log(`${client.manager}`);
-    console.log(`${client.ping}`);
 });
 
 client.on("guildCreate", guild => {
