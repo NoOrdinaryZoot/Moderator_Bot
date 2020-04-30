@@ -128,6 +128,11 @@ client.on("message", async message => {
             case 'quote':
                 message.channel.send(quotes[rand(0, quotes.length - 1)]);
                 return;
+            case 'delete':
+                var amount = args[1];
+                var messages = await message.channel.messages.fetch({ limit: 2 });
+                message.channel.bulkDelete(messages);
+                return;
             case 'spoil-half-life-alyx-for-me':
                 message.channel.send(`||G-Man: Impressive work, Ms. Vance.
                 Alyx: Gordon… Freeman?
