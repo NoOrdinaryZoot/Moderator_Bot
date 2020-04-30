@@ -2,6 +2,7 @@ require('dotenv').config();
 const Discord = require('discord.js');
 const schedule = require('node-schedule');
 const fs = require('fs');
+const ytdl = require('ytdl-core');
 const client = new Discord.Client();
 var badlist = process.env.blacklist.split(",");
 var offendingUsers = process.env.leaderboard
@@ -39,6 +40,23 @@ client.on("message", async message => {
         return;
     }
 
+    if (message.content.toLowerCase().includes('-play')) {
+        if (message.channel.type !== 'text') return;
+
+        const voiceChannel = message.member.voice.channel;
+
+        if (!voiceChannel) {
+            return; //message.reply('Please join a voice channel first!');
+        }
+
+        voiceChannel.join().then(connection => {
+            const stream = ytdl('https://www.youtube.com/watch?v=oHg5SJYRHA0', { filter: 'audioonly' });
+            const dispatcher = connection.play(stream);
+
+            dispatcher.on('end', () => voiceChannel.leave());
+        });
+    }
+
     if (message.content.indexOf(process.env.prefix) === 0) {
 
         let msg = message.content.slice(process.env.prefix.length);
@@ -48,15 +66,6 @@ client.on("message", async message => {
         let command = args[0].toLowerCase();
 
         args.shift();
-
-        if (message.content.toLowerCase().includes('heh')) {
-            if (rand(0, 1) == 1) {
-                message.channel.send("Hey Gordon it's me Barney from Black Mesa!");
-            }
-            else {
-                message.channel.send("About that beer I owe ya");
-            }
-        }
 
         switch (command) {
             case 'hi' || 'hello':
@@ -116,21 +125,6 @@ client.on("message", async message => {
             case 'haha':
                 console.log(message.channel)
                 return;
-            case 'play':
-                if (message.channel.type !== 'text') return;
-
-                const voiceChannel = message.member.voice.channel;
-
-                if (!voiceChannel) {
-                    return message.reply('Please join a voice channel first!');
-                }
-
-                voiceChannel.join().then(connection => {
-                    const stream = ytdl('https://www.youtube.com/watch?v=oHg5SJYRHA0', { filter: 'audioonly' });
-                    const dispatcher = connection.play(stream);
-
-                    dispatcher.on('end', () => voiceChannel.leave());
-                });
         }
     }
     return;
