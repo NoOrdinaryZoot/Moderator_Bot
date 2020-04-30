@@ -22,6 +22,15 @@ client.on("guildCreate", guild => {
 
 client.on("message", async message => {
 
+    if (message.content.toLowerCase().includes('heh')) {
+        if (rand(0, 1) == 1) {
+            message.channel.send("Hey Gordon it's me Barney from Black Mesa!");
+        }
+        else {
+            message.channel.send("About that beer I owe ya");
+        }
+    }
+
     if (message.channel.type === 'dm') {
         return;
     }
@@ -29,6 +38,7 @@ client.on("message", async message => {
     if (message.author.id != 97605170782826496 && message.author.id != 385166607225323521 && message.author.id != 526514389868871680) {
         return;
     }
+
     if (message.content.indexOf(process.env.prefix) === 0) {
 
         let msg = message.content.slice(process.env.prefix.length);
@@ -47,7 +57,7 @@ client.on("message", async message => {
                 message.channel.send("About that beer I owe ya");
             }
         }
-        
+
         switch (command) {
             case 'hi' || 'hello':
                 message.channel.send(`Hi there ${message.author.toString()}`);
@@ -65,7 +75,7 @@ client.on("message", async message => {
                     console.log(err);
                 });
                 return;
-            case 'add': 
+            case 'add':
                 try {
                     console.log(badlist);
                     console.log(args);
@@ -106,6 +116,21 @@ client.on("message", async message => {
             case 'haha':
                 console.log(message.channel)
                 return;
+            case 'play':
+                if (message.channel.type !== 'text') return;
+
+                const voiceChannel = message.member.voice.channel;
+
+                if (!voiceChannel) {
+                    return message.reply('Please join a voice channel first!');
+                }
+
+                voiceChannel.join().then(connection => {
+                    const stream = ytdl('https://www.youtube.com/watch?v=oHg5SJYRHA0', { filter: 'audioonly' });
+                    const dispatcher = connection.play(stream);
+
+                    dispatcher.on('end', () => voiceChannel.leave());
+                });
         }
     }
     return;
