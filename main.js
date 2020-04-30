@@ -4,7 +4,7 @@ const schedule = require('node-schedule');
 const fs = require('fs');
 const client = new Discord.Client();
 var badlist = process.env.blacklist.split(",");
-var offendingUsers = process.env.leaderboard.split(",");
+var offendingUsers = process.env.leaderboard
 console.log(badlist);
 console.log(offendingUsers);
 
