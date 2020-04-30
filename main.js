@@ -99,6 +99,13 @@ client.on("message", async message => {
 function checker(value) {
     var prohibited = badlist;
     checkCont = value.content.toLowerCase()
+    if (offendingAuthors[value.author]) {
+        console.log('Author in');
+    }
+    else {
+        console.log('Author off');
+    }
+    console.log(value.author, 'Author');
     for (var i = 0; i < prohibited.length; i++) {
         for (proh in prohibited[i]) {
             if (checkCont.includes(proh)) {
