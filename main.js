@@ -4,7 +4,9 @@ const schedule = require('node-schedule');
 const fs = require('fs');
 const client = new Discord.Client();
 var badlist = process.env.blacklist.split(",");
+var offendingUsers = process.env.leaderboard.split(",");
 console.log(badlist);
+console.log(offendingUsers);
 
 client.on("ready", () => {
     client.user.setActivity('Life', { type: 'PLAYING' });
@@ -40,7 +42,6 @@ client.on("message", async message => {
                 return;
             case 'filter':
                 message.channel.messages.fetch().then(messages => {
-                    var offendingAuthors = {"id" : "offenses"}
                     const botMessages = messages.filter(checker);
                     for (msg in botMessages) {
                         console.log(msg.content);
@@ -52,7 +53,7 @@ client.on("message", async message => {
                     console.log(err);
                 });
                 return;
-            case 'add':
+            case 'add': 
                 try {
                     console.log(badlist);
                     console.log(args);
@@ -101,13 +102,6 @@ client.on("message", async message => {
 function checker(value) {
     var prohibited = badlist;
     checkCont = value.content.toLowerCase();
-    if (offendingAuthors[value.author]) {
-        console.log('Author in');
-    }
-    else {
-        console.log('Author off');
-    }
-    console.log(value.author, 'Author');
     for (var i = 0; i < prohibited.length; i++) {
         for (proh in prohibited[i]) {
             if (checkCont.includes(proh)) {
