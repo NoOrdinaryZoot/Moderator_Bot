@@ -118,7 +118,7 @@ client.on("message", async message => {
                 return;
             case 'purge':
                 var amount = args[1];
-                var messages = await message.channel.fetchMessages({ limit: amount });
+                var messages = await message.channel.messages.fetch({ limit: amount });
                 message.channel.bulkDelete(messages);
                 return;
             case 'haha':
