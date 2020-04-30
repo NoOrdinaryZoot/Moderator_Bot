@@ -56,7 +56,7 @@ client.on("message", async message => {
                 try {
                     console.log(badlist);
                     console.log(args);
-                    badlist.push(args.toLowerCase());
+                    badlist.push(args.join(' ').toLowerCase());
                     process.env.blacklist = badlist.join(",");
                     message.channel.send(`${args} was succesfully added to the blacklist.`);
                 } catch (err) {
@@ -69,7 +69,7 @@ client.on("message", async message => {
                 try {
                     console.log(badlist);
                     console.log(args);
-                    badlist = badlist.filter(e => e !== args.toLowerCase());
+                    badlist = badlist.filter(e => e !== args.join(' ').toLowerCase());
                     process.env.blacklist = badlist.join(",");
                     message.channel.send(`${args} was successfully removed from the blacklist.`);
                 } catch (err) {
