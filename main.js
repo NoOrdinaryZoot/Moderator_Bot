@@ -40,23 +40,6 @@ client.on("message", async message => {
         return;
     }
 
-    if (message.content.toLowerCase().includes('-play')) {
-        if (message.channel.type !== 'text') return;
-
-        const voiceChannel = message.member.voice.channel;
-
-        if (!voiceChannel) {
-            return; //message.reply('Please join a voice channel first!');
-        }
-
-        voiceChannel.join().then(connection => {
-            const stream = ytdl('https://www.youtube.com/watch?v=oHg5SJYRHA0', { filter: 'audioonly' });
-            const dispatcher = connection.play(stream);
-
-            dispatcher.on('end', () => voiceChannel.leave());
-        });
-    }
-
     if (message.content.indexOf(process.env.prefix) === 0) {
 
         let msg = message.content.slice(process.env.prefix.length);
@@ -119,7 +102,7 @@ client.on("message", async message => {
                 return;
             case 'purge':
                 var amount = args[1];
-                var messages = await message.channel.fetchMessages({ limit: amount });
+                var messages = await message.channel.fetch({ limit: amount });
                 message.channel.bulkDelete(messages);
                 return;
             case 'haha':
