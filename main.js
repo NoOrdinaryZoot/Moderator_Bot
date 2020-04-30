@@ -125,7 +125,7 @@ client.on("message", async message => {
                 console.log(message.channel)
                 return;
             case 'spoil-half-life-alyx-for-me':
-                message.channel.send(`/spoiler G-Man: Impressive work, Ms. Vance.
+                message.channel.send(`||G-Man: Impressive work, Ms. Vance.
                 Alyx: Gordon… Freeman?
                 G-Man: Gordon, Freeman? Heh, heh. My dear, you wouldn't need all of that to imprison Gordon Freeman.
                 Alyx: So, who are you?
@@ -141,14 +141,14 @@ client.on("message", async message => {
                 G-Man: Unless, you were to take matters into your, own, hands.
                 (time rewinds to the moment just before Eli's death to the Advisor. Player!Alyx looks to her gloves, crackling with Vortal energy.)
                 G-Man: Release your father, Ms. Vance. (Player!Alyx fires the Vortal Energy, electrocuting the Advisor and freeing Eli as the scene fades out.) Good. As a consequence of your actions, this entity will continue, and this entity, will not.
-                Alyx: Right. So, he's okay? Right? He lives. My dad lives!`)
-                message.channel.send(`/spoiler G-Man: You are aware, that you have proven yourself to be of extra-ordinary value (manifests Gordon's crowbar). A previous hire has been unable or unwilling, to per-form the tasks laid before him (steps aside, revealing Gordon Freeman in silhouette). We have struggled to find a suitable replacement, until now.
+                Alyx: Right. So, he's okay? Right? He lives. My dad lives!
+                G-Man: You are aware, that you have proven yourself to be of extra-ordinary value (manifests Gordon's crowbar). A previous hire has been unable or unwilling, to per-form the tasks laid before him (steps aside, revealing Gordon Freeman in silhouette). We have struggled to find a suitable replacement, until now.
                 Alyx: No! I-I just want to go home. Send me home!
                 G-Man: I am afraid, you misunderstand the situation, Ms. Vance. (opens a doorway of pure light, steps through it, and closes it.)
                 Alyx: Wait! Hey, wait! Wait!! Wait!!
                 Readout: SUBJECT: Alyx Vance
                 Readout: STATUS: Hired
-                Readout: AWAITING ASSIGNMENT`)
+                Readout: AWAITING ASSIGNMENT||`)
         }
     }
     return;
