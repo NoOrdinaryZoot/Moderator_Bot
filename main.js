@@ -1,11 +1,27 @@
 require('dotenv').config();
+
 const Discord = require('discord.js');
-const schedule = require('node-schedule');
-const fs = require('fs');
-const ytdl = require('ytdl-core');
 const client = new Discord.Client();
+const leaderboard = require('./app.json');
+const fs = require('fs')
+
+try {
+    var dict = {
+        "one": [15, 4.5],
+        "two": [34, 3.3],
+        "three": [67, 5.0],
+        "four": [32, 4.1]
+    };
+    var dicstring = JSON.stringify(dict);
+    fs.writeFile("app.json", dicstring)
+} catch(err) {
+    console.log(err);
+}
+
+
 var badlist = process.env.blacklist.split(",");
 var offendingUsers = process.env.leaderboard
+
 console.log(badlist);
 console.log(offendingUsers);
 console.log(offendingUsers["CT"])
