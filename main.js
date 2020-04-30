@@ -20,7 +20,7 @@ try {
 
 
 var badlist = process.env.blacklist.split(",");
-var quotes = process.env.quotes.split(",");
+var quotes = process.env.quotes.split("~");
 var offendingUsers = process.env.leaderboard
 
 console.log(badlist);
