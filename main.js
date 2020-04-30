@@ -127,6 +127,7 @@ client.on("message", async message => {
                 return;
             case 'quote':
                 message.channel.send(quotes[rand(0, quotes.length - 1)]);
+                return;
             case 'spoil-half-life-alyx-for-me':
                 message.channel.send(`||G-Man: Impressive work, Ms. Vance.
                 Alyx: Gordon… Freeman?
@@ -156,6 +157,7 @@ client.on("message", async message => {
                 message.channel.send(`||Readout: SUBJECT: Alyx Vance
                 Readout: STATUS: Hired
                 Readout: AWAITING ASSIGNMENT||`)
+                return;
         }
     }
     return;
