@@ -15,6 +15,7 @@ console.log(offendingUsers);
 client.on("ready", () => {
     client.user.setActivity('Life', { type: 'PLAYING' });
     console.log(`client is online!\n${client.users.size} users, in ${client.guilds.size} servers connected.`);
+    console.log(`${guild.members.filter(member => !member.user.bot).size} is guild.members function.`);
 });
 
 client.on("guildCreate", guild => {
