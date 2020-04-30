@@ -23,6 +23,10 @@ var badlist = process.env.blacklist.split(",");
 var quotes = process.env.quotes.split("~");
 var offendingUsers = process.env.leaderboard
 
+console.log(quotes);
+console.log(quotes.length);
+console.log(quotes[quotes.length-1]);
+
 console.log(badlist);
 console.log(offendingUsers);
 console.log(offendingUsers["CT"])
