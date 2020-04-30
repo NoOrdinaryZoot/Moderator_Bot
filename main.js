@@ -124,6 +124,31 @@ client.on("message", async message => {
             case 'haha':
                 console.log(message.channel)
                 return;
+            case 'spoil-half-life-alyx-for-me':
+                message.channel.send(`| G-Man: Impressive work, Ms. Vance.
+                Alyx: Gordon… Freeman?
+                G-Man: Gordon, Freeman? Heh, heh. My dear, you wouldn't need all of that to imprison Gordon Freeman.
+                Alyx: So, who are you?
+                G-Man: Perhaps who I am, is not as important as what I can… offer you, in exchange for coming, all this way. Some believe the fate of our worlds is inflexible. My employers dis-agree. They authorize me to nudge things, hm, in a particular direction from time, to time. What would you want nudged, Ms. Vance?
+                Alyx: The Combine off Earth… I want the Combine off Earth.
+                G-Man: Ah… that would be a considerably ''large'' nudge. Too large, given the interests of my em-ployers.
+                Alyx: Well, you asked.
+                G-Man: What if, I could offer you something you don't know, you want? (hands Alyx his briefcase, which she takes)
+                (scene changes, showing Alyx crying over her father's body in the ending to Episode 2)
+                Player!Alyx: Dad? Dad?! Wha-wh? What is this? What's happening?!
+                G-Man: We are in the future. This, is the moment, where you watch your father die… unless…
+                Player!Alyx: What? Unless what?!
+                G-Man: Unless, you were to take matters into your, own, hands.
+                (time rewinds to the moment just before Eli's death to the Advisor. Player!Alyx looks to her gloves, crackling with Vortal energy.)
+                G-Man: Release your father, Ms. Vance. (Player!Alyx fires the Vortal Energy, electrocuting the Advisor and freeing Eli as the scene fades out.) Good. As a consequence of your actions, this entity will continue, and this entity, will not.
+                Alyx: Right. So, he's okay? Right? He lives. My dad lives!|`)
+                message.channel.send(`| G-Man: You are aware, that you have proven yourself to be of extra-ordinary value (manifests Gordon's crowbar). A previous hire has been unable or unwilling, to per-form the tasks laid before him (steps aside, revealing Gordon Freeman in silhouette). We have struggled to find a suitable replacement, until now.
+                Alyx: No! I-I just want to go home. Send me home!
+                G-Man: I am afraid, you misunderstand the situation, Ms. Vance. (opens a doorway of pure light, steps through it, and closes it.)
+                Alyx: Wait! Hey, wait! Wait!! Wait!!
+                Readout: SUBJECT: Alyx Vance
+                Readout: STATUS: Hired
+                Readout: AWAITING ASSIGNMENT|`)
         }
     }
     return;
