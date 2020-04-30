@@ -38,6 +38,15 @@ client.on("message", async message => {
         let command = args[0].toLowerCase();
 
         args.shift();
+
+        if (message.content.toLowerCase().includes('heh')) {
+            if (rand(0, 1) == 1) {
+                message.channel.send("Hey Gordon it's me Barney from Black Mesa!");
+            }
+            else {
+                message.channel.send("About that beer I owe ya");
+            }
+        }
         
         switch (command) {
             case 'hi' || 'hello':
