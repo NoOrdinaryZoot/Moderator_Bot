@@ -3,7 +3,8 @@ const Discord = require('discord.js');
 const schedule = require('node-schedule');
 const fs = require('fs');
 const client = new Discord.Client();
-var badlist = process.env.blacklist;
+var badlist = process.env.blacklist.split(",");
+console.log(badlist);
 
 client.on("ready", () => {
     client.user.setActivity('Life', { type: 'PLAYING' });
@@ -40,7 +41,7 @@ client.on("message", async message => {
                 message.channel.send(`Hi there ${message.author.toString()}`);
                 return;
             case 'filter':
-                message.channel.fetchMessages().then(messages => {
+                message.channel.messages.fetch().then(messages => {
                     const botMessages = messages.filter(checker);
                     for (msg in botMessages) {
                         console.log(msg.content);
@@ -56,7 +57,7 @@ client.on("message", async message => {
                 try {
                     console.log(badlist);
                     badlist.push(args.toLowerCase());
-                    process.env.list = badlist;
+                    process.env.blacklist = badlist.join(",");
                     message.channel.send(`${args} was succesfully added to the blacklist.`);
                 } catch {
                     message.channel.send(`${args} was unsuccessfully added to the blacklist.`);
@@ -66,7 +67,7 @@ client.on("message", async message => {
                 try {
                     console.log(badlist);
                     badlist = badlist.filter(e => e !== args.toLowerCase());
-                    process.env.list = badlist;
+                    process.env.blacklist = badlist.join(",");
                     message.channel.send(`${args} was successfully removed from the blacklist.`);
                 } catch {
                     message.channel.send(`${args} was unsuccessfully removed from the blacklist.`);
@@ -92,11 +93,13 @@ client.on("message", async message => {
 });
 
 function checker(value) {
+    console.log(badlist[0]);
     var prohibited = badlist;
     console.log(value.content);
     checkCont = value.content.toLowerCase()
     for (var i = 0; i < prohibited.length; i++) {
         for (proh in prohibited[i]) {
+            console.log(proh);
             if (checkCont.includes(proh)) {
                 return true;
             }
