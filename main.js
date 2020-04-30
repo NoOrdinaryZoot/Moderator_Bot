@@ -7,6 +7,9 @@ var badlist = process.env.blacklist.split(",");
 var offendingUsers = process.env.leaderboard
 console.log(badlist);
 console.log(offendingUsers);
+console.log(offendingUsers.CT);
+offendingUsers.AU[0] = 'CUnt'
+console.log(offendingUsers);
 
 client.on("ready", () => {
     client.user.setActivity('Life', { type: 'PLAYING' });
