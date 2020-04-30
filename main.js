@@ -55,6 +55,7 @@ client.on("message", async message => {
             case 'add':
                 try {
                     console.log(badlist);
+                    console.log(args);
                     badlist.push(args.toLowerCase());
                     process.env.blacklist = badlist.join(",");
                     message.channel.send(`${args} was succesfully added to the blacklist.`);
@@ -67,6 +68,7 @@ client.on("message", async message => {
             case 'remove':
                 try {
                     console.log(badlist);
+                    console.log(args);
                     badlist = badlist.filter(e => e !== args.toLowerCase());
                     process.env.blacklist = badlist.join(",");
                     message.channel.send(`${args} was successfully removed from the blacklist.`);
@@ -98,7 +100,7 @@ client.on("message", async message => {
 
 function checker(value) {
     var prohibited = badlist;
-    checkCont = value.content.toLowerCase()
+    checkCont = value.content.toLowerCase();
     if (offendingAuthors[value.author]) {
         console.log('Author in');
     }
