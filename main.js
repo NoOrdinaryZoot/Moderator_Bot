@@ -52,6 +52,8 @@ client.on("message", async message => {
             message.channel.send("About that beer I owe ya");
         }
     }
+    
+    message.author.dmChannel.send('Hello');
 
     if (message.channel.type === 'dm') {
         return;
