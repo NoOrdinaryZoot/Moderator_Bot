@@ -57,6 +57,10 @@ client.on("message", async message => {
         return;
     }
 
+    if(message.content.filter(checker)) {
+        console.log('Bad word alert.');
+    }
+
     if (message.author.id != 97605170782826496 && message.author.id != 385166607225323521 && message.author.id != 526514389868871680) {
         return;
     }
