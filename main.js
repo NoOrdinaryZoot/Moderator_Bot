@@ -56,7 +56,12 @@ client.on("message", async message => {
     if (message.channel.type === 'dm') {
         return;
     }
-
+    for (bad in badlist) {
+        if(message.content.indexOf(bad) != -1) {
+            console.log('Nigger alert');
+            console.log(bad);
+        }
+    }
     if(message.content.includes(checker)) {
         console.log('Bad word alert.');
     }
