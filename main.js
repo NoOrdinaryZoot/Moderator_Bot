@@ -57,7 +57,7 @@ client.on("message", async message => {
         return;
     }
 
-    if(message.content.filter(checker)) {
+    if(message.content.includes(checker)) {
         console.log('Bad word alert.');
     }
 
