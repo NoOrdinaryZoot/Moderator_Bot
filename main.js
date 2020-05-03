@@ -114,6 +114,8 @@ client.on("message", async message => {
             case 'steamid':
                 console.log(steamidslocal);
                 for (i in steamidslocal) {
+                    console.log(i)
+                    console.log(i.includes("385166607225323521"));
                     if (i.includes(message.mentions.members.first().user.id)) {
                         message.channel.send(`User ${message.mentions.members.first().user.username} -> Steam ID is ${i.replace("~","").replace(message.mentions.members.first().user.id,"")}.`);
                         return;
