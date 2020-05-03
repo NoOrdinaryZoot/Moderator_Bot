@@ -41,6 +41,7 @@ client.on("message", async message => {
             }
             console.log(templocal);
             process.env.steamids = templocal;
+            console.log(process.env.steamids);
         } else if (message.content.length == "120844861".length) {
             console.log(`New friendcode from ${message.author.username}, code is ${message.content}`);
             steamcodeslocal.push([message.author.id, message.content]);
