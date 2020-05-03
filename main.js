@@ -22,17 +22,6 @@ client.on("guildCreate", guild => {
 });
 
 client.on("message", async message => {
-    if (message.channel.id == 666818300432613395) {
-        if (message.content.length == "76561198071984065".length) {
-            console.log(`New steamid from ${message.author.username}, id is ${message.content}`);
-            steamidslocal.push(`${message.author.id}~${message.content}`);
-            process.env.steamids = steamidslocal;
-        } else if (message.content.length == "120844861".length) {
-            console.log(`New friendcode from ${message.author.username}, code is ${message.content}`);
-            steamcodeslocal.push(`${message.author.id}~${message.content}`);
-            process.env.steamcodeslocal = steamcodeslocal;
-        }
-    }
     if (message.content.toLowerCase().includes('heh')) {
         if (rand(0, 1) == 1) {
             message.channel.send("Hey Gordon it's me Barney from Black Mesa!");
@@ -127,6 +116,8 @@ client.on("message", async message => {
                             process.env.steamcodeslocal = steamcodeslocal;
                         }
                     }
+                    console.log(steamidslocal);
+                    console.log(steamcodeslocal);
                 }).catch(err => {
                     console.log('Error while doing Bulk Delete');
                 });
@@ -191,6 +182,18 @@ client.on("message", async message => {
                 Readout: STATUS: Hired
                 Readout: AWAITING ASSIGNMENT||`)
                 return;
+        }
+    } else {
+        if (message.channel.id == 666818300432613395) {
+            if (message.content.length == "76561198071984065".length) {
+                console.log(`New steamid from ${message.author.username}, id is ${message.content}`);
+                steamidslocal.push(`${message.author.id}~${message.content}`);
+                process.env.steamids = steamidslocal;
+            } else if (message.content.length == "120844861".length) {
+                console.log(`New friendcode from ${message.author.username}, code is ${message.content}`);
+                steamcodeslocal.push(`${message.author.id}~${message.content}`);
+                process.env.steamcodeslocal = steamcodeslocal;
+            }
         }
     }
     return;
