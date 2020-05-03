@@ -22,8 +22,8 @@ try {
 var badlist = process.env.blacklist.split(",");
 var quotes = process.env.quotes.split("~");
 var offendingUsers = process.env.leaderboard;
-var steamidslocal = process.env.steamids;
-var steamcodeslocal = process.env.steamcodes;
+var steamidslocal = new Map();
+var steamcodeslocal = new Map();
 
 console.log(quotes);
 console.log(quotes.length);
@@ -49,15 +49,12 @@ client.on("message", async message => {
     if (message.channel.id == 666818300432613395) {
         if (message.content.length == "76561198071984065".length) {
             console.log(`New steamid from ${message.author.username}, id is ${message.content}`);
-            steamidslocal[message.author.id] = message.content;
+            steamidslocal.set(message.author.id, message.content);
             console.log(steamidslocal);
         } else if (message.content.length == "120844861".length) {
             console.log(`New friendcode from ${message.author.username}, code is ${message.content}`);
-            steamcodeslocal[message.author.id] = message.content;
-            console.log(steamcodeslocal, message.author.id, message.content);
-            dict = {};
-            dict[message.author.id] = message.content;
-            console.log(dict);
+            steamcodeslocal.set(message.author.id, message.content);
+            console.log(steamcodeslocal);
         }
     }
     if (message.content.toLowerCase().includes('heh')) {
@@ -148,15 +145,15 @@ client.on("message", async message => {
                 message.channel.send('Steamdetails were logged to Heroku.');
                 return;
             case 'steamid':
-                if(steamidslocal[message.mentions.members.first().user.id]) {
-                    message.channel.send(`User ${message.mentions.members.first().user.username} -> Steam ID is ${steamidslocal[message.mentions.members.first().user.id]}.`);
+                if(steamidslocal.get(message.mentions.members.first().user.id)) {
+                    message.channel.send(`User ${message.mentions.members.first().user.username} -> Steam ID is ${steamidslocal.get(message.mentions.members.first().user.id)}.`);
                 } else {
                     message.channel.send(`No ID found for ${message.mentions.members.first().user.username}.`);
                 }
                 return;
             case 'steamcode':
-                if(steamcodeslocal[message.mentions.members.first().user.id]) {
-                    message.channel.send(`User ${message.mentions.members.first().user.username} -> Steam Friend Code is ${steamcodeslocal[message.mentions.members.first().user.id]}.`);
+                if(steamcodeslocal.get(message.mentions.members.first().user.id)) {
+                    message.channel.send(`User ${message.mentions.members.first().user.username} -> Steam Friend Code is ${steamcodeslocal.get(message.mentions.members.first().user.id)}.`);
                 } else {
                     message.channel.send(`No friend code found for ${message.mentions.members.first().user.username}.`);
                 }
