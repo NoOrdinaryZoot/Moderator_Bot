@@ -17,6 +17,11 @@ for (i in steamtest) {
     steamtest[i] = steamtest[i].split("~");
 }
 console.log(steamtest);
+process.env.steamtest = steamtest;
+console.log(process.env.steamtest);
+steamtest = process.env.steamtest;
+console.log(steamtest);
+console.log('End');
 
 client.on("ready", () => {
     client.user.setActivity('Life', { type: 'PLAYING' });
