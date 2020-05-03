@@ -15,11 +15,9 @@ var steamcodeslocal = process.env.steamcodes.split(",");
 for (i in steamidslocal) {
     steamidslocal[i] = steamidslocal[i].split("~");
 }
-console.log(steamidslocal);
 for (i in steamcodeslocal) {
     steamcodeslocal[i] = steamcodeslocal[i].split("~");
 }
-console.log(steamcodeslocal);
 
 client.on("ready", () => {
     client.user.setActivity('Life', { type: 'PLAYING' });
@@ -105,8 +103,6 @@ client.on("message", async message => {
                     message.channel.send(`${args} was succesfully added to the blacklist.`);
                 } catch (err) {
                     message.channel.send(`${args} was unsuccessfully added to the blacklist.`);
-                    console.log(err);
-                    console.log('stupid')
                 }
                 return;
             case 'remove':
@@ -116,7 +112,6 @@ client.on("message", async message => {
                     message.channel.send(`${args} was successfully removed from the blacklist.`);
                 } catch (err) {
                     message.channel.send(`${args} was unsuccessfully removed from the blacklist.`);
-                    console.log(err);
                 }
                 return;
             case 'blacklist':
@@ -124,7 +119,6 @@ client.on("message", async message => {
                     message.channel.send(`${badlist}`);
                 } catch (err) {
                     message.channel.send('Error when displaying blacklist');
-                    console.log(err);
                 }
                 return;
             case 'purge':
@@ -138,6 +132,7 @@ client.on("message", async message => {
                 message.channel.send('Steamdetails were logged to Heroku.');
                 return;
             case 'steamid':
+                console.log(steamidslocal);
                 for (i in steamidslocal) {
                     if (i.indexOf(message.mentions.members.first().user.id) > -1) {
                         message.channel.send(`User ${message.mentions.members.first().user.username} -> Steam ID is ${i[1]}.`);
@@ -147,6 +142,7 @@ client.on("message", async message => {
                 message.channel.send(`No ID found for ${message.mentions.members.first().user.username}.`);
                 return;
             case 'steamcode':
+                console.log(steamcodeslocal);
                 for (i in steamcodeslocal) {
                     if (i.indexOf(message.mentions.members.first().user.id) > -1) {
                         message.channel.send(`User ${message.mentions.members.first().user.username} -> Steam Friend Code is ${i[1]}.`);
