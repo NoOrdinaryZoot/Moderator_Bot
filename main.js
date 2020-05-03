@@ -17,6 +17,10 @@ for (i in steamtest) {
     steamtest[i] = steamtest[i].split("~");
 }
 console.log(steamtest);
+for (i in steamtest) {
+    steamtest = steamtest[i].join("~");
+}
+steamtest = steamtest.join(",");
 process.env.steamtest = steamtest;
 console.log(process.env.steamtest);
 steamtest = process.env.steamtest;
