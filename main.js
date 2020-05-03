@@ -14,7 +14,7 @@ var steamcodeslocal = process.env.steamcodes;
 
 var steamtest = process.env.steamtest.split(",");
 for (i in steamtest) {
-    steamtest[i].split("~");
+    steamtest[i] = steamtest[i].split("~");
 }
 console.log(steamtest);
 
