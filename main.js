@@ -5,37 +5,18 @@ const client = new Discord.Client();
 const leaderboard = require('./app.json');
 const fs = require('fs')
 
-try {
-    var dict = {
-        "one": [15, 4.5],
-        "two": [34, 3.3],
-        "three": [67, 5.0],
-        "four": [32, 4.1]
-    };
-    var dicstring = JSON.stringify(dict);
-    fs.writeFile("app.json", dicstring)
-} catch (err) {
-    console.log(err);
-}
-
 
 var badlist = process.env.blacklist.split(",");
 var quotes = process.env.quotes.split("~");
-var offendingUsers = process.env.leaderboard;
+
 var steamidslocal = process.env.steamids;
 var steamcodeslocal = process.env.steamcodes;
 
-
-console.log(quotes);
-console.log(quotes.length);
-console.log(quotes[quotes.length - 1]);
-
-console.log(badlist);
-console.log(offendingUsers);
-console.log(offendingUsers["CT"])
-// console.log(offendingUsers.CT);
-// offendingUsers.AU[0] = 'CUnt'
-// console.log(offendingUsers);
+var steamtest = process.env.steamtest.split(",");
+for (i in steamtest) {
+    steamtest.split("~");
+}
+console.log(steamtest);
 
 client.on("ready", () => {
     client.user.setActivity('Life', { type: 'PLAYING' });
@@ -107,8 +88,6 @@ client.on("message", async message => {
                 return;
             case 'add':
                 try {
-                    console.log(badlist);
-                    console.log(args);
                     badlist.push(args.join(' ').toLowerCase());
                     process.env.blacklist = badlist.join(",");
                     message.channel.send(`${args} was succesfully added to the blacklist.`);
@@ -120,8 +99,6 @@ client.on("message", async message => {
                 return;
             case 'remove':
                 try {
-                    console.log(badlist);
-                    console.log(args);
                     badlist = badlist.filter(e => e !== args.join(' ').toLowerCase());
                     process.env.blacklist = badlist.join(",");
                     message.channel.send(`${args} was successfully removed from the blacklist.`);
