@@ -111,13 +111,33 @@ client.on("message", async message => {
                 console.log(steamidslocal);
                 message.channel.send('Steamdetails were logged to Heroku.');
                 return;
+            case 'getcodes':
+                if (message.channel.id != 666818300432613395) {
+                    return;
+                }
+                message.channel.messages.fetch().then(messages => {
+                    for (msg in messages) {
+                        if (msg.content.length == "76561198071984065".length) {
+                            console.log(`New steamid from ${msg.author.username}, id is ${msg.content}`);
+                            steamidslocal.push(`${msg.author.id}~${msg.content}`);
+                            process.env.steamids = steamidslocal;
+                        } else if (msg.content.length == "120844861".length) {
+                            console.log(`New friendcode from ${msg.author.username}, code is ${msg.content}`);
+                            steamcodeslocal.push(`${msg.author.id}~${msg.content}`);
+                            process.env.steamcodeslocal = steamcodeslocal;
+                        }
+                    }
+                }).catch(err => {
+                    console.log('Error while doing Bulk Delete');
+                });
+                return;
             case 'steamid':
                 console.log(steamidslocal);
                 for (var i = 0; i < steamidslocal.length; i++) {
                     console.log(steamidslocal[i])
                     console.log(steamidslocal[i].includes("385166607225323521"));
                     if (steamidslocal[i].includes(message.mentions.members.first().user.id)) {
-                        message.channel.send(`User ${message.mentions.members.first().user.username} -> Steam ID is ${steamidslocal[i].replace("~","").replace(message.mentions.members.first().user.id,"")}.`);
+                        message.channel.send(`User ${message.mentions.members.first().user.username} -> Steam ID is ${steamidslocal[i].replace("~", "").replace(message.mentions.members.first().user.id, "")}.`);
                         return;
                     }
                 }
@@ -127,7 +147,7 @@ client.on("message", async message => {
                 console.log(steamcodeslocal);
                 for (var i = 0; i < steamcodeslocal.length; i++) {
                     if (steamcodeslocal[i].includes(message.mentions.members.first().user.id)) {
-                        message.channel.send(`User ${message.mentions.members.first().user.username} -> Steam Friend Code is ${steamcodeslocal[i].replace("~","").replace(message.mentions.members.first().user.id,"")}.`);
+                        message.channel.send(`User ${message.mentions.members.first().user.username} -> Steam Friend Code is ${steamcodeslocal[i].replace("~", "").replace(message.mentions.members.first().user.id, "")}.`);
                         return;
                     }
                 }
@@ -138,7 +158,7 @@ client.on("message", async message => {
                 return;
             case 'delete':
                 var amount = args[1];
-                var messages = await message.channel.messages.fetch({ limit: 2 });
+                var messages = await message.channel.messages.fetch({ limit: amount });
                 message.channel.bulkDelete(messages);
                 return;
             case 'spoil-half-life-alyx-for-me':
