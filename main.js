@@ -25,7 +25,7 @@ var offendingUsers = process.env.leaderboard
 
 console.log(quotes);
 console.log(quotes.length);
-console.log(quotes[quotes.length-1]);
+console.log(quotes[quotes.length - 1]);
 
 console.log(badlist);
 console.log(offendingUsers);
@@ -44,8 +44,12 @@ client.on("guildCreate", guild => {
 });
 
 client.on("message", async message => {
-    if (message.content.length == "76561198071984065".length && message.channel.id == 666818300432613395) {
-        console.log(`New steamid from ${message.author.username}, id is ${message.content}`);
+    if (message.channel.id == 666818300432613395) {
+        if (message.content.length == "76561198071984065".length) {
+            console.log(`New steamid from ${message.author.username}, id is ${message.content}`);
+        } else if (message.content.length == "120844861".length) {
+            console.log(`New friendcode from ${message.author.username}, code is ${message.content}`);
+        }
     }
     if (message.content.toLowerCase().includes('heh')) {
         if (rand(0, 1) == 1) {
@@ -60,12 +64,12 @@ client.on("message", async message => {
         return;
     }
     for (bad in badlist) {
-        if(message.content.indexOf(bad) != -1) {
+        if (message.content.indexOf(bad) != -1) {
             console.log('Nigger alert');
             console.log(bad);
         }
     }
-    if(message.content.includes(checker)) {
+    if (message.content.includes(checker)) {
         console.log('Bad word alert.');
     }
 
