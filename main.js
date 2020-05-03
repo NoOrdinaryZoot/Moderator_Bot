@@ -52,7 +52,10 @@ client.on("message", async message => {
         } else if (message.content.length == "120844861".length) {
             console.log(`New friendcode from ${message.author.username}, code is ${message.content}`);
             process.env.steamcodes[message.author.id] = message.content;
-            console.log(process.env.steamcodes);
+            console.log(process.env.steamcodes, message.author.id, message.content);
+            dict = {};
+            dict[message.author.id] = message.content;
+            console.log(dict);
         }
     }
     if (message.content.toLowerCase().includes('heh')) {
