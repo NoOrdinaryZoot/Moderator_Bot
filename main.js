@@ -12,13 +12,6 @@ var quotes = process.env.quotes.split("~");
 var steamidslocal = process.env.steamids.split(",");
 var steamcodeslocal = process.env.steamcodes.split(",");
 
-for (i in steamidslocal) {
-    steamidslocal[i] = steamidslocal[i].split("~");
-}
-for (i in steamcodeslocal) {
-    steamcodeslocal[i] = steamcodeslocal[i].split("~");
-}
-
 client.on("ready", () => {
     client.user.setActivity('Life', { type: 'PLAYING' });
     console.log(`client is online!\n${client.users.size} users, in ${client.guilds.size} servers connected.`);
@@ -32,24 +25,12 @@ client.on("message", async message => {
     if (message.channel.id == 666818300432613395) {
         if (message.content.length == "76561198071984065".length) {
             console.log(`New steamid from ${message.author.username}, id is ${message.content}`);
-            steamidslocal.push([message.author.id, message.content]);
-            console.log(steamidslocal);
-            var templocal = steamidslocal;
-            for (i in templocal) {
-                templocal[i] = templocal[i].join("~");
-            }
-            console.log(templocal);
-            process.env.steamids = templocal;
-            console.log(process.env.steamids);
+            steamidslocal.push(`${message.author.id}~${message.content}`);
+            process.env.steamids = steamidslocal;
         } else if (message.content.length == "120844861".length) {
             console.log(`New friendcode from ${message.author.username}, code is ${message.content}`);
-            steamcodeslocal.push([message.author.id, message.content]);
-
-            var templocal = steamcodeslocal;
-            for (i in templocal) {
-                templocal[i] = templocal[i].join("~");
-            }
-            process.env.steamcodes = templocal;
+            steamcodeslocal.push(`${message.author.id}~${message.content}`);
+            process.env.steamcodeslocal = steamcodeslocal;
         }
     }
     if (message.content.toLowerCase().includes('heh')) {
@@ -93,7 +74,6 @@ client.on("message", async message => {
 
                 }).catch(err => {
                     console.log('Error while doing Bulk Delete');
-                    console.log(err);
                 });
                 return;
             case 'add':
@@ -134,8 +114,8 @@ client.on("message", async message => {
             case 'steamid':
                 console.log(steamidslocal);
                 for (i in steamidslocal) {
-                    if (i.indexOf(message.mentions.members.first().user.id) > -1) {
-                        message.channel.send(`User ${message.mentions.members.first().user.username} -> Steam ID is ${i[1]}.`);
+                    if (i.includes(message.mentions.members.first().user.id) {
+                        message.channel.send(`User ${message.mentions.members.first().user.username} -> Steam ID is ${i.replace("~","").replace(message.mentions.members.first().user.id,"")}.`);
                         return;
                     }
                 }
@@ -144,8 +124,8 @@ client.on("message", async message => {
             case 'steamcode':
                 console.log(steamcodeslocal);
                 for (i in steamcodeslocal) {
-                    if (i.indexOf(message.mentions.members.first().user.id) > -1) {
-                        message.channel.send(`User ${message.mentions.members.first().user.username} -> Steam Friend Code is ${i[1]}.`);
+                    if (i.includes(message.mentions.members.first().user.id)) {
+                        message.channel.send(`User ${message.mentions.members.first().user.username} -> Steam Friend Code is ${i.replace("~","").replace(message.mentions.members.first().user.id,"")}.`);
                         return;
                     }
                 }
