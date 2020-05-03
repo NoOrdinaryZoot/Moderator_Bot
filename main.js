@@ -47,8 +47,10 @@ client.on("message", async message => {
     if (message.channel.id == 666818300432613395) {
         if (message.content.length == "76561198071984065".length) {
             console.log(`New steamid from ${message.author.username}, id is ${message.content}`);
+            process.env.steamids[message.author.id] = message.content;
         } else if (message.content.length == "120844861".length) {
             console.log(`New friendcode from ${message.author.username}, code is ${message.content}`);
+            process.env.steamcodes[message.author.id] = message.content;
         }
     }
     if (message.content.toLowerCase().includes('heh')) {
@@ -62,15 +64,6 @@ client.on("message", async message => {
 
     if (message.channel.type === 'dm') {
         return;
-    }
-    for (bad in badlist) {
-        if (message.content.indexOf(bad) != -1) {
-            console.log('Nigger alert');
-            console.log(bad);
-        }
-    }
-    if (message.content.includes(checker)) {
-        console.log('Bad word alert.');
     }
 
     if (message.author.id != 97605170782826496 && message.author.id != 385166607225323521 && message.author.id != 526514389868871680) {
@@ -142,9 +135,26 @@ client.on("message", async message => {
                 var messages = await message.channel.messages.fetch({ limit: amount });
                 message.channel.bulkDelete(messages);
                 return;
-            case 'haha':
-                console.log(message.channel)
+            case 'logsteamdetails':
+                console.log(process.env.steamcodes);
+                console.log(process.env.steamids);
+                message.channel.send('Steamdetails were logged to Heroku.');
                 return;
+            case 'steamid':
+                if(process.env.steamids[message.mentions.members.first().user.id]) {
+                    message.channel.send(`User ${message.mentions.members.first().user.username} -> Steam ID is ${process.env.steamids[message.mentions.members.first().user.id]}.`);
+                } else {
+                    message.channel.send(`No ID found for ${message.mentions.members.first().user.username}.`);
+                }
+                return;
+            case 'steamcode':
+                if(process.env.steamcodes[message.mentions.members.first().user.id]) {
+                    message.channel.send(`User ${message.mentions.members.first().user.username} -> Steam Friend Code is ${process.env.steamcodes[message.mentions.members.first().user.id]}.`);
+                } else {
+                    message.channel.send(`No friend code found for ${message.mentions.members.first().user.username}.`);
+                }
+                return;
+
             case 'quote':
                 message.channel.send(quotes[rand(0, quotes.length - 1)]);
                 return;
