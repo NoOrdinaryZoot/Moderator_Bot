@@ -44,6 +44,9 @@ client.on("guildCreate", guild => {
 });
 
 client.on("message", async message => {
+    if (message.content.length == "76561198071984065".length && message.channel.id == 666818300432613395) {
+        console.log(`New steamid from ${message.author.username}, id is ${message.content}`);
+    }
     if (message.content.toLowerCase().includes('heh')) {
         if (rand(0, 1) == 1) {
             message.channel.send("Hey Gordon it's me Barney from Black Mesa!");
