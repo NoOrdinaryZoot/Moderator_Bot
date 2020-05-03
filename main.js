@@ -12,12 +12,12 @@ var quotes = process.env.quotes.split("~");
 var steamidslocal = process.env.steamids.split(",");
 var steamcodeslocal = process.env.steamcodes.split(",");
 
-var steamtest = process.env.steamtest.split(",");
 for (i in steamidslocal) {
     steamidslocal[i] = steamidslocal[i].split("~");
 }
+
 for (i in steamcodeslocal) {
-    steamcodeslocal[i] = steamcodeslocal[i].join("~");
+    steamcodeslocal[i] = steamcodeslocal[i].split("~");
 }
 
 client.on("ready", () => {
