@@ -15,10 +15,11 @@ var steamcodeslocal = process.env.steamcodes.split(",");
 for (i in steamidslocal) {
     steamidslocal[i] = steamidslocal[i].split("~");
 }
-
+console.log(steamidslocal);
 for (i in steamcodeslocal) {
     steamcodeslocal[i] = steamcodeslocal[i].split("~");
 }
+console.log(steamcodeslocal);
 
 client.on("ready", () => {
     client.user.setActivity('Life', { type: 'PLAYING' });
