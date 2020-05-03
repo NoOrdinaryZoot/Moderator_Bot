@@ -48,9 +48,11 @@ client.on("message", async message => {
         if (message.content.length == "76561198071984065".length) {
             console.log(`New steamid from ${message.author.username}, id is ${message.content}`);
             process.env.steamids[message.author.id] = message.content;
+            console.log(process.env.steamids);
         } else if (message.content.length == "120844861".length) {
             console.log(`New friendcode from ${message.author.username}, code is ${message.content}`);
             process.env.steamcodes[message.author.id] = message.content;
+            console.log(process.env.steamcodes);
         }
     }
     if (message.content.toLowerCase().includes('heh')) {
