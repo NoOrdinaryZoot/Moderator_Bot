@@ -112,11 +112,6 @@ client.on("message", async message => {
                         if (msg.content.includes(process.env.prefix)) {
                             return;
                         }
-                        if (msg.content.isNumeric) {
-                            console.log(msg.content, 'NUMERIC');
-                        } else {
-                            console.log(msg.content, 'NONNUMERIC');
-                        }
                         if (msg.content.length == "76561198071984065".length) {
                             console.log(`New steamid from ${msg.author.username}, id is ${msg.content}`);
                             steamidslocal.push(`${msg.author.id}~${msg.content}`);
@@ -233,10 +228,6 @@ function checker(value) {
         }
     }
     return false;
-}
-
-function isNumeric(num) {
-    return !isNaN(num)
 }
 
 function rand(min, max) {
