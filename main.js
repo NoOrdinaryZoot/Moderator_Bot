@@ -149,8 +149,7 @@ client.on("message", async message => {
                 message.channel.send(quotes[rand(0, quotes.length - 1)]);
                 return;
             case 'delete':
-                var amount = args[1];
-                var messages = await message.channel.messages.fetch({ limit: amount });
+                var messages = await message.channel.messages.fetch({ limit: 5 });
                 message.channel.bulkDelete(messages);
                 return;
             case 'spoil-half-life-alyx-for-me':
