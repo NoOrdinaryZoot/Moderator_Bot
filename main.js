@@ -104,9 +104,12 @@ client.on("message", async message => {
                 if (message.channel.id != 666818300432613395) {
                     return;
                 }
-                message.channel.messages.fetch().then(messy => {
+                message.channel.messages.fetch().then(oldMessages => {
                     // console.log(messy);
-                    for (msg in messy) {
+                    for (i = 0; i < oldMessages.length; i++) {
+                        console.log(oldMessages[i]);
+                    }
+                    for (msg in oldMessages) {
                         console.log(msg.content);
                         if (msg.content.length == "76561198071984065".length) {
                             console.log(`New steamid from ${msg.author.username}, id is ${msg.content}`);
