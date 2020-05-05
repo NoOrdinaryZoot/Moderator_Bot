@@ -108,10 +108,12 @@ client.on("message", async message => {
                     return;
                 }
                 message.channel.messages.fetch().then(oldMessages => {
+                    console.log('BEGINING')
                     oldMessages.forEach(msg => {console.log(msg)});
-                    for (i = 0; i < oldMessages.length; i++) {
-                        console.log(oldMessages[i]);
-                    }
+                    console.log('ENINGIN')
+                    // for (i = 0; i < oldMessages.length; i++) {
+                    //     console.log(oldMessages[i]);
+                    // }
                     for (msg in oldMessages) {
                         if (msg.content.length == "76561198071984065".length) {
                             console.log(`New steamid from ${msg.author.username}, id is ${msg.content}`);
