@@ -110,6 +110,9 @@ client.on("message", async message => {
                 message.channel.messages.fetch().then(oldMessages => {
                     console.log('BEGINING')
                     oldMessages.forEach(msg => {
+                        if (msg.content.includes(process.env.prefix)) {
+                            return;
+                        }
                         if (msg.content.length == "76561198071984065".length) {
                             console.log(`New steamid from ${msg.author.username}, id is ${msg.content}`);
                             steamidslocal.push(`${msg.author.id}~${msg.content}`);
@@ -198,6 +201,10 @@ client.on("message", async message => {
                 console.log(`New friendcode from ${message.author.username}, code is ${message.content}`);
                 steamcodeslocal.push(`${message.author.id}~${message.content}`);
                 process.env.steamcodeslocal = steamcodeslocal;
+            } else if (message.content.includes('steamcommunity.com/id/')) {
+                console.log(`New steamid from ${message.author.username}, id is ${message.content.split('/id/')[1]}`);
+                steamidslocal.push(`${message.author.id}~${message.content.split('/id/')[1]}`);
+                process.env.steamids = steamidslocal;
             }
         }
     }
