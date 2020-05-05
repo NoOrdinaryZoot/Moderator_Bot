@@ -109,12 +109,7 @@ client.on("message", async message => {
                 }
                 message.channel.messages.fetch().then(oldMessages => {
                     console.log('BEGINING')
-                    oldMessages.forEach(msg => {console.log(msg)});
-                    console.log('ENINGIN')
-                    // for (i = 0; i < oldMessages.length; i++) {
-                    //     console.log(oldMessages[i]);
-                    // }
-                    for (msg in oldMessages) {
+                    oldMessages.forEach(msg => {
                         if (msg.content.length == "76561198071984065".length) {
                             console.log(`New steamid from ${msg.author.username}, id is ${msg.content}`);
                             steamidslocal.push(`${msg.author.id}~${msg.content}`);
@@ -124,7 +119,7 @@ client.on("message", async message => {
                             steamcodeslocal.push(`${msg.author.id}~${msg.content}`);
                             process.env.steamcodeslocal = steamcodeslocal;
                         }
-                    }
+                    });
                     console.log(steamidslocal);
                     console.log(steamcodeslocal);
                 }).catch(err => {
