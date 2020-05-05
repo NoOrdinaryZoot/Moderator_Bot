@@ -112,11 +112,16 @@ client.on("message", async message => {
                         if (msg.content.includes(process.env.prefix)) {
                             return;
                         }
-                        if (msg.content.length == "76561198071984065".length && isNumeric(msg.content)) {
+                        if (msg.content.isNumeric) {
+                            console.log(msg.content, 'NUMERIC');
+                        } else {
+                            console.log(msg.content, 'NONNUMERIC');
+                        }
+                        if (msg.content.length == "76561198071984065".length) {
                             console.log(`New steamid from ${msg.author.username}, id is ${msg.content}`);
                             steamidslocal.push(`${msg.author.id}~${msg.content}`);
                             process.env.steamids = steamidslocal;
-                        } else if (msg.content.length == "120844861".length && isNumeric(msg.content)) {
+                        } else if (msg.content.length == "120844861".length) {
                             console.log(`New friendcode from ${msg.author.username}, code is ${msg.content}`);
                             steamcodeslocal.push(`${msg.author.id}~${msg.content}`);
                             process.env.steamcodeslocal = steamcodeslocal;
@@ -196,11 +201,11 @@ client.on("message", async message => {
         }
     } else {
         if (message.channel.id == 666818300432613395) {
-            if (message.content.length == "76561198071984065".length && isNumeric(message.content)) {
+            if (message.content.length == "76561198071984065".length) {
                 console.log(`New steamid from ${message.author.username}, id is ${message.content}`);
                 steamidslocal.push(`${message.author.id}~${message.content}`);
                 process.env.steamids = steamidslocal;
-            } else if (message.content.length == "120844861".length && isNumeric(message.content)) {
+            } else if (message.content.length == "120844861".length) {
                 console.log(`New friendcode from ${message.author.username}, code is ${message.content}`);
                 steamcodeslocal.push(`${message.author.id}~${message.content}`);
                 process.env.steamcodeslocal = steamcodeslocal;
