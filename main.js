@@ -109,6 +109,7 @@ client.on("message", async message => {
                 }
                 message.channel.messages.fetch().then(oldMessages => {
                     console.log(oldMessages);
+                    oldMessages.forEach(msg => {console.log(msg)});
                     for (i = 0; i < oldMessages.length; i++) {
                         console.log(oldMessages[i]);
                     }
