@@ -108,16 +108,15 @@ client.on("message", async message => {
                     return;
                 }
                 message.channel.messages.fetch().then(oldMessages => {
-                    console.log('BEGINING')
                     oldMessages.forEach(msg => {
                         if (msg.content.includes(process.env.prefix)) {
                             return;
                         }
-                        if (msg.content.length == "76561198071984065".length) {
+                        if (msg.content.length == "76561198071984065".length && isNumeric(msg.content)) {
                             console.log(`New steamid from ${msg.author.username}, id is ${msg.content}`);
                             steamidslocal.push(`${msg.author.id}~${msg.content}`);
                             process.env.steamids = steamidslocal;
-                        } else if (msg.content.length == "120844861".length) {
+                        } else if (msg.content.length == "120844861".length && isNumeric(msg.content)) {
                             console.log(`New friendcode from ${msg.author.username}, code is ${msg.content}`);
                             steamcodeslocal.push(`${msg.author.id}~${msg.content}`);
                             process.env.steamcodeslocal = steamcodeslocal;
@@ -133,6 +132,10 @@ client.on("message", async message => {
                     console.log('Error while doing Bulk Delete');
                 });
                 return;
+            case 'fetchprofile':
+                var userTest = message.mentions.members.first().fetchProfile();
+                console.log(userTest);
+                return;
             case 'steamid':
                 console.log(steamidslocal);
                 for (var i = 0; i < steamidslocal.length; i++) {
@@ -143,7 +146,7 @@ client.on("message", async message => {
                 }
                 message.channel.send(`No ID found for ${message.mentions.members.first().user.username}.`);
                 return;
-            case 'steamcode':
+            case 'steamfriendcode':
                 console.log(steamcodeslocal);
                 for (var i = 0; i < steamcodeslocal.length; i++) {
                     if (steamcodeslocal[i].includes(message.mentions.members.first().user.id)) {
@@ -193,11 +196,11 @@ client.on("message", async message => {
         }
     } else {
         if (message.channel.id == 666818300432613395) {
-            if (message.content.length == "76561198071984065".length) {
+            if (message.content.length == "76561198071984065".length && isNumeric(message.content)) {
                 console.log(`New steamid from ${message.author.username}, id is ${message.content}`);
                 steamidslocal.push(`${message.author.id}~${message.content}`);
                 process.env.steamids = steamidslocal;
-            } else if (message.content.length == "120844861".length) {
+            } else if (message.content.length == "120844861".length && isNumeric(message.content)) {
                 console.log(`New friendcode from ${message.author.username}, code is ${message.content}`);
                 steamcodeslocal.push(`${message.author.id}~${message.content}`);
                 process.env.steamcodeslocal = steamcodeslocal;
@@ -225,6 +228,10 @@ function checker(value) {
         }
     }
     return false;
+}
+
+function isNumeric(num) {
+    return !isNaN(num)
 }
 
 function rand(min, max) {
