@@ -118,6 +118,10 @@ client.on("message", async message => {
                             console.log(`New friendcode from ${msg.author.username}, code is ${msg.content}`);
                             steamcodeslocal.push(`${msg.author.id}~${msg.content}`);
                             process.env.steamcodeslocal = steamcodeslocal;
+                        } else if (msg.content.includes('steamcommunity.com/id/')) {
+                            console.log(`New steamid from ${msg.author.username}, id is ${msg.content.split('/id/')[1]}`);
+                            steamidslocal.push(`${msg.author.id}~${msg.content.split('/id/')[1]}`);
+                            process.env.steamids = steamidslocal;
                         }
                     });
                     console.log(steamidslocal);
@@ -129,8 +133,6 @@ client.on("message", async message => {
             case 'steamid':
                 console.log(steamidslocal);
                 for (var i = 0; i < steamidslocal.length; i++) {
-                    console.log(steamidslocal[i])
-                    console.log(steamidslocal[i].includes("385166607225323521"));
                     if (steamidslocal[i].includes(message.mentions.members.first().user.id)) {
                         message.channel.send(`User ${message.mentions.members.first().user.username} -> Steam ID is ${steamidslocal[i].replace("~", "").replace(message.mentions.members.first().user.id, "")}.`);
                         return;
