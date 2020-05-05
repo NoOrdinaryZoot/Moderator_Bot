@@ -100,12 +100,15 @@ client.on("message", async message => {
                 console.log(steamidslocal);
                 message.channel.send('Steamdetails were logged to Heroku.');
                 return;
+            case 'enum':
+                Enumerator(args.join(' '));
+                return;
             case 'getcodes':
                 if (message.channel.id != 666818300432613395) {
                     return;
                 }
                 message.channel.messages.fetch().then(oldMessages => {
-                    // console.log(messy);
+                    console.log(oldMessages);
                     for (i = 0; i < oldMessages.length; i++) {
                         console.log(oldMessages[i]);
                     }
