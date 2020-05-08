@@ -28,7 +28,7 @@ client.on("message", async message => {
         return;
     }
 
-    if (message.content.includes(checker) && message.channel.id != "650556122557710366") {
+    if (checker(message.content) && message.channel.id != "650556122557710366") {
         message.author.sendMessage('Please watch your language in Insurgency AU/NZ, if you believe your message was censored incorrectly, please contact an Admin');
         console.log('Censored' + message.content);
         message.delete();
@@ -215,7 +215,7 @@ client.on("message", async message => {
 });
 
 function checker(value) {
-    var prohibited = badlist;
+    let prohibited = badlist;
     checkCont = value.content.toLowerCase();
     for (var i = 0; i < prohibited.length; i++) {
         for (proh in prohibited[i]) {
@@ -229,6 +229,16 @@ function checker(value) {
     }
     return false;
 }
+
+// function filterWord(value) {
+//     let prohibited = badlist;
+//     checkMessage = value.content.toLowerCase();
+//     for (let i = 0; i < prohibited.length; i++) {
+//         if(checkMessage.includes(prohibited[i])) {
+
+//         }
+//     }
+// }
 
 function rand(min, max) {
     min = Math.ceil(min);
