@@ -205,7 +205,7 @@ client.on("message", async message => {
         }
         if (checker(message) && message.channel.id != "650556122557710366") {
             message.author.send(`Please watch your language in ${message.guild.name}.\n'${message.content}' was the censored message.`);
-            console.log('Censored' + message.content);
+            console.log(`Censored ${message.content} by ${message.author.username} with id ${message.author.id} in server ${message.guild.name}`);
             message.delete();
         }
     }
