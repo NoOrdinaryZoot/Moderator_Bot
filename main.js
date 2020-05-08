@@ -197,9 +197,13 @@ client.on("message", async message => {
                 console.log(`New friendcode from ${message.author.username}, code is ${message.content}`);
                 steamcodeslocal.push(`${message.author.id}~${message.content}`);
                 process.env.steamcodeslocal = steamcodeslocal;
-            } else if (message.content.includes('steamcommunity.com/id/')) {
+            } else if (message.content.toLowerCase().includes('steamcommunity.com/id/')) {
                 console.log(`New steamid from ${message.author.username}, id is ${message.content.split('/id/')[1]}`);
                 steamidslocal.push(`${message.author.id}~${message.content.split('/id/')[1]}`);
+                process.env.steamids = steamidslocal;
+            } else if (message.content.toLowerCase().includes('friend code:')) {
+                console.log(`New steamid from ${message.author.username}, id is ${message.content.split('friend code:')[1]}`);
+                steamidslocal.push(`${message.author.id}~${message.content.split('friend code:')[1]}`);
                 process.env.steamids = steamidslocal;
             }
         }
