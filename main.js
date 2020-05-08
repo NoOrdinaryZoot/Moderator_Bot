@@ -207,7 +207,7 @@ client.on("message", async message => {
                 process.env.steamids = steamidslocal;
             }
         }
-        if (checker(message) && message.channel.id != "650556122557710366") {
+        if (checker(message) && message.channel.id != "650556122557710366" && message.author.id != 97605170782826496 && message.author.id != 385166607225323521 && message.author.id != 526514389868871680) {
             message.author.send(`Please watch your language in ${message.guild.name}.\n'${message.content}' was the censored message.`);
             console.log(`Censored ${message.content} by ${message.author.username} with id ${message.author.id} in server ${message.guild.name}`);
             message.delete();
