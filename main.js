@@ -29,12 +29,12 @@ client.on("message", async message => {
     }
 
     if (message.filter(checker) && message.channel.id != "650556122557710366") {
-        message.author.send('Please watch your language in Insurgency AU/NZ, if you believe your message was censored incorrectly, please contact an Admin');
+        message.author.sendMessage('Please watch your language in Insurgency AU/NZ, if you believe your message was censored incorrectly, please contact an Admin');
         console.log('Censored' + message.content);
         message.delete();
 
     }
-    
+
     if (message.author.id != 97605170782826496 && message.author.id != 385166607225323521 && message.author.id != 526514389868871680) {
         return;
     }
