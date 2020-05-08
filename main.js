@@ -28,7 +28,7 @@ client.on("message", async message => {
         return;
     }
 
-    if (message.split(' ').filter(checker) && message.channel.id != "650556122557710366") {
+    if (message.content.filter(checker) && message.channel.id != "650556122557710366") {
         message.author.sendMessage('Please watch your language in Insurgency AU/NZ, if you believe your message was censored incorrectly, please contact an Admin');
         console.log('Censored' + message.content);
         message.delete();
