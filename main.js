@@ -210,7 +210,6 @@ client.on("message", async message => {
         var whitelistedids = [""]
         if (checker(message) && message.channel.id != "650556122557710366" && message.author.id != "97605170782826496" && message.author.id != "267543637024440320" && message.author.id != "473070880155631636" && message.author.id != "526514389868871680" && message.author.id != "262886590949359616") {
             message.author.send(`Please watch your language in ${message.guild.name}.\n'${message.content}' was the censored message.`);
-            console.log(`Censored ${message.content} by ${message.author.username} with id ${message.author.id} in server ${message.guild.name}`);
             message.delete();
         }
     }
@@ -223,6 +222,8 @@ function checker(value) {
     for (var i = 0; i < prohibited.length; i++) {
         for (proh in prohibited[i]) {
             if (checkCont.includes(proh)) {
+                console.log(`Censored ${value.content} by ${value.author.username} with id ${value.author.id} in server ${value.guild.name}.`);
+                console.log(`The detected word was ${proh} in ${checkCont}`);
                 return true;
             }
         }
@@ -232,16 +233,6 @@ function checker(value) {
     }
     return false;
 }
-
-// function filterWord(value) {
-//     let prohibited = badlist;
-//     checkMessage = value.content.toLowerCase();
-//     for (let i = 0; i < prohibited.length; i++) {
-//         if(checkMessage.includes(prohibited[i])) {
-
-//         }
-//     }
-// }
 
 function rand(min, max) {
     min = Math.ceil(min);
