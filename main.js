@@ -222,7 +222,10 @@ function checker(value) {
     for (var i = 0; i < prohibited.length; i ++) {
         for (var x = 0; x < checkCont.length; x ++) {
             if (checkCont[x].includes(prohibited[i])) {
+                console.log(`Censored ${value.content} by ${value.author.username} with id ${value.author.id} in server ${value.guild.name}.`);
+                console.log(`The detected word was ${prohibited[i]} in ${checkCont[x]}`);
                 console.log('BadBoy Alert')
+                return true;
             }
         }
     }
