@@ -221,6 +221,7 @@ function checker(value) {
     checkCont = value.content.toLowerCase();
     for (var i = 0; i < prohibited.length; i++) {
         for (proh in prohibited[i]) {
+            console.log(checkCont.includes(proh));
             if (checkCont.includes(proh)) {
                 console.log(prohibited[i]);
                 console.log(proh);
