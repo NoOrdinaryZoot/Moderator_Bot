@@ -220,13 +220,17 @@ function checker(value) {
     let prohibited = badlist;
     checkCont = value.content.toLowerCase();
     for (var i = 0; i < prohibited.length; i++) {
-        console.log(prohibited[i], 'i')
+        console.log(prohibited[i])
+        for (x in checkCont.split()) {
+            if (x.includes(prohibited[i])) {
+                console.log(`Censored ${value.content} by ${value.author.username} with id ${value.author.id} in server ${value.guild.name}.`);
+                console.log(`The detected word was ${prohibited[i]} in ${x}`);
+                return true;
+            }
+        }
         for (proh in prohibited[i]) {
             console.log(checkCont.includes(proh));
             if (checkCont.includes(proh)) {
-                console.log(`Censored ${value.content} by ${value.author.username} with id ${value.author.id} in server ${value.guild.name}.`);
-                console.log(`The detected word was ${proh} in ${checkCont}`);
-                return true;
             }
         }
         // if (checkCont.indexOf(prohibited[i]) > -1) {
