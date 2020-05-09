@@ -222,6 +222,8 @@ function checker(value) {
     for (var i = 0; i < prohibited.length; i++) {
         for (proh in prohibited[i]) {
             if (checkCont.includes(proh)) {
+                console.log(prohibited[i]);
+                console.log(proh);
                 console.log(`Censored ${value.content} by ${value.author.username} with id ${value.author.id} in server ${value.guild.name}.`);
                 console.log(`The detected word was ${proh} in ${checkCont}`);
                 return true;
