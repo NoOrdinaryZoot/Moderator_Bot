@@ -221,6 +221,7 @@ function checker(value) {
     checkCont = value.content.toLowerCase();
     for (var i = 0; i < prohibited.length; i++) {
         console.log(prohibited[i])
+        console.log(checkCont.split(' '));
         for (x in checkCont.split(' ')) {
             if (x.includes(prohibited[i])) {
                 console.log(`Censored ${value.content} by ${value.author.username} with id ${value.author.id} in server ${value.guild.name}.`);
