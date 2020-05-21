@@ -11,7 +11,7 @@ var quotes = process.env.quotes.split("~");
 
 var steamidslocal = process.env.steamids.split(",");
 var steamcodeslocal = process.env.steamcodes.split(",");
-
+//Test
 client.on("ready", () => {
     client.user.setActivity('Life', { type: 'PLAYING' });
     console.log(`client is online!\n${client.users.size} users, in ${client.guilds.size} servers connected.`);
