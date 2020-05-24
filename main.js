@@ -5,7 +5,6 @@ const client = new Discord.Client();
 const leaderboard = require('./app.json');
 const fs = require('fs');
 const YouTube = require('youtube-node');
-const { sqrt } = require('mathjs');
 
 var badlist = process.env.blacklist.split(",");
 var quotes = process.env.quotes.split("~");
@@ -55,6 +54,10 @@ client.on("message", async message => {
                     if (error) {
                         console.log(error);
                     } else {
+                        results = JSON.stringify(result, null, 2)
+                        for(item in results) {
+                            console.log(item.videoId);
+                        }
                         console.log(JSON.stringify(result, null, 2).items[0].videoId);
                     }
                 });
