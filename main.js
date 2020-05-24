@@ -4,15 +4,18 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const leaderboard = require('./app.json');
 const fs = require('fs');
+const YouTube = require('youtube-node');
 const { sqrt } = require('mathjs');
-
 
 var badlist = process.env.blacklist.split(",");
 var quotes = process.env.quotes.split("~");
 
 var steamidslocal = process.env.steamids.split(",");
 var steamcodeslocal = process.env.steamcodes.split(",");
-//Test
+
+var youTube = new YouTube();
+youTube.setKey('AIzaSyAA1d3H-fhkfSS9O9f0pwpAXImsoxLVgoQ');
+
 client.on("ready", () => {
     client.user.setActivity('Life', { type: 'PLAYING' });
     console.log(`client is online!\n${client.users.size} users, in ${client.guilds.size} servers connected.`);
@@ -47,9 +50,15 @@ client.on("message", async message => {
             case 'hi' || 'hello':
                 message.channel.send(`Hi there ${message.author.toString()}`);
                 return;
-            case 'sqrt':
-                console.log(sqrt([args[0]]).toString());
-                message.channel.send(`The square root of ${args[0]} is ${sqrt([args[0]])}`);
+            case 'yt':
+                youTube.search(args.join(' '), 2, function (error, result) {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        console.log(JSON.stringify(result, null, 2).items[0].videoId);
+                    }
+                });
+                message.channel.send(`https://youtube.com/${JSON.stringify(result, null, 2).items[0].videoId}`);
                 return;
             case 'filter':
                 message.channel.messages.fetch().then(messages => {
@@ -229,7 +238,6 @@ function checker(value) {
             if (checkCont[x].includes(prohibited[i])) {
                 console.log(`Censored ${value.content} by ${value.author.username} with id ${value.author.id} in server ${value.guild.name}.`);
                 console.log(`The detected word was ${prohibited[i]} in ${checkCont[x]}`);
-                console.log('BadBoy Alert')
                 return true;
             }
         }
