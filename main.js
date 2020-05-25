@@ -61,6 +61,7 @@ client.on("message", async message => {
         console.log(client.commands);
 
         if (client.commands.has(command)) {
+            client.commands.get(command).execute;
             console.log(`Command '${command}' has been called.`)
         }
     } else {
