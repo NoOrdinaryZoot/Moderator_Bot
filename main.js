@@ -57,11 +57,11 @@ client.on("message", async message => {
                         console.log(result.items);
                         console.log(result)
                         for (child in result) {
-                            console.log(child);
+                            console.log(child.id.videoId);
                         }
                         console.log('BREAK')
                         for (child of result) {
-                            console.log(child);
+                            console.log(child.id.videoId);
                         }
                         message.channel.send(`https://youtube.com/${result.items}`);
                     }
