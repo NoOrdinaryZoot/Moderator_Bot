@@ -56,7 +56,7 @@ client.on("message", async message => {
                     } else {
                         console.log(result);
                         console.log(JSON.stringify(result, null, 2));
-                        console.log(result.kind);
+                        console.log(result.items[0].id.videoId);
                         // message.channel.send(`https://youtube.com/${result.items}`);
                     }
                 });
