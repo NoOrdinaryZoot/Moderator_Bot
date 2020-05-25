@@ -184,7 +184,9 @@ client.on("message", async message => {
                     .then(res => res.json())
                     .then(myJson => {
                         console.log(myJson)
+                        console.log('BEFORE')
                         console.log(myJson.data.children[0].data.permalink);
+                        console.log('AFTER')
                     });
                 return;
             case 'hi' || 'hello':
