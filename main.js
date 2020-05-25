@@ -177,9 +177,10 @@ client.on("message", async message => {
         switch (command) {
             case 'reddit':
                 fetchUrl("http://api.reddit.com/r/copypasta", function (error, meta, body) {
-                    for (child in body.data.children) {
-                        console.log(child.data.permalink);
-                    }
+                    console.log(body.data);
+                    // for (child in body.data.children) {
+                    //     console.log(child.data.permalink);
+                    // }
                 });
                 return;
             case 'hi' || 'hello':
