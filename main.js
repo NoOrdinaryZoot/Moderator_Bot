@@ -54,10 +54,10 @@ client.on("message", async message => {
                     if (error) {
                         console.log(error);
                     } else {
-                        console.log(JSON.stringify(result));
+                        console.log(JSON.stringify(result, null, 2));
+                        message.channel.send(`https://youtube.com/${JSON.stringify(result, null, 2).items[0].videoId}`);
                     }
                 });
-                message.channel.send(`https://youtube.com/${JSON.stringify(result, null, 2).items[0].videoId}`);
                 return;
             case 'filter':
                 message.channel.messages.fetch().then(messages => {
