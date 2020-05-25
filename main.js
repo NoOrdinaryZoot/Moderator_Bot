@@ -182,7 +182,10 @@ client.on("message", async message => {
 
                 fetch('http://api.reddit.com/r/copypasta')
                     .then(res => res.json())
-                    .then(myJson => console.log(myJson));
+                    .then(myJson => {
+                        console.log(myJson)
+                        console.log(myJson.data.children[0].data.permalink);
+                    });
                 return;
             case 'hi' || 'hello':
                 message.channel.send(`Hi there ${message.author.toString()}`);
