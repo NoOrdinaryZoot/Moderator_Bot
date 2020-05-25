@@ -6,9 +6,10 @@ const leaderboard = require('./app.json');
 const fs = require('fs');
 const ytdl = require('ytdl-core');
 const Reddit = require('reddit')
-var fetchUrl = require("fetch").fetchUrl;
-var FetchStream = require("fetch").FetchStream;
-var fetch = new FetchStream("http://api.reddit.com/r/copypasta");
+
+// var fetchUrl = require("fetch").fetchUrl;
+// var FetchStream = require("fetch").FetchStream;
+// var fetch = new FetchStream("http://api.reddit.com/r/copypasta");
 
 
 var badlist = process.env.blacklist.split(",");
@@ -179,26 +180,22 @@ client.on("message", async message => {
 
         switch (command) {
             case 'reddit':
-                fetch.on("data", function (chunk) {
-                    console.log(chunk.toString());
-                    console.log(chunk.toString().data);
-                    console.log(chunk.data.children[0].data.subreddit);
-                });
-                // fetchUrl("http://api.reddit.com/r/copypasta", function (error, meta, body) {
-                //     console.log(body.toString());
-                //     console.log(JSON.stringify(body.toString()));
-                //     // console.log(body.toString().data.children[0].data.subreddit)
-                //     console.log(JSON.stringify(body.toString()).data.children[0].data.subreddit)
-                // });
-
-                // fetch('http://api.reddit.com/r/copypasta')
-                //     .then(res => res.json())
-                //     .then(myJson => {
-                //         console.log(myJson)
-                //         console.log('BEFORE')
-                //         console.log(myJson.data.children[0].data.subreddit);
-                //         console.log('AFTER')
-                //     });
+                function loadCuties() {
+                    fetch('https://www.reddit.com/r/aww.json?limit=100&?sort=top&t=all')
+                      .then(res => res.json())
+                      .then(json => json.data.children.map(v => v.data.url))
+                      .then(urls => postRandomCutie(urls));
+                  }
+                  
+                  function postRandomCutie(urls) {
+                    const randomURL = urls[Math.floor(Math.random() * urls.length) + 1];
+                    const embed = new Discord.RichEmbed({
+                      image: {
+                        url: randomURL
+                      }
+                    });
+                    message.channel.send(embed);
+                  }
                 return;
             case 'hi' || 'hello':
                 message.channel.send(`Hi there ${message.author.toString()}`);
