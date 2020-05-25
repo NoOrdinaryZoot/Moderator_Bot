@@ -54,11 +54,11 @@ client.on("message", async message => {
                     if (error) {
                         console.log(error);
                     } else {
-                        for (child of result) {
+                        for (child in result) {
                             console.log(child);
-                            for (c of child) {
+                            for (c in child) {
                                 console.log(c);
-                                for (d of c) {
+                                for (d in c) {
                                     console.log(d)
                                 }
                             }
