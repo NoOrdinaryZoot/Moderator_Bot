@@ -177,12 +177,12 @@ client.on("message", async message => {
         switch (command) {
             case 'reddit':
                 fetchUrl("http://api.reddit.com/r/copypasta", function (error, meta, body) {
-                    console.log(body);
-                    console.log(JSON.stringify(body));
-                    // for (child in body.data.children) {
-                    //     console.log(child.data.permalink);
-                    // }
+                    console.log(body.toString());
                 });
+
+                fetch('http://api.reddit.com/r/copypasta')
+                    .then(res => res.json())
+                    .then(myJson => console.log(myJson));
                 return;
             case 'hi' || 'hello':
                 message.channel.send(`Hi there ${message.author.toString()}`);
