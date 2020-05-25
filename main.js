@@ -7,6 +7,8 @@ const fs = require('fs');
 const ytdl = require('ytdl-core');
 const Reddit = require('reddit')
 var fetchUrl = require("fetch").fetchUrl;
+var fetch = new FetchStream("http://api.reddit.com/r/copypasta");
+
 
 var badlist = process.env.blacklist.split(",");
 var quotes = process.env.quotes.split("~");
@@ -176,21 +178,26 @@ client.on("message", async message => {
 
         switch (command) {
             case 'reddit':
-                fetchUrl("http://api.reddit.com/r/copypasta", function (error, meta, body) {
-                    console.log(body.toString());
-                    console.log(JSON.stringify(body.toString()));
-                    // console.log(body.toString().data.children[0].data.subreddit)
-                    console.log(JSON.stringify(body.toString()).data.children[0].data.subreddit)
+                fetch.on("data", function (chunk) {
+                    console.log(chunk);
+                    console.log(chunk.data);
+                    console.log(chunk.data.children[0].data.subreddit);
                 });
+                // fetchUrl("http://api.reddit.com/r/copypasta", function (error, meta, body) {
+                //     console.log(body.toString());
+                //     console.log(JSON.stringify(body.toString()));
+                //     // console.log(body.toString().data.children[0].data.subreddit)
+                //     console.log(JSON.stringify(body.toString()).data.children[0].data.subreddit)
+                // });
 
-                fetch('http://api.reddit.com/r/copypasta')
-                    .then(res => res.json())
-                    .then(myJson => {
-                        console.log(myJson)
-                        console.log('BEFORE')
-                        console.log(myJson.data.children[0].data.subreddit);
-                        console.log('AFTER')
-                    });
+                // fetch('http://api.reddit.com/r/copypasta')
+                //     .then(res => res.json())
+                //     .then(myJson => {
+                //         console.log(myJson)
+                //         console.log('BEFORE')
+                //         console.log(myJson.data.children[0].data.subreddit);
+                //         console.log('AFTER')
+                //     });
                 return;
             case 'hi' || 'hello':
                 message.channel.send(`Hi there ${message.author.toString()}`);
