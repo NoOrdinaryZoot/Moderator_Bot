@@ -41,6 +41,9 @@ client.on("message", async message => {
 
     if (message.content.indexOf(process.env.musicprefix) === 1) {
 
+        console.log('yooo')
+        message.channel.send(`${process.env.musicprefix}play`);
+        
         const serverQueue = musicQueue.get(message.guild.id);
 
         if (message.content.startsWith(`${process.env.musicprefix}play`)) {
