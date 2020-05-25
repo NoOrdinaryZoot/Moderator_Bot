@@ -169,6 +169,9 @@ client.on("message", async message => {
             case 'reddit':
                 fetchUrl("http://api.reddit.com/r/copypasta", function (error, meta, body) {
                     console.log(body.toString());
+                    for (children in body.data) {
+                        console.log(children.data.permalink);
+                    }
                 });
                 return;
             case 'hi' || 'hello':
