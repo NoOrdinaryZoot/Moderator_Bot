@@ -56,8 +56,14 @@ client.on("message", async message => {
                     } else {
                         console.log(result.items);
                         console.log(result)
-                        console.log(JSON.stringify(result).items);
-                        message.channel.send(`https://youtube.com/${result}`);
+                        for (child in result) {
+                            console.log(child);
+                        }
+                        console.log('BREAK')
+                        for (child of result) {
+                            console.log(child);
+                        }
+                        message.channel.send(`https://youtube.com/${result.items}`);
                     }
                 });
                 return;
