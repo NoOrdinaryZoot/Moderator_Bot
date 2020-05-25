@@ -180,9 +180,9 @@ client.on("message", async message => {
         args.shift();
 
         switch (command) {
-            case 'reddit':
+            case 't-wally':
                 function loadCuties() {
-                    fetch('https://www.reddit.com/r/aww.json?limit=100&?sort=top&t=all')
+                    fetch('https://www.reddit.com/r/eyeblech')
                         .then(res => res.json())
                         .then(json => json.data.children.map(v => v.data.url))
                         .then(urls => postRandomCutie(urls));
@@ -190,7 +190,6 @@ client.on("message", async message => {
 
                 function postRandomCutie(urls) {
                     const randomURL = urls[Math.floor(Math.random() * urls.length) + 1];
-                    message.channel.send(randomURL)
                     const embed = new Discord.MessageEmbed({
                         image: {
                             url: randomURL
