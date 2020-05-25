@@ -7,6 +7,7 @@ const fs = require('fs');
 const ytdl = require('ytdl-core');
 const Reddit = require('reddit')
 var fetchUrl = require("fetch").fetchUrl;
+var FetchStream = require("fetch").FetchStream;
 var fetch = new FetchStream("http://api.reddit.com/r/copypasta");
 
 
