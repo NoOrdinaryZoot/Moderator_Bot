@@ -184,8 +184,8 @@ client.on("message", async message => {
                 function loadCuties() {
                     fetch('https://www.reddit.com/r/insurgency')
                         .then(res => res.json())
-                        .then(json => json.data.children.map(v => v.data.url, s => s.data.title))
-                        .then(urls,titles => postRandomCutie(urls, titles));
+                        .then(json => json.data.children.map(v => v.data.url/*, s => s.data.title*/))
+                        .then(urls,titles => postRandomCutie(urls, 'Checklist'));
                 }
 
                 function postRandomCutie(urls, titles) {
