@@ -55,13 +55,14 @@ client.on("message", async message => {
                         console.log(error);
                     } else {
                         console.log(JSON.stringify(result, null, 2).items);
-                        console.log(JSON.stringify(result, null, 2).items)
+                        console.log(JSON.stringify(result, null, 2).items);
+                        console.log(JSON.stringify(result));
                         console.log(JSON.stringify(result).items[0].child.id.videoId);
                         console.log(JSON.stringify(result).items);
                         for (child in JSON.stringify(result, null, 2).items) {
                             console.log(child.id.videoId);
                             console.log(child);
-                            message.channel.send(`https://youtube.com/watch?v=${JSON.stringify(result).items[0].child.id.videoId}`);
+                            message.channel.send(`https://youtube.com/watch?v=${JSON.stringify(result).items[0].id.videoId}`);
                             break;
                         }
                         message.channel.send(`https://youtube.com/${JSON.stringify(result, null, 2).items}`);
