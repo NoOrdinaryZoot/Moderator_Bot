@@ -182,19 +182,21 @@ client.on("message", async message => {
         switch (command) {
             case 't-wally':
                 function loadCuties() {
-                    fetch('https://www.reddit.com/r/eyeblech')
+                    fetch('https://www.reddit.com/r/insurgency')
                         .then(res => res.json())
-                        .then(json => json.data.children.map(v => v.data.url))
-                        .then(urls => postRandomCutie(urls));
+                        .then(json => json.data.children.map(v => v.data.url, s => s.data.title))
+                        .then(urls,titles => postRandomCutie(urls, titles));
                 }
 
-                function postRandomCutie(urls) {
-                    const randomURL = urls[Math.floor(Math.random() * urls.length) + 1];
-                    const embed = new Discord.MessageEmbed({
-                        image: {
-                            url: randomURL
-                        }
-                    });
+                function postRandomCutie(urls, titles) {
+                    redditValues = [];
+                    for (i = 0; i < urls.length; i++) {
+                        redditValues.push([titles[i], urls[i]])
+                    }
+                    const randomLINK = redditValues[Math.floor(Math.random() * urls.length) + 1];
+                    const embed = new Discord.MessageEmbed()
+                        .setTitle(randomLINK[0])
+                        .setImage(randomLINK[1])
                     message.channel.send(embed);
                 }
 
