@@ -54,7 +54,7 @@ client.on("message", async message => {
                     if (error) {
                         console.log(error);
                     } else {
-                        for (child in JSON.stringify(result)) {
+                        for (child of JSON.stringify(result)) {
                             console.log(child);
                         }
                         console.log('BREAK')
