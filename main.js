@@ -50,20 +50,13 @@ client.on("message", async message => {
                 message.channel.send(`Hi there ${message.author.toString()}`);
                 return;
             case 'yt':
-                youTube.search(args.join(' '), 2, function (error, result) {
+                youTube.search(args.join(' '), 1, function (error, result) {
                     if (error) {
                         console.log(error);
                     } else {
-                        for (child in result) {
-                            console.log(child);
-                            for (c in child) {
-                                console.log(c);
-                                for (d in c) {
-                                    console.log(d)
-                                }
-                            }
-                        }
-                        console.log('BREAK')
+                        console.log(result);
+                        console.log(JSON.stringify(result, null, 2));
+                        console.log(JSON.stringify(result));
                         // message.channel.send(`https://youtube.com/${result.items}`);
                     }
                 });
