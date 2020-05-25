@@ -20,6 +20,15 @@ youTube.setKey('AIzaSyAA1d3H-fhkfSS9O9f0pwpAXImsoxLVgoQ');
 
 const musicQueue = new Map();
 
+//High Priority
+//FIX HORRIBLE SWITCH - CASE STATEMENT AND FIGURE OUT HOW TO EXPORT / IMPORT MODULES & COMMANDS!!!!!
+
+//Medium Priority
+//Fix consistent spacing etc, also figure out why music bot won't play music (Maybe don't use ytdl-core)
+
+//Low Priority / Stuff that isn't relevant or needed
+//Adding more commands
+
 
 client.on("ready", () => {
     client.user.setActivity('Life', { type: 'PLAYING' });
@@ -168,9 +177,8 @@ client.on("message", async message => {
         switch (command) {
             case 'reddit':
                 fetchUrl("http://api.reddit.com/r/copypasta", function (error, meta, body) {
-                    console.log(body.toString());
-                    for (children in body.data) {
-                        console.log(children.data.permalink);
+                    for (child in body.data.children) {
+                        console.log(child.data.permalink);
                     }
                 });
                 return;
