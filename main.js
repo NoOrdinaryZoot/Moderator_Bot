@@ -182,20 +182,22 @@ client.on("message", async message => {
             case 'reddit':
                 function loadCuties() {
                     fetch('https://www.reddit.com/r/aww.json?limit=100&?sort=top&t=all')
-                      .then(res => res.json())
-                      .then(json => json.data.children.map(v => v.data.url))
-                      .then(urls => postRandomCutie(urls));
-                  }
-                  
-                  function postRandomCutie(urls) {
+                        .then(res => res.json())
+                        .then(json => json.data.children.map(v => v.data.url))
+                        .then(urls => postRandomCutie(urls));
+                }
+
+                function postRandomCutie(urls) {
                     const randomURL = urls[Math.floor(Math.random() * urls.length) + 1];
                     const embed = new Discord.RichEmbed({
-                      image: {
-                        url: randomURL
-                      }
+                        image: {
+                            url: randomURL
+                        }
                     });
                     message.channel.send(embed);
-                  }
+                }
+
+                loadCuties();
                 return;
             case 'hi' || 'hello':
                 message.channel.send(`Hi there ${message.author.toString()}`);
