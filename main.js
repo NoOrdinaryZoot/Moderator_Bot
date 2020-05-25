@@ -55,13 +55,10 @@ client.on("message", async message => {
                         console.log(error);
                     } else {
                         for (child in JSON.stringify(result)) {
-                            console.log(child.id);
+                            console.log(child);
                         }
                         console.log('BREAK')
-                        for (child of result) {
-                            console.log(child.id.videoId);
-                        }
-                        message.channel.send(`https://youtube.com/${result.items}`);
+                        // message.channel.send(`https://youtube.com/${result.items}`);
                     }
                 });
                 return;
