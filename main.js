@@ -6,6 +6,7 @@ const leaderboard = require('./app.json');
 const fs = require('fs');
 const ytdl = require('ytdl-core');
 const Reddit = require('reddit')
+const fetch = require("fetch").fetchUrl;
 
 var badlist = process.env.blacklist.split(",");
 var quotes = process.env.quotes.split("~");
