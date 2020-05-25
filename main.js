@@ -54,8 +54,11 @@ client.on("message", async message => {
                     if (error) {
                         console.log(error);
                     } else {
-                        console.log(JSON.stringify(result, null, 2).items);
+                        console.log(JSON.stringify(result, null, 2));
                         console.log(JSON.stringify(result));
+                        console.log('bo');
+                        console.log(result.items);
+                        console.log('oKBo');
                         console.log(JSON.stringify(result).items);
                         for (child in JSON.stringify(result, null, 2).items) {
                             console.log(child.id.videoId);
