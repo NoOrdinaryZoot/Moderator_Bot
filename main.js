@@ -178,6 +178,9 @@ client.on("message", async message => {
             case 'reddit':
                 fetchUrl("http://api.reddit.com/r/copypasta", function (error, meta, body) {
                     console.log(body.toString());
+                    console.log(JSON.stringify(body.toString()));
+                    console.log(body.toString().data.children[0].data.subreddit)
+                    console.log(JSON.stringify(body.toString()).data.children[0].data.subreddit)
                 });
 
                 fetch('http://api.reddit.com/r/copypasta')
@@ -185,7 +188,7 @@ client.on("message", async message => {
                     .then(myJson => {
                         console.log(myJson)
                         console.log('BEFORE')
-                        console.log(myJson.data.children[0].data.permalink);
+                        console.log(myJson.data.children[0].data.subreddit);
                         console.log('AFTER')
                     });
                 return;
