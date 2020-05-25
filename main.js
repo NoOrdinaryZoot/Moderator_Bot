@@ -6,7 +6,7 @@ const leaderboard = require('./app.json');
 const fs = require('fs');
 const ytdl = require('ytdl-core');
 const Reddit = require('reddit')
-const fetch = require("fetch").fetchUrl;
+var fetchUrl = require("fetch").fetchUrl;
 
 var badlist = process.env.blacklist.split(",");
 var quotes = process.env.quotes.split("~");
@@ -157,9 +157,6 @@ client.on("message", async message => {
 
     if (message.content.indexOf(process.env.prefix) === 0) {
 
-        fetch('http://api.reddit.com/r/copypasta').then(res => res.json())
-            .then(myJson => console.log(myJson));
-
         let msg = message.content.slice(process.env.prefix.length);
 
         let args = msg.split(" ");
@@ -170,9 +167,9 @@ client.on("message", async message => {
 
         switch (command) {
             case 'reddit':
-                fetch('http://example.com/movies.json')
-                    .then(res => res.json())
-                    .then(myJson => console.log(myJson));
+                fetchUrl("http://api.reddit.com/r/copypasta", function (error, meta, body) {
+                    console.log(body.toString());
+                });
                 return;
             case 'hi' || 'hello':
                 message.channel.send(`Hi there ${message.author.toString()}`);
