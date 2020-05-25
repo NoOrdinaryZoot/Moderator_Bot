@@ -60,9 +60,13 @@ client.on("message", async message => {
 
         console.log(client.commands);
 
-        if (client.commands.has(command)) {
-            client.commands.get(command).execute;
-            console.log(`Command '${command}' has been called.`)
+        if (!client.commands.has(command)) return;
+
+        try {
+            client.commands.get(command).execute(message, args);
+        } catch (error) {
+            console.error(error);
+            message.reply('there was an error trying to execute that command!');
         }
     } else {
 
