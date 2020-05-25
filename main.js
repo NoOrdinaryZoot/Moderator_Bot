@@ -54,10 +54,8 @@ client.on("message", async message => {
                     if (error) {
                         console.log(error);
                     } else {
-                        console.log(result.items);
-                        console.log(result)
-                        for (child in result) {
-                            console.log(child.id.videoId);
+                        for (child in JSON.stringify(result)) {
+                            console.log(child.id);
                         }
                         console.log('BREAK')
                         for (child of result) {
