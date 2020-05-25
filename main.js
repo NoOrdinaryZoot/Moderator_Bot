@@ -54,8 +54,14 @@ client.on("message", async message => {
                     if (error) {
                         console.log(error);
                     } else {
-                        console.log(JSON.stringify(result, null, 2));
-                        message.channel.send(`https://youtube.com/${JSON.stringify(result, null, 2).items[0].videoId}`);
+                        console.log(JSON.stringify(result, null, 2).items);
+                        console.log(JSON.stringify(result, null, 2).items)
+                        for (child in JSON.stringify(result, null, 2).items) {
+                            console.log(child.id.videoId);
+                            message.channel.send(`https://youtube.com/watch?v=${child.id.videoId}`);
+                            break;
+                        }
+                        message.channel.send(`https://youtube.com/${JSON.stringify(result, null, 2).items}`);
                     }
                 });
                 return;
