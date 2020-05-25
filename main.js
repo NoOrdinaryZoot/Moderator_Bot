@@ -60,7 +60,7 @@ client.on("message", async message => {
 
         console.log(client.commands);
 
-        if (client.commands.indexOf(command) >= 1) {
+        if (client.commands.has(command)) {
             console.log(`Command '${command}' has been called.`)
         }
     } else {
