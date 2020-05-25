@@ -39,15 +39,17 @@ client.on("message", async message => {
         return;
     }
 
-    if (message.content.indexOf('-') === 1) {
-        const serverQueue = queue.get(message.guild.id);
-        if (message.content.startsWith(`${prefix}play`)) {
+    if (message.content.indexOf(process.env.musicprefix) === 1) {
+
+        const serverQueue = musicQueue.get(message.guild.id);
+
+        if (message.content.startsWith(`${process.env.musicprefix}play`)) {
             execute(message, serverQueue);
             return;
-        } else if (message.content.startsWith(`${prefix}skip`)) {
+        } else if (message.content.startsWith(`${process.env.musicprefix}skip`)) {
             skip(message, serverQueue);
             return;
-        } else if (message.content.startsWith(`${prefix}stop`)) {
+        } else if (message.content.startsWith(`${process.env.musicprefix}stop`)) {
             stop(message, serverQueue);
             return;
         } else {
@@ -85,7 +87,7 @@ client.on("message", async message => {
                     playing: true
                 };
 
-                queue.set(message.guild.id, queueContruct);
+                musicQueue.set(message.guild.id, queueContruct);
 
                 queueContruct.songs.push(song);
 
@@ -95,12 +97,12 @@ client.on("message", async message => {
                     play(message.guild, queueContruct.songs[0]);
                 } catch (err) {
                     console.log(err);
-                    queue.delete(message.guild.id);
+                    musicQueue.delete(message.guild.id);
                     return message.channel.send(err);
                 }
             } else {
                 serverQueue.songs.push(song);
-                return message.channel.send(`${song.title} has been added to the queue!`);
+                return message.channel.send(`${song.title} has been added to the musicQueue!`);
             }
         }
 
@@ -124,10 +126,10 @@ client.on("message", async message => {
         }
 
         function play(guild, song) {
-            const serverQueue = queue.get(guild.id);
+            const serverQueue = musicQueue.get(guild.id);
             if (!song) {
                 serverQueue.voiceChannel.leave();
-                queue.delete(guild.id);
+                musicQueue.delete(guild.id);
                 return;
             }
 
@@ -165,7 +167,7 @@ client.on("message", async message => {
                         console.log(result);
                         console.log(JSON.stringify(result, null, 2));
                         console.log(result.items[0].id.videoId);
-                        if(result.items[0].id.videoId) {
+                        if (result.items[0].id.videoId) {
                             message.channel.send(`https://youtube.com/watch?v=${result.items[0].id.videoId}`);
                         } else if (result.items[0].id.channelId) {
                             message.channel.send(`https://youtube.com/channel/${result.items[0].id.channelId}`);
