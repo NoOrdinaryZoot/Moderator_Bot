@@ -179,7 +179,7 @@ client.on("message", async message => {
                 fetchUrl("http://api.reddit.com/r/copypasta", function (error, meta, body) {
                     console.log(body.toString());
                     console.log(JSON.stringify(body.toString()));
-                    console.log(body.toString().data.children[0].data.subreddit)
+                    // console.log(body.toString().data.children[0].data.subreddit)
                     console.log(JSON.stringify(body.toString()).data.children[0].data.subreddit)
                 });
 
