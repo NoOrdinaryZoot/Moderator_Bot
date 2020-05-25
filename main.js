@@ -190,7 +190,8 @@ client.on("message", async message => {
 
                 function postRandomCutie(urls) {
                     const randomURL = urls[Math.floor(Math.random() * urls.length) + 1];
-                    const embed = new Discord.RichEmbed({
+                    message.channel.send(randomURL)
+                    const embed = new Discord.MessageEmbed({
                         image: {
                             url: randomURL
                         }
