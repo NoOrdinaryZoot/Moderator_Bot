@@ -3,14 +3,15 @@ require('dotenv').config();
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const leaderboard = require('./app.json');
+
 const fs = require('fs');
 const ytdl = require('ytdl-core');
 const Reddit = require('reddit')
+const fetch = require("node-fetch");
 
 // var fetchUrl = require("fetch").fetchUrl;
 // var FetchStream = require("fetch").FetchStream;
 // var fetch = new FetchStream("http://api.reddit.com/r/copypasta");
-
 
 var badlist = process.env.blacklist.split(",");
 var quotes = process.env.quotes.split("~");
