@@ -157,8 +157,7 @@ client.on("message", async message => {
 
     if (message.content.indexOf(process.env.prefix) === 0) {
 
-        fetch('http://example.com/movies.json')
-            .then(res => res.json())
+        fetch('http://api.reddit.com/r/copypasta').then(res => res.json())
             .then(myJson => console.log(myJson));
 
         let msg = message.content.slice(process.env.prefix.length);
