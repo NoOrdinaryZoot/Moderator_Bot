@@ -58,6 +58,7 @@ client.on("message", async message => {
                         console.log(JSON.stringify(result, null, 2).items)
                         for (child in JSON.stringify(result, null, 2).items) {
                             console.log(child.id.videoId);
+                            console.log(child);
                             message.channel.send(`https://youtube.com/watch?v=${child.id.videoId}`);
                             break;
                         }
