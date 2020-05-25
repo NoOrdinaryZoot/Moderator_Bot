@@ -180,8 +180,8 @@ client.on("message", async message => {
         switch (command) {
             case 'reddit':
                 fetch.on("data", function (chunk) {
-                    console.log(chunk);
-                    console.log(chunk.data);
+                    console.log(chunk.toString());
+                    console.log(chunk.toString().data);
                     console.log(chunk.data.children[0].data.subreddit);
                 });
                 // fetchUrl("http://api.reddit.com/r/copypasta", function (error, meta, body) {
