@@ -5,7 +5,7 @@ const client = new Discord.Client();
 const leaderboard = require('./app.json');
 const fs = require('fs');
 const ytdl = require('ytdl-core');
-const YouTube = require('youtube-node');
+const Reddit = require('reddit')
 
 var badlist = process.env.blacklist.split(",");
 var quotes = process.env.quotes.split("~");
@@ -13,6 +13,7 @@ var quotes = process.env.quotes.split("~");
 var steamidslocal = process.env.steamids.split(",");
 var steamcodeslocal = process.env.steamcodes.split(",");
 
+const YouTube = require('youtube-node');
 var youTube = new YouTube();
 youTube.setKey('AIzaSyAA1d3H-fhkfSS9O9f0pwpAXImsoxLVgoQ');
 
@@ -38,6 +39,14 @@ client.on("message", async message => {
     if (message.author.id != 97605170782826496 && message.author.id != 385166607225323521 && message.author.id != 526514389868871680) {
         return;
     }
+
+    let msg = message.content.slice(process.env.prefix.length);
+
+    let args = msg.split(" ");
+
+    let command = args[0].toLowerCase();
+
+    args.shift();
 
     if (message.content.indexOf(process.env.musicprefix) === 0) {
 
@@ -147,6 +156,10 @@ client.on("message", async message => {
 
     if (message.content.indexOf(process.env.prefix) === 0) {
 
+        fetch('http://example.com/movies.json')
+            .then(res => res.json())
+            .then(myJson => console.log(myJson));
+
         let msg = message.content.slice(process.env.prefix.length);
 
         let args = msg.split(" ");
@@ -156,6 +169,11 @@ client.on("message", async message => {
         args.shift();
 
         switch (command) {
+            case 'reddit':
+                fetch('http://example.com/movies.json')
+                    .then(res => res.json())
+                    .then(myJson => console.log(myJson));
+                return;
             case 'hi' || 'hello':
                 message.channel.send(`Hi there ${message.author.toString()}`);
                 return;
