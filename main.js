@@ -1,7 +1,6 @@
 require('dotenv').config();
 
 const Discord = require('discord.js');
-const fs = require('fs');
 const client = new Discord.Client();
 const leaderboard = require('./app.json');
 const fs = require('fs');
