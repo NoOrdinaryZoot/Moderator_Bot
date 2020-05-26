@@ -37,6 +37,9 @@ youTube.setKey('AIzaSyAA1d3H-fhkfSS9O9f0pwpAXImsoxLVgoQ');
 client.on("ready", () => {
     client.user.setActivity('Life', { type: 'PLAYING' });
     console.log(`client is online!\n${client.users.size} users, in ${client.guilds.size} servers connected.`);
+    process.env.queues = { 101010: 5 };
+    client.guilds.forEach(server => process.env.queues[server.id] = []);
+    console.log(process.env.queues);
 });
 
 client.on("guildCreate", guild => {
@@ -61,6 +64,9 @@ client.on("message", async message => {
     let command = args[0].toLowerCase();
 
     args.shift();
+
+    //Next up
+    //Queues for each server, blacklists for each server, etc.
 
     if (message.content.indexOf(process.env.prefix) === 0) {
         switch (command) {
@@ -105,7 +111,27 @@ client.on("message", async message => {
                 return;
             case 'hi' || 'hello':
                 message.channel.send(`Hi there ${message.author.toString()}`);
-                message.channel.send(process.env.okboomer);
+                return;
+            case 'play':
+                process.env.queues[server.id].push(args[0])
+                const voiceChannel = message.member.voice.channel;
+
+                if (!voiceChannel) {
+                    return message.reply('please join a voice channel first!');
+                }
+
+                voiceChannel.join().then(connection => {
+                    const stream = ytdl('https://www.youtube.com/watch?v=iHibnmosKkM', { filter: 'audioonly' });
+                    const dispatcher = connection.play(stream);
+
+                    dispatcher.on('end', () => voiceChannel.leave());
+
+                    dispatcher.on('end', () => {
+                        if (process.env.queues[server.id].length == 0) {
+                            voiceChannel.leave();
+                        }
+                    });
+                });
                 return;
             case 'music':
                 const voiceChannel = message.member.voice.channel;
@@ -115,32 +141,20 @@ client.on("message", async message => {
                 }
 
                 voiceChannel.join().then(connection => {
-                    const stream = ytdl('https://www.youtube.com/watch?v=ekNjcWNfgDg', { filter: 'audioonly' });
+                    const stream = ytdl('https://www.youtube.com/watch?v=iHibnmosKkM', { filter: 'audioonly' });
                     const dispatcher = connection.play(stream);
 
                     dispatcher.on('end', () => voiceChannel.leave());
+
+                    dispatcher.on('end', () => {
+                        if (process.env.queues[server.id].length == 0) {
+                            voiceChannel.leave();
+                        }
+                    });
                 });
-                process.env.okboomer = 4;
                 return;
             case 'yt':
-                var server = message.guild;
-                youTube.search(args.join(' '), 1, function (error, result) {
-                    if (error) {
-                        console.log(error);
-                    } else {
-                        console.log(result);
-                        console.log(JSON.stringify(result, null, 2));
-                        console.log(result.items[0].id.videoId);
-                        if (result.items[0].id.videoId) {
-                            message.channel.send(`https://youtube.com/watch?v=${result.items[0].id.videoId}`);
-                            console.log(server.queue);
-                        } else if (result.items[0].id.channelId) {
-                            message.channel.send(`https://youtube.com/channel/${result.items[0].id.channelId}`);
-                        } else {
-                            message.channel.send('No videos or channels were found :(');
-                        }
-                    }
-                });
+                findVideo(args.join(' '));
                 return;
             /*====================================================*/
             case 'filter':
@@ -325,6 +339,20 @@ function checker(value) {
         }
     }
     return false;
+}
+
+function findVideo(term) {
+    youTube.search(term, 1, function (error, result) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log(result.items[0].id.videoId);
+            if (result.items[0].id.videoId) {
+                return `https://youtube.com/watch?v=${result.items[0].id.videoId}`;
+            }
+        }
+        return;
+    });
 }
 
 function rand(min, max) {
