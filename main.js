@@ -347,7 +347,7 @@ function checker(value) {
 }
 
 function findVideo(term) {
-    youTube.search(term, 1, function (error, result) {
+    youTube.search(term.join(' '), 1, function (error, result) {
         if (error) {
             console.log(error);
         } else {
