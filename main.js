@@ -200,6 +200,9 @@ client.on("message", async message => {
                     //       url: randomURL
                     //     }
                     //   });
+                    message.channel.send(randomTITLE);
+                    message.channel.send(randomLINK);
+                    message.channel.send(randomURL);
                     const embed = new Discord.MessageEmbed({
                         title: randomTITLE,
                         url: randomLINK,
