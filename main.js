@@ -193,16 +193,17 @@ client.on("message", async message => {
                     const randomTITLE = titles[randSelector];
                     const randomURL = urls[randSelector];
                     const randomLINK = links[randSelector];
-                    const embed = new Discord.RichEmbed({
-                        title: randomTITLE,
-                        url: randomLINK,
-                        image: {
-                          url: randomURL
-                        }
-                      });
-                    // const embed = new Discord.MessageEmbed()
-                    //     .setTitle(randomTITLE)
-                    //     .setImage(randomURL)
+                    // const embed = new Discord.RichEmbed({
+                    //     title: randomTITLE,
+                    //     url: randomLINK,
+                    //     image: {
+                    //       url: randomURL
+                    //     }
+                    //   });
+                    const embed = new Discord.MessageEmbed()
+                        .setTitle(randomTITLE)
+                        .setImage(randomURL)
+                        .setURL(randomLINK)
                     message.channel.send(embed);
                 }
 
