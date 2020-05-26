@@ -103,9 +103,9 @@ client.on("message", async message => {
                 return;
             case 'music':
                 const streamOptions = { seek: 0, volume: 1 };
-                var voiceChannel = message.member.voiceChannel;
+                var voiceChannel = message.member.voice.channel;
                 voiceChannel.join().then(connection => {
-                    console.log("joined channel");
+                    console.log(`Joined channel with users ${voiceChannel.members}`);
                     const stream = ytdl('https://www.youtube.com/watch?v=gOMhN-hfMtY', { filter: 'audioonly' });
                     const dispatcher = connection.playStream(stream, streamOptions);
                     dispatcher.on("end", end => {
