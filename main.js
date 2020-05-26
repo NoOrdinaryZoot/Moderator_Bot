@@ -184,7 +184,7 @@ client.on("message", async message => {
                             urls = json.data.children.map(v => v.data.url);
                             titles = json.data.children.map(s => s.data.title);
                             links = json.data.children.map(d => d.data.permalink);
-                            RedditToDiscord(urls, titles, links);
+                            RedditToDiscord(urls, titles, links, args[1]);
                         })
                 }
 
