@@ -205,7 +205,7 @@ client.on("message", async message => {
                     message.channel.send(randomURL);
                     const embed = new Discord.MessageEmbed({
                         title: randomTITLE,
-                        url: randomLINK,
+                        url: `https://www.reddit.com/r${randomLINK}`,
                         image: {
                             url: randomURL
                         }
