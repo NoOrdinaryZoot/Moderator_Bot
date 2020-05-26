@@ -195,9 +195,10 @@ client.on("message", async message => {
                     const randomLINK = links[randSelector];
                     for (var i = 0; i < limit; i++) {
                         try {
+                            console.log(randomLINK);
                             var embed = new Discord.MessageEmbed({
                                 title: randomTITLE,
-                                url: `https://www.reddit.com/r${randomLINK}`,
+                                url: `https://www.reddit.com${randomLINK}`,
                                 image: {
                                     url: randomURL
                                 }
