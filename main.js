@@ -190,11 +190,11 @@ client.on("message", async message => {
 
                 function RedditToDiscord(urls, titles, links, limit) {
                     var randSelector = Math.floor(Math.random() * urls.length) + 1;
-                    const randomTITLE = titles[randSelector];
-                    const randomURL = urls[randSelector];
-                    const randomLINK = links[randSelector];
                     for (var i = 0; i < limit; i++) {
                         try {
+                            var randomTITLE = titles[i];
+                            var randomURL = urls[i];
+                            var randomLINK = links[i];
                             console.log(randomLINK);
                             var embed = new Discord.MessageEmbed({
                                 title: randomTITLE,
