@@ -19,6 +19,8 @@ const YouTube = require('youtube-node');
 var youTube = new YouTube();
 youTube.setKey('AIzaSyAA1d3H-fhkfSS9O9f0pwpAXImsoxLVgoQ');
 
+const musicQueue = new Map();
+
 //High Priority
 //FIX HORRIBLE SWITCH - CASE STATEMENT AND FIGURE OUT HOW TO EXPORT / IMPORT MODULES & COMMANDS!!!!!
 
@@ -57,14 +59,128 @@ client.on("message", async message => {
 
     args.shift();
 
+    if (message.content.indexOf(process.env.musicprefix) === 0) {
+
+        const serverQueue = musicQueue.get(message.guild.id);
+
+        if (message.content.startsWith(`${process.env.musicprefix}play`)) {
+            execute(message, serverQueue);
+            return;
+        } else if (message.content.startsWith(`${process.env.musicprefix}skip`)) {
+            skip(message, serverQueue);
+            return;
+        } else if (message.content.startsWith(`${process.env.musicprefix}stop`)) {
+            stop(message, serverQueue);
+            return;
+        } else {
+            message.channel.send("You need to enter a valid command!");
+        }
+
+        async function execute(message, serverQueue) {
+            const args = message.content.split(" ");
+
+            const voiceChannel = message.member.voice.channel;
+            if (!voiceChannel)
+                return message.channel.send(
+                    "You need to be in a voice channel to play music!"
+                );
+            const permissions = voiceChannel.permissionsFor(message.client.user);
+            if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) {
+                return message.channel.send(
+                    "I need the permissions to join and speak in your voice channel!"
+                );
+            }
+
+            const songInfo = await ytdl.getInfo(args[1]);
+            const song = {
+                title: songInfo.title,
+                url: songInfo.video_url
+            };
+
+            if (!serverQueue) {
+                const queueContruct = {
+                    textChannel: message.channel,
+                    voiceChannel: voiceChannel,
+                    connection: null,
+                    songs: [],
+                    volume: 5,
+                    playing: true
+                };
+
+                musicQueue.set(message.guild.id, queueContruct);
+
+                queueContruct.songs.push(song);
+
+                try {
+                    var connection = await voiceChannel.join();
+                    queueContruct.connection = connection;
+                    play(message.guild, queueContruct.songs[0]);
+                } catch (err) {
+                    console.log(err);
+                    musicQueue.delete(message.guild.id);
+                    return message.channel.send(err);
+                }
+            } else {
+                serverQueue.songs.push(song);
+                return message.channel.send(`${song.title} has been added to the musicQueue!`);
+            }
+        }
+
+        function skip(message, serverQueue) {
+            if (!message.member.voice.channel)
+                return message.channel.send(
+                    "You have to be in a voice channel to stop the music!"
+                );
+            if (!serverQueue)
+                return message.channel.send("There is no song that I could skip!");
+            serverQueue.connection.dispatcher.end();
+        }
+
+        function stop(message, serverQueue) {
+            if (!message.member.voice.channel)
+                return message.channel.send(
+                    "You have to be in a voice channel to stop the music!"
+                );
+            serverQueue.songs = [];
+            serverQueue.connection.dispatcher.end();
+        }
+
+        function play(guild, song) {
+            const serverQueue = musicQueue.get(guild.id);
+            if (!song) {
+                serverQueue.voiceChannel.leave();
+                musicQueue.delete(guild.id);
+                return;
+            }
+
+            const dispatcher = serverQueue.connection
+                .play(ytdl(song.url))
+                .on("finish", () => {
+                    serverQueue.songs.shift();
+                    play(guild, serverQueue.songs[0]);
+                })
+                .on("error", error => console.error(error));
+            dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
+            serverQueue.textChannel.send(`Start playing: **${song.title}**`);
+        }
+    }
+
     if (message.content.indexOf(process.env.prefix) === 0) {
+
+        let msg = message.content.slice(process.env.prefix.length);
+
+        let args = msg.split(" ");
+
+        let command = args[0].toLowerCase();
+
+        args.shift();
+
         switch (command) {
             case 'browse':
                 function GrabPosts() {
                     fetch(`https://www.reddit.com/r/${args[0]}.json?limit=100&?sort=top&t=today`)
                         .then(res => res.json())
                         .then(json => {
-                            filter = json.data.children.map(o => o.data.over_18);
                             urls = json.data.children.map(v => v.data.url);
                             titles = json.data.children.map(s => s.data.title);
                             links = json.data.children.map(d => d.data.permalink);
@@ -76,10 +192,10 @@ client.on("message", async message => {
                     var randSelector = Math.floor(Math.random() * urls.length) + 1;
                     for (var i = 0; i < limit; i++) {
                         try {
-                            console.log(filter[i], randomLINK);
                             var randomTITLE = titles[i];
                             var randomURL = urls[i];
                             var randomLINK = links[i];
+                            console.log(randomLINK);
                             var embed = new Discord.MessageEmbed({
                                 title: randomTITLE,
                                 url: `https://www.reddit.com${randomLINK}`,
@@ -154,6 +270,11 @@ client.on("message", async message => {
                 } catch (err) {
                     message.channel.send('Error when displaying blacklist');
                 }
+                return;
+            case 'purge':
+                var amount = args[1];
+                var messages = await message.channel.messages.fetch({ limit: amount });
+                message.channel.bulkDelete(messages);
                 return;
             /*====================================================*/
             /*====================================================*/
