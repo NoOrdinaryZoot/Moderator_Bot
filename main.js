@@ -38,6 +38,7 @@ client.on("ready", () => {
     client.user.setActivity('Life', { type: 'PLAYING' });
     console.log(`client is online!\n${client.users.size} users, in ${client.guilds.size} servers connected.`);
     process.env.queues = { 101010: 5 };
+    console.log(client.guilds);
     client.guilds.forEach(server => process.env.queues[server.id] = []);
     console.log(process.env.queues);
 });
@@ -113,26 +114,39 @@ client.on("message", async message => {
                 message.channel.send(`Hi there ${message.author.toString()}`);
                 return;
             case 'play':
-                process.env.queues[server.id].push(args[0])
+                process.env.queues[server.id].push(args[0]);
                 return;
+            case 'queue':
+                console.log(process.env.queues[server.id]);
+                console.log(process.env.queues);
+                message.channel.send(`${process.env.queues[server.id]}`);
             case 'music':
-                const voiceChannel = message.member.voice.channel;
+                var voiceChannel = message.member.voice.channel;
 
                 if (!voiceChannel) {
                     return message.reply('please join a voice channel first!');
                 }
 
                 voiceChannel.join().then(connection => {
-                    const stream = ytdl('https://www.youtube.com/watch?v=iHibnmosKkM', { filter: 'audioonly' });
-                    const dispatcher = connection.play(stream);
+                    var stream = ytdl(process.env.queues[server.id][0], { filter: 'audioonly' });
+                    var dispatcher = connection.play(stream);
 
-                    dispatcher.on('end', () => voiceChannel.leave());
+                    // dispatcher.on('end', () => voiceChannel.leave());
 
                     dispatcher.on('end', () => {
                         if (process.env.queues[server.id].length == 0) {
                             voiceChannel.leave();
+                        } else {
+                            process.env.queues[server.id].shift()
                         }
                     });
+                    dispatcher.on('finish', () => {
+                        if (process.env.queues[server.id].length == 0) {
+                            voiceChannel.leave();
+                        } else {
+                            process.env.queues[server.id].shift()
+                        }
+                    })
                 });
                 return;
             case 'yt':
