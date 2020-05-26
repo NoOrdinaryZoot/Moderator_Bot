@@ -36,12 +36,17 @@ youTube.setKey('AIzaSyAA1d3H-fhkfSS9O9f0pwpAXImsoxLVgoQ');
 
 client.on("ready", () => {
     client.user.setActivity('Life', { type: 'PLAYING' });
-    console.log(`client is online!\n${client.users.size} users, in ${client.guilds.size} servers connected.`);
+    console.log(`client is online!\n${client.guilds.cache.users.size} users, in ${client.guilds.cache.size} servers connected.`);
     process.env.queues = { 101010: 5 };
     client.guilds.cache.forEach((guild) => {
         console.log(guild.id)
         process.env.queues[guild.id] = [];
     })
+    for (var key in dictionary) {
+        if (dictionary.hasOwnProperty(key)) {
+            console.log(key, dictionary[key]);
+        }
+    }
     // client.guilds.forEach(server => process.env.queues[server.id] = []);
     console.log(JSON.stringify(process.env.queues));
 });
