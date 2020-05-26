@@ -103,22 +103,33 @@ client.on("message", async message => {
                 message.channel.send(`Hi there ${message.author.toString()}`);
                 return;
             case 'music':
-                play(message.member.voice.channel, message)
-                function play(connection, message) {
-                    var server = message.guild;
-
-                    server.dispatcher = connection.playStream(ytdl(server.queue[0], {
-                        filter:
-                            "audioonly"
-                    }));
-
-                    server.queue.shift();
-
-                    server.dispatcher.on("end", function () {
-                        if (server.queue[0]) play(connection, message);
-                        else connection.disconnect();
+                // play(message.member.voice.channel, message)
+                const streamOptions = { seek: 0, volume: 1 };
+                var voiceChannel = message.member.voiceChannel;
+                voiceChannel.join().then(connection => {
+                    console.log("joined channel");
+                    const stream = ytdl('https://www.youtube.com/watch?v=gOMhN-hfMtY', { filter: 'audioonly' });
+                    const dispatcher = connection.playStream(stream, streamOptions);
+                    dispatcher.on("end", end => {
+                        console.log("left channel");
+                        voiceChannel.leave();
                     });
-                }
+                }).catch(err => console.log(err));
+                // function play(connection, message) {
+                //     var server = message.guild;
+
+                //     server.dispatcher = connection.playStream(ytdl(server.queue[0], {
+                //         filter:
+                //             "audioonly"
+                //     }));
+
+                //     server.queue.shift();
+
+                //     server.dispatcher.on("end", function () {
+                //         if (server.queue[0]) play(connection, message);
+                //         else connection.disconnect();
+                //     });
+                // }
                 // const streamOptions = { seek: 0, volume: 1 };
                 // var voiceChannel = message.member.voice.channel;
                 // voiceChannel.join().then(connection => {
