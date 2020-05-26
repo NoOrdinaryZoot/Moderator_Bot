@@ -9,10 +9,6 @@ const ytdl = require('ytdl-core');
 const Reddit = require('reddit')
 const fetch = require("node-fetch");
 
-// var fetchUrl = require("fetch").fetchUrl;
-// var FetchStream = require("fetch").FetchStream;
-// var fetch = new FetchStream("http://api.reddit.com/r/copypasta");
-
 var badlist = process.env.blacklist.split(",");
 var quotes = process.env.quotes.split("~");
 
@@ -180,23 +176,24 @@ client.on("message", async message => {
         args.shift();
 
         switch (command) {
-            case 't-wally':
+            case 'twally':
                 function loadCuties() {
-                    fetch('https://www.reddit.com/r/insurgency')
+                    fetch('https://www.reddit.com/r/insurgency').then(res => res.json())
                         .then(res => res.json())
                         .then(json => json.data.children.map(v => v.data.url/*, s => s.data.title*/))
-                        .then(urls,titles => postRandomCutie(urls, 'Checklist'));
+                        .then(urls => {
+                            titles = res.json().data.children.map(s => s.data.title);
+                            RedditToDiscord(urls, titles)
+                        });
                 }
 
-                function postRandomCutie(urls, titles) {
-                    redditValues = [];
-                    for (i = 0; i < urls.length; i++) {
-                        redditValues.push([titles[i], urls[i]])
-                    }
-                    const randomLINK = redditValues[Math.floor(Math.random() * urls.length) + 1];
+                function RedditToDiscord(urls, titles) {
+                    var randSelector = Math.floor(Math.random() * urls.length) + 1;
+                    const randomTITLE = titles[randSelector];
+                    const randomURL = urls[randSelector];
                     const embed = new Discord.MessageEmbed()
-                        .setTitle(randomLINK[0])
-                        .setImage(randomLINK[1])
+                        .setTitle(randomTITLE)
+                        .setImage(randomURL)
                     message.channel.send(embed);
                 }
 
