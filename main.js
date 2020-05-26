@@ -38,12 +38,10 @@ client.on("ready", () => {
     client.user.setActivity('Life', { type: 'PLAYING' });
     console.log(`client is online!\n${client.users.size} users, in ${client.guilds.size} servers connected.`);
     process.env.queues = { 101010: 5 };
-    console.log(client.guilds.cache);
-    for (var i = 0; i < client.guilds.cache.length; i ++) {
-        console.log(client.guilds.cache.length[i]);
-        console.log(client.guilds.cache.id);
-        process.env.queues[cache.id] = [];
-    }
+    client.guilds.cache.forEach((guild) => {
+        console.log(guild.id)
+        process.env.queues[guild.id] = [];
+    })
     // client.guilds.forEach(server => process.env.queues[server.id] = []);
     console.log(process.env.queues);
 });
@@ -119,12 +117,12 @@ client.on("message", async message => {
                 message.channel.send(`Hi there ${message.author.toString()}`);
                 return;
             case 'play':
-                process.env.queues[server.id].push(args[0]);
+                process.env.queues[message.guild.id].push(args[0]);
                 return;
             case 'queue':
-                console.log(process.env.queues[server.id]);
+                console.log(process.env.queues[message.guild.id]);
                 console.log(process.env.queues);
-                message.channel.send(`${process.env.queues[server.id]}`);
+                message.channel.send(`${process.env.queues[message.guild.id]}`);
             case 'music':
                 var voiceChannel = message.member.voice.channel;
 
@@ -133,23 +131,23 @@ client.on("message", async message => {
                 }
 
                 voiceChannel.join().then(connection => {
-                    var stream = ytdl(process.env.queues[server.id][0], { filter: 'audioonly' });
+                    var stream = ytdl(process.env.queues[message.guild.id][0], { filter: 'audioonly' });
                     var dispatcher = connection.play(stream);
 
                     // dispatcher.on('end', () => voiceChannel.leave());
 
                     dispatcher.on('end', () => {
-                        if (process.env.queues[server.id].length == 0) {
+                        if (process.env.queues[message.guild.id].length == 0) {
                             voiceChannel.leave();
                         } else {
-                            process.env.queues[server.id].shift()
+                            process.env.queues[message.guild.id].shift()
                         }
                     });
                     dispatcher.on('finish', () => {
-                        if (process.env.queues[server.id].length == 0) {
+                        if (process.env.queues[message.guild.id].length == 0) {
                             voiceChannel.leave();
                         } else {
-                            process.env.queues[server.id].shift()
+                            process.env.queues[message.guild.id].shift()
                         }
                     })
                 });
