@@ -114,24 +114,6 @@ client.on("message", async message => {
                 return;
             case 'play':
                 process.env.queues[server.id].push(args[0])
-                const voiceChannel = message.member.voice.channel;
-
-                if (!voiceChannel) {
-                    return message.reply('please join a voice channel first!');
-                }
-
-                voiceChannel.join().then(connection => {
-                    const stream = ytdl('https://www.youtube.com/watch?v=iHibnmosKkM', { filter: 'audioonly' });
-                    const dispatcher = connection.play(stream);
-
-                    dispatcher.on('end', () => voiceChannel.leave());
-
-                    dispatcher.on('end', () => {
-                        if (process.env.queues[server.id].length == 0) {
-                            voiceChannel.leave();
-                        }
-                    });
-                });
                 return;
             case 'music':
                 const voiceChannel = message.member.voice.channel;
