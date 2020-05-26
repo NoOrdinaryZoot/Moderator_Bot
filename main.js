@@ -10,6 +10,8 @@ const Reddit = require('reddit')
 const fetch = require("node-fetch");
 const opusscript = require("opusscript");
 
+var ffmpeg = require('ffmpeg');
+
 var badlist = process.env.blacklist.split(",");
 var quotes = process.env.quotes.split("~");
 
