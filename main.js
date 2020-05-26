@@ -105,37 +105,23 @@ client.on("message", async message => {
                 message.channel.send(`Hi there ${message.author.toString()}`);
                 return;
             case 'music':
-                // play(message.member.voice.channel, message)
-                const streamOptions = { seek: 0, volume: 1 };
-                var voiceChannel = message.member.voice.channel;
+                const voiceChannel = message.member.voice.channel;
+
+                if (!voiceChannel) {
+                    return message.reply('please join a voice channel first!');
+                }
+
                 voiceChannel.join().then(connection => {
-                    console.log("joined channel");
-                    const stream = ytdl('https://www.youtube.com/watch?v=gOMhN-hfMtY', { filter: 'audioonly' });
-                    const dispatcher = connection.playStream(stream, streamOptions);
-                    dispatcher.on("end", end => {
-                        console.log("left channel");
-                        voiceChannel.leave();
-                    });
-                }).catch(err => console.log(err));
-                // function play(connection, message) {
-                //     var server = message.guild;
+                    const stream = ytdl('https://www.youtube.com/watch?v=D57Y1PruTlw', { filter: 'audioonly' });
+                    const dispatcher = connection.play(stream);
 
-                //     server.dispatcher = connection.playStream(ytdl(server.queue[0], {
-                //         filter:
-                //             "audioonly"
-                //     }));
-
-                //     server.queue.shift();
-
-                //     server.dispatcher.on("end", function () {
-                //         if (server.queue[0]) play(connection, message);
-                //         else connection.disconnect();
-                //     });
-                // }
+                    dispatcher.on('end', () => voiceChannel.leave());
+                });
+                // // play(message.member.voice.channel, message)
                 // const streamOptions = { seek: 0, volume: 1 };
                 // var voiceChannel = message.member.voice.channel;
                 // voiceChannel.join().then(connection => {
-                //     console.log(`Joined channel with users ${voiceChannel.members}`);
+                //     console.log("joined channel");
                 //     const stream = ytdl('https://www.youtube.com/watch?v=gOMhN-hfMtY', { filter: 'audioonly' });
                 //     const dispatcher = connection.playStream(stream, streamOptions);
                 //     dispatcher.on("end", end => {
@@ -143,6 +129,32 @@ client.on("message", async message => {
                 //         voiceChannel.leave();
                 //     });
                 // }).catch(err => console.log(err));
+                // // function play(connection, message) {
+                // //     var server = message.guild;
+
+                // //     server.dispatcher = connection.playStream(ytdl(server.queue[0], {
+                // //         filter:
+                // //             "audioonly"
+                // //     }));
+
+                // //     server.queue.shift();
+
+                // //     server.dispatcher.on("end", function () {
+                // //         if (server.queue[0]) play(connection, message);
+                // //         else connection.disconnect();
+                // //     });
+                // // }
+                // // const streamOptions = { seek: 0, volume: 1 };
+                // // var voiceChannel = message.member.voice.channel;
+                // // voiceChannel.join().then(connection => {
+                // //     console.log(`Joined channel with users ${voiceChannel.members}`);
+                // //     const stream = ytdl('https://www.youtube.com/watch?v=gOMhN-hfMtY', { filter: 'audioonly' });
+                // //     const dispatcher = connection.playStream(stream, streamOptions);
+                // //     dispatcher.on("end", end => {
+                // //         console.log("left channel");
+                // //         voiceChannel.leave();
+                // //     });
+                // // }).catch(err => console.log(err));
                 return;
             case 'yt':
                 var server = message.guild;
