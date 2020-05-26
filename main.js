@@ -77,17 +77,19 @@ client.on("message", async message => {
                     for (var i = 0; i < limit; i++) {
                         try {
                             console.log(filter[i], randomLINK);
-                            var randomTITLE = titles[i];
-                            var randomURL = urls[i];
-                            var randomLINK = links[i];
-                            var embed = new Discord.MessageEmbed({
-                                title: randomTITLE,
-                                url: `https://www.reddit.com${randomLINK}`,
-                                image: {
-                                    url: randomURL
-                                }
-                            });
-                            message.channel.send(embed);
+                            if (!message.channel.nsfw && filter[i] == true) {
+                                var randomTITLE = titles[i];
+                                var randomURL = urls[i];
+                                var randomLINK = links[i];
+                                var embed = new Discord.MessageEmbed({
+                                    title: randomTITLE,
+                                    url: `https://www.reddit.com${randomLINK}`,
+                                    image: {
+                                        url: randomURL
+                                    }
+                                });
+                                message.channel.send(embed);
+                            }
                         } catch {
                             message.channel.send('No more posts were found')
                             break;
@@ -98,6 +100,19 @@ client.on("message", async message => {
                 return;
             case 'hi' || 'hello':
                 message.channel.send(`Hi there ${message.author.toString()}`);
+                return;
+            case 'music':
+                const streamOptions = { seek: 0, volume: 1 };
+                var voiceChannel = message.member.voiceChannel;
+                voiceChannel.join().then(connection => {
+                    console.log("joined channel");
+                    const stream = ytdl('https://www.youtube.com/watch?v=gOMhN-hfMtY', { filter: 'audioonly' });
+                    const dispatcher = connection.playStream(stream, streamOptions);
+                    dispatcher.on("end", end => {
+                        console.log("left channel");
+                        voiceChannel.leave();
+                    });
+                }).catch(err => console.log(err));
                 return;
             case 'yt':
                 youTube.search(args.join(' '), 1, function (error, result) {
