@@ -180,7 +180,7 @@ client.on("message", async message => {
                 function GrabPosts() {
                     fetch('https://www.reddit.com/r/insurgency.json?limit=100&?sort=top&t=today')
                         .then(res => res.json())
-                        .then(json => { 
+                        .then(json => {
                             urls = json.data.children.map(v => v.data.url);
                             titles = json.data.children.map(s => s.data.title);
                             links = json.data.children.map(d => d.data.permalink);
@@ -200,10 +200,13 @@ client.on("message", async message => {
                     //       url: randomURL
                     //     }
                     //   });
-                    const embed = new Discord.MessageEmbed()
-                        .setTitle(randomTITLE)
-                        .setImage(randomURL)
-                        .setURL(randomLINK)
+                    const embed = new Discord.MessageEmbed({
+                        title: randomTITLE,
+                        url: randomLINK,
+                        image: {
+                            url: randomURL
+                        }
+                    });
                     message.channel.send(embed);
                 }
 
