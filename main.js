@@ -36,7 +36,7 @@ youTube.setKey('AIzaSyAA1d3H-fhkfSS9O9f0pwpAXImsoxLVgoQ');
 
 client.on("ready", () => {
     client.user.setActivity('Life', { type: 'PLAYING' });
-    console.log(`client is online!\n${client.guilds.cache.users.size} users, in ${client.guilds.cache.size} servers connected.`);
+    console.log(`client is online!\n users, in servers connected.`);
     process.env.queues = { 101010: 5 };
     client.guilds.cache.forEach((guild) => {
         console.log(guild.id)
