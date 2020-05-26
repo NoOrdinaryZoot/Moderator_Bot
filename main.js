@@ -143,6 +143,7 @@ client.on("message", async message => {
                         if (result.items[0].id.videoId) {
                             message.channel.send(`https://youtube.com/watch?v=${result.items[0].id.videoId}`);
                             server.queue.push(`https://youtube.com/watch?v=${result.items[0].id.videoId}`);
+                            console.log(server.queue);
                         } else if (result.items[0].id.channelId) {
                             message.channel.send(`https://youtube.com/channel/${result.items[0].id.channelId}`);
                         } else {
