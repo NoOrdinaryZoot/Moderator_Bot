@@ -22,6 +22,8 @@ const YouTube = require('youtube-node');
 var youTube = new YouTube();
 youTube.setKey('AIzaSyAA1d3H-fhkfSS9O9f0pwpAXImsoxLVgoQ');
 
+
+
 //High Priority
 //FIX HORRIBLE SWITCH - CASE STATEMENT AND FIGURE OUT HOW TO EXPORT / IMPORT MODULES & COMMANDS!!!!!
 
@@ -103,6 +105,7 @@ client.on("message", async message => {
                 return;
             case 'hi' || 'hello':
                 message.channel.send(`Hi there ${message.author.toString()}`);
+                message.channel.send(process.env.okboomer);
                 return;
             case 'music':
                 const voiceChannel = message.member.voice.channel;
@@ -117,44 +120,7 @@ client.on("message", async message => {
 
                     dispatcher.on('end', () => voiceChannel.leave());
                 });
-                // // play(message.member.voice.channel, message)
-                // const streamOptions = { seek: 0, volume: 1 };
-                // var voiceChannel = message.member.voice.channel;
-                // voiceChannel.join().then(connection => {
-                //     console.log("joined channel");
-                //     const stream = ytdl('https://www.youtube.com/watch?v=gOMhN-hfMtY', { filter: 'audioonly' });
-                //     const dispatcher = connection.playStream(stream, streamOptions);
-                //     dispatcher.on("end", end => {
-                //         console.log("left channel");
-                //         voiceChannel.leave();
-                //     });
-                // }).catch(err => console.log(err));
-                // // function play(connection, message) {
-                // //     var server = message.guild;
-
-                // //     server.dispatcher = connection.playStream(ytdl(server.queue[0], {
-                // //         filter:
-                // //             "audioonly"
-                // //     }));
-
-                // //     server.queue.shift();
-
-                // //     server.dispatcher.on("end", function () {
-                // //         if (server.queue[0]) play(connection, message);
-                // //         else connection.disconnect();
-                // //     });
-                // // }
-                // // const streamOptions = { seek: 0, volume: 1 };
-                // // var voiceChannel = message.member.voice.channel;
-                // // voiceChannel.join().then(connection => {
-                // //     console.log(`Joined channel with users ${voiceChannel.members}`);
-                // //     const stream = ytdl('https://www.youtube.com/watch?v=gOMhN-hfMtY', { filter: 'audioonly' });
-                // //     const dispatcher = connection.playStream(stream, streamOptions);
-                // //     dispatcher.on("end", end => {
-                // //         console.log("left channel");
-                // //         voiceChannel.leave();
-                // //     });
-                // // }).catch(err => console.log(err));
+                process.env.okboomer = 4;
                 return;
             case 'yt':
                 var server = message.guild;
@@ -167,7 +133,6 @@ client.on("message", async message => {
                         console.log(result.items[0].id.videoId);
                         if (result.items[0].id.videoId) {
                             message.channel.send(`https://youtube.com/watch?v=${result.items[0].id.videoId}`);
-                            server.queue.push(`https://youtube.com/watch?v=${result.items[0].id.videoId}`);
                             console.log(server.queue);
                         } else if (result.items[0].id.channelId) {
                             message.channel.send(`https://youtube.com/channel/${result.items[0].id.channelId}`);
