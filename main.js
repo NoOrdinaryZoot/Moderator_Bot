@@ -8,6 +8,7 @@ const fs = require('fs');
 const ytdl = require('ytdl-core');
 const Reddit = require('reddit')
 const fetch = require("node-fetch");
+const opusscript = require("opusscript");
 
 var badlist = process.env.blacklist.split(",");
 var quotes = process.env.quotes.split("~");
@@ -102,19 +103,36 @@ client.on("message", async message => {
                 message.channel.send(`Hi there ${message.author.toString()}`);
                 return;
             case 'music':
-                const streamOptions = { seek: 0, volume: 1 };
-                var voiceChannel = message.member.voice.channel;
-                voiceChannel.join().then(connection => {
-                    console.log(`Joined channel with users ${voiceChannel.members}`);
-                    const stream = ytdl('https://www.youtube.com/watch?v=gOMhN-hfMtY', { filter: 'audioonly' });
-                    const dispatcher = connection.playStream(stream, streamOptions);
-                    dispatcher.on("end", end => {
-                        console.log("left channel");
-                        voiceChannel.leave();
+                play(message.member.voice.channel, message)
+                function play(connection, message) {
+                    var server = servers[message.guild.id];
+
+                    server.dispatcher = connection.playStream(ytdl(server.queue[0], {
+                        filter:
+                            "audioonly"
+                    }));
+
+                    server.queue.shift();
+
+                    server.dispatcher.on("end", function () {
+                        if (server.queue[0]) play(connection, message);
+                        else connection.disconnect();
                     });
-                }).catch(err => console.log(err));
+                }
+                // const streamOptions = { seek: 0, volume: 1 };
+                // var voiceChannel = message.member.voice.channel;
+                // voiceChannel.join().then(connection => {
+                //     console.log(`Joined channel with users ${voiceChannel.members}`);
+                //     const stream = ytdl('https://www.youtube.com/watch?v=gOMhN-hfMtY', { filter: 'audioonly' });
+                //     const dispatcher = connection.playStream(stream, streamOptions);
+                //     dispatcher.on("end", end => {
+                //         console.log("left channel");
+                //         voiceChannel.leave();
+                //     });
+                // }).catch(err => console.log(err));
                 return;
             case 'yt':
+                var server = servers[message.guild.id];
                 youTube.search(args.join(' '), 1, function (error, result) {
                     if (error) {
                         console.log(error);
@@ -124,6 +142,7 @@ client.on("message", async message => {
                         console.log(result.items[0].id.videoId);
                         if (result.items[0].id.videoId) {
                             message.channel.send(`https://youtube.com/watch?v=${result.items[0].id.videoId}`);
+                            server.queue.push(`https://youtube.com/watch?v=${result.items[0].id.videoId}`);
                         } else if (result.items[0].id.channelId) {
                             message.channel.send(`https://youtube.com/channel/${result.items[0].id.channelId}`);
                         } else {
