@@ -178,7 +178,7 @@ client.on("message", async message => {
         switch (command) {
             case 'twally':
                 function loadCuties() {
-                    fetch('https://www.reddit.com/r/insurgency.json?limit=100&?sort=top&t=today').then(res => res.json())
+                    fetch('https://www.reddit.com/r/insurgency.json?limit=100&?sort=top&t=today')
                         .then(res => res.json())
                         .then(json => json.data.children.map(v => v.data.url/*, s => s.data.title*/))
                         .then(urls => {
