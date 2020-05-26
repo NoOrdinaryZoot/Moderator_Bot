@@ -117,6 +117,7 @@ client.on("message", async message => {
                 message.channel.send(`Hi there ${message.author.toString()}`);
                 return;
             case 'play':
+                console.log(JSON.stringify(process.env.queues));
                 process.env.queues[message.guild.id].push(args[0]);
                 return;
             case 'queue':
