@@ -38,8 +38,13 @@ client.on("ready", () => {
     client.user.setActivity('Life', { type: 'PLAYING' });
     console.log(`client is online!\n${client.users.size} users, in ${client.guilds.size} servers connected.`);
     process.env.queues = { 101010: 5 };
-    console.log(client.guilds);
-    client.guilds.forEach(server => process.env.queues[server.id] = []);
+    console.log(client.guilds.cache);
+    for (var i = 0; i < client.guilds.cache.length; i ++) {
+        console.log(client.guilds.cache.length[i]);
+        console.log(client.guilds.cache.id);
+        process.env.queues[cache.id] = [];
+    }
+    // client.guilds.forEach(server => process.env.queues[server.id] = []);
     console.log(process.env.queues);
 });
 
