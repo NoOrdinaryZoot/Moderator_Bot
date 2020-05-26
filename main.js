@@ -43,7 +43,7 @@ client.on("ready", () => {
         process.env.queues[guild.id] = [];
     })
     // client.guilds.forEach(server => process.env.queues[server.id] = []);
-    console.log(process.env.queues);
+    console.log(JSON.stringify(process.env.queues));
 });
 
 client.on("guildCreate", guild => {
