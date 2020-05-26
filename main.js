@@ -105,7 +105,7 @@ client.on("message", async message => {
             case 'music':
                 play(message.member.voice.channel, message)
                 function play(connection, message) {
-                    var server = servers[message.guild.id];
+                    var server = message.guild;
 
                     server.dispatcher = connection.playStream(ytdl(server.queue[0], {
                         filter:
@@ -132,7 +132,7 @@ client.on("message", async message => {
                 // }).catch(err => console.log(err));
                 return;
             case 'yt':
-                var server = servers[message.guild.id];
+                var server = message.guild;
                 youTube.search(args.join(' '), 1, function (error, result) {
                     if (error) {
                         console.log(error);
