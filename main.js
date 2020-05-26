@@ -177,6 +177,38 @@ client.on("message", async message => {
 
         switch (command) {
             case 'browse':
+                function GrabPosts() {
+                    fetch(`https://www.reddit.com/r/${args[0]}.json?limit=100&?sort=top&t=today`)
+                        .then(res => res.json())
+                        .then(json => {
+                            urls = json.data.children.map(v => v.data.url);
+                            titles = json.data.children.map(s => s.data.title);
+                            links = json.data.children.map(d => d.data.permalink);
+                            RedditToDiscord(urls, titles, links);
+                        })
+                }
+
+                function RedditToDiscord(urls, titles, links, limit) {
+                    var randSelector = Math.floor(Math.random() * urls.length) + 1;
+                    const randomTITLE = titles[randSelector];
+                    const randomURL = urls[randSelector];
+                    const randomLINK = links[randSelector];
+                    for (var i = 0; i < limit; i++) {
+                        try {
+                            var embed = new Discord.MessageEmbed({
+                                title: randomTITLE,
+                                url: `https://www.reddit.com/r${randomLINK}`,
+                                image: {
+                                    url: randomURL
+                                }
+                            });
+                            message.channel.send(embed);
+                        } catch {
+                            message.channel.send('No more posts were found')
+                            break;
+                        }
+                    }
+                }
                 GrabPosts();
                 return;
             case 'hi' || 'hello':
@@ -394,39 +426,6 @@ function rand(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function GrabPosts() {
-    fetch(`https://www.reddit.com/r/${args[0]}.json?limit=100&?sort=top&t=today`)
-        .then(res => res.json())
-        .then(json => {
-            urls = json.data.children.map(v => v.data.url);
-            titles = json.data.children.map(s => s.data.title);
-            links = json.data.children.map(d => d.data.permalink);
-            RedditToDiscord(urls, titles, links);
-        })
-}
-
-function RedditToDiscord(urls, titles, links, limit) {
-    var randSelector = Math.floor(Math.random() * urls.length) + 1;
-    const randomTITLE = titles[randSelector];
-    const randomURL = urls[randSelector];
-    const randomLINK = links[randSelector];
-    for (var i = 0; i < limit; i++) {
-        try {
-            var embed = new Discord.MessageEmbed({
-                title: randomTITLE,
-                url: `https://www.reddit.com/r${randomLINK}`,
-                image: {
-                    url: randomURL
-                }
-            });
-            message.channel.send(embed);
-        } catch {
-            message.channel.send('No more posts were found')
-            break;
-        }
-    }
 }
 
 client.login(process.env.token);
