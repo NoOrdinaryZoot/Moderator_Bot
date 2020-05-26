@@ -180,11 +180,11 @@ client.on("message", async message => {
                 function loadCuties() {
                     fetch('https://www.reddit.com/r/insurgency.json?limit=100&?sort=top&t=today')
                         .then(res => res.json())
-                        .then(json => json.data.children.map(v => v.data.url/*, s => s.data.title*/))
-                        .then(urls => {
-                            titles = res.json().data.children.map(s => s.data.title);
-                            RedditToDiscord(urls, titles)
-                        });
+                        .then(json => { 
+                            urls = json.data.children.map(v => v.data.url) ;
+                            titles = json.data.children.map(s => s.data.title);
+                            RedditToDiscord(urls, titles);
+                        })
                 }
 
                 function RedditToDiscord(urls, titles) {
