@@ -177,27 +177,36 @@ client.on("message", async message => {
 
         switch (command) {
             case 'twally':
-                function loadCuties() {
+                function GrabPosts() {
                     fetch('https://www.reddit.com/r/insurgency.json?limit=100&?sort=top&t=today')
                         .then(res => res.json())
                         .then(json => { 
-                            urls = json.data.children.map(v => v.data.url) ;
+                            urls = json.data.children.map(v => v.data.url);
                             titles = json.data.children.map(s => s.data.title);
-                            RedditToDiscord(urls, titles);
+                            links = json.data.children.map(d => d.data.permalink);
+                            RedditToDiscord(urls, titles, links);
                         })
                 }
 
-                function RedditToDiscord(urls, titles) {
+                function RedditToDiscord(urls, titles, links) {
                     var randSelector = Math.floor(Math.random() * urls.length) + 1;
                     const randomTITLE = titles[randSelector];
                     const randomURL = urls[randSelector];
-                    const embed = new Discord.MessageEmbed()
-                        .setTitle(randomTITLE)
-                        .setImage(randomURL)
+                    const randomLINK = links[randSelector];
+                    const embed = new Discord.RichEmbed({
+                        title: randomTITLE,
+                        url: randomLINK,
+                        image: {
+                          url: randomURL
+                        }
+                      });
+                    // const embed = new Discord.MessageEmbed()
+                    //     .setTitle(randomTITLE)
+                    //     .setImage(randomURL)
                     message.channel.send(embed);
                 }
 
-                loadCuties();
+                GrabPosts();
                 return;
             case 'hi' || 'hello':
                 message.channel.send(`Hi there ${message.author.toString()}`);
