@@ -219,8 +219,8 @@ client.on("message", async message => {
                         url: `https://www.reddit.com/r${randomLINK}`
                     });
                     message.channel.send(embed);
-                    message.channel.send(embed2);
-                    message.channel.send(embed3);
+                    // message.channel.send(embed2);
+                    // message.channel.send(embed3);
                 }
 
                 GrabPosts();
