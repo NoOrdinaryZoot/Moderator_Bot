@@ -159,7 +159,7 @@ client.on("message", async message => {
                 });
                 return;
             case 'yt':
-                findVideo(args.join(' '));
+                message.channel.send(findVideo(args.join(' ')));
                 return;
             /*====================================================*/
             case 'filter':
