@@ -2,7 +2,9 @@ require('dotenv').config();
 
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const leaderboard = require('./app.json');
+const variableStorage = require('./app.json');
+
+console.log(variableStorage.prefix);
 
 const fs = require('fs');
 const ytdl = require('ytdl-core');
@@ -37,14 +39,15 @@ youTube.setKey('AIzaSyAA1d3H-fhkfSS9O9f0pwpAXImsoxLVgoQ');
 client.on("ready", () => {
     client.user.setActivity('Life', { type: 'PLAYING' });
     console.log(`client is online!\n users, in servers connected.`);
-    process.env.queue = new Map();
+    variableStorage.queue = new Map();
+    console.log(variableStorage.prefix);
     client.guilds.cache.forEach((guild) => {
         console.log(guild.id);
-        process.env.queue.set(guild.id, []);
-        console.log(process.env.queue.get(guild.id));
+        variableStorage.queue.set(guild.id, []);
+        console.log(variableStorage.queue.get(guild.id));
         // queue = guild.map(element => element.id);
         // process.env.queues[guild.id] = [];
-        console.log(process.env.queue);
+        console.log(variableStorage.queue);
     })
 });
 
@@ -73,8 +76,8 @@ client.on("message", async message => {
 
     if (message.content.indexOf(process.env.prefix) === 0) {
 
-        const serverQueue = process.env.queue.get(message.guild.id);
-        console.log(process.env.queue);
+        const serverQueue = variableStorage.queue.get(message.guild.id);
+        console.log(variableStorage.queue);
 
         switch (command) {
             case 'play':
@@ -152,7 +155,7 @@ async function execute(message, serverQueue) {
             playing: true
         };
 
-        process.env.queue.set(message.guild.id, queueContruct);
+        variableStorage.queue.set(message.guild.id, queueContruct);
 
         queueContruct.songs.push(song);
 
@@ -162,7 +165,7 @@ async function execute(message, serverQueue) {
             play(message.guild, queueContruct.songs[0]);
         } catch (err) {
             console.log(err);
-            process.env.queue.delete(message.guild.id);
+            variableStorage.queue.delete(message.guild.id);
             return message.channel.send(err);
         }
     } else {
@@ -191,10 +194,10 @@ function stop(message, serverQueue) {
 }
 
 function play(guild, song) {
-    const serverQueue = process.env.queue.get(guild.id);
+    const serverQueue = variableStorage.queue.get(guild.id);
     if (!song) {
         serverQueue.voiceChannel.leave();
-        process.env.queue.delete(guild.id);
+        variableStorage.queue.delete(guild.id);
         return;
     }
 
