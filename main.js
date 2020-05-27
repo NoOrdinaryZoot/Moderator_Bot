@@ -125,7 +125,7 @@ client.on("message", async message => {
                 message.channel.send(`${storage.queue.get[message.guild.id].join('\n')}`);
                 return;
             case 'yt':
-                addVideo(args.join(' '));
+                addVideo(args.join(' '), message);
                 return;
             /*====================================================*/
             case 'filter':
@@ -436,7 +436,7 @@ function play(guild, song) {
 //     });
 // }
 
-function addVideo(term) {
+function addVideo(term, messageTerm) {
     youTube.search(term, 1, function (error, result) {
         if (error) {
             console.log(error);
