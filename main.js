@@ -159,7 +159,7 @@ client.on("message", async message => {
                 });
                 return;
             case 'yt':
-                message.channel.send(findVideo(args.join(' ')));
+                findVideo(args.join(' '), message);
                 return;
             /*====================================================*/
             case 'filter':
@@ -346,14 +346,15 @@ function checker(value) {
     return false;
 }
 
-function findVideo(term) {
+function findVideo(term, messageTerm) {
     youTube.search(term, 1, function (error, result) {
         if (error) {
             console.log(error);
         } else {
             console.log(result.items[0].id.videoId);
             if (result.items[0].id.videoId) {
-                return `https://youtube.com/watch?v=${result.items[0].id.videoId}`;
+                messageTerm.channel.send(`https://youtube.com/watch?v=${result.items[0].id.videoId}`);
+                return;
             }
         }
         return;
