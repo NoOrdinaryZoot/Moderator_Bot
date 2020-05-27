@@ -39,12 +39,12 @@ client.on("ready", () => {
     client.user.setActivity('Servers', { type: 'WATCHING' });
     console.log(`client is online!\n users, in servers connected.`);
     storage.queue = new Map();
-    // client.guilds.cache.forEach((guild) => {
-    //     console.log(guild.id);
-    //     storage.queue.set(guild.id, []);
-    //     console.log(storage.queue.get(guild.id));
-    //     console.log(storage.queue);
-    // })
+    client.guilds.cache.forEach((guild) => {
+        console.log(guild.id);
+        storage.queue.set(guild.id, []);
+        console.log(storage.queue.get(guild.id));
+        console.log(storage.queue);
+    })
 });
 
 client.on("guildCreate", guild => {
