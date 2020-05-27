@@ -35,20 +35,16 @@ youTube.setKey('AIzaSyAA1d3H-fhkfSS9O9f0pwpAXImsoxLVgoQ');
 
 
 client.on("ready", () => {
-    client.user.setActivity('Life', { type: 'PLAYING' });
+    client.user.setActivity('Server Management...', { type: 'CUSTOM_STATUS'})
+    client.user.setActivity('Servers', { type: 'WATCHING' });
     console.log(`client is online!\n users, in servers connected.`);
     storage.queue = new Map();
-    client.guilds.cache.forEach((guild) => {
-        console.log(guild.id);
-        storage.queue.set(guild.id, []);
-        console.log('BEFORE', storage.queue.get(guild.id))
-        storage.queue.get(guild.id).push('Anewelement')
-        console.log('AFTERONE', storage.queue.get(guild.id))
-        storage.queue.get(guild.id).push('Ansdasdasdsaewelement')
-        console.log('AFTERTWO', storage.queue.get(guild.id))
-        console.log(storage.queue.get(guild.id));
-        console.log(storage.queue);
-    })
+    // client.guilds.cache.forEach((guild) => {
+    //     console.log(guild.id);
+    //     storage.queue.set(guild.id, []);
+    //     console.log(storage.queue.get(guild.id));
+    //     console.log(storage.queue);
+    // })
 });
 
 client.on("guildCreate", guild => {
@@ -122,50 +118,14 @@ client.on("message", async message => {
                 message.channel.send(`Hi there ${message.author.toString()}`);
                 return;
             case 'play':
-                storage[message.guild.id].push(args[0]);
-                for (var key in process.env.queues) {
-                    if (process.env.queues.hasOwnProperty(key)) {
-                        console.log(key, process.env.queues[key]);
-                    }
-                }
+                play(message)
+                // if (storage.queue.get(message.guild.id) == 0) {
+
+                // }
+                // storage.queue.get(message.guild.id).push(args[0])
                 return;
             case 'queue':
-                for (var key in process.env.queues) {
-                    if (process.env.queues.hasOwnProperty(key)) {
-                        console.log(key, process.env.queues[key]);
-                    }
-                }
-                message.channel.send(`${process.env.queues[message.guild.id]}`);
-            case 'music':
-                var voiceChannel = message.member.voice.channel;
-
-                if (!voiceChannel) {
-                    return message.reply('please join a voice channel first!');
-                }
-
-                voiceChannel.join().then(connection => {
-                    var stream = ytdl(process.env.queues[message.guild.id][0], { filter: 'audioonly' });
-                    var dispatcher = connection.play(stream);
-
-                    // dispatcher.on('end', () => voiceChannel.leave());
-
-                    dispatcher.on('end', () => {
-                        if (process.env.queues[message.guild.id].length == 0) {
-                            voiceChannel.leave();
-                        } else {
-                            process.env.queues[message.guild.id].shift()
-                        }
-                    });
-                    dispatcher.on('finish', () => {
-                        if (process.env.queues[message.guild.id].length == 0) {
-                            voiceChannel.leave();
-                        } else {
-                            process.env.queues[message.guild.id].shift()
-                            var stream = ytdl(process.env.queues[message.guild.id][0], { filter: 'audioonly' });
-                            var dispatcher = connection.play(stream);
-                        }
-                    })
-                });
+                message.channel.send(`${storage.queue.get[message.guild.id].join('\n')}`);
                 return;
             case 'yt':
                 findVideo(args.join(' '), message);
@@ -369,6 +329,115 @@ function findVideo(term, messageTerm) {
         return;
     });
 }
+
+async function execute(message, serverQueue) {
+    const args = message.content.split(" ");
+
+    const voiceChannel = message.member.voice.channel;
+
+    const songInfo = await ytdl.getInfo(args[1]);
+    const song = {
+        title: songInfo.title,
+        url: songInfo.video_url
+    };
+
+    if (!serverQueue) {
+        const queueContruct = {
+            textChannel: message.channel,
+            voiceChannel: voiceChannel,
+            connection: null,
+            songs: [],
+            volume: 5,
+            playing: true
+        };
+
+        storage.queue.set(message.guild.id, queueContruct);
+
+        queueContruct.songs.push(song);
+
+        try {
+            var connection = await voiceChannel.join();
+            queueContruct.connection = connection;
+            play(message.guild, queueContruct.songs[0]);
+        } catch (err) {
+            console.log(err);
+            storage.queue.delete(message.guild.id);
+            return message.channel.send(err);
+        }
+    } else {
+        serverQueue.songs.push(song);
+        return message.channel.send(`${song.title} has been added to the musicQueue!`);
+    }
+}
+
+function skip(message, serverQueue) {
+    if (!message.member.voice.channel)
+        return message.channel.send(
+            "You have to be in a voice channel to stop the music!"
+        );
+    if (!serverQueue)
+        return message.channel.send("There is no song that I could skip!");
+    serverQueue.connection.dispatcher.end();
+}
+
+function stop(message, serverQueue) {
+    if (!message.member.voice.channel)
+        return message.channel.send(
+            "You have to be in a voice channel to stop the music!"
+        );
+    serverQueue.songs = [];
+    serverQueue.connection.dispatcher.end();
+}
+
+function play(guild, song) {
+    const serverQueue = storage.queue.get(guild.id);
+    if (!song) {
+        serverQueue.voiceChannel.leave();
+        storage.queue.delete(guild.id);
+        return;
+    }
+
+    const dispatcher = serverQueue.connection
+        .play(ytdl(song.url))
+        .on("finish", () => {
+            serverQueue.songs.shift();
+            play(guild, serverQueue.songs[0]);
+        })
+        .on("error", error => console.error(error));
+    dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
+    serverQueue.textChannel.send(`Start playing: **${song.title}**`);
+}
+
+// function play(songMessage) {
+//     var voiceChannel = songMessage.member.voice.channel;
+
+//     if (!voiceChannel) {
+//         return songMessage.reply('please join a voice channel first!');
+//     }
+
+//     voiceChannel.join().then(connection => {
+        // var stream = ytdl(storage.queue.get(songMessage.guild.id)[0], { filter: 'audioonly' });
+        // var dispatcher = connection.play(stream);
+
+        // dispatcher.on('end', () => {
+        //     if (storage.queue.get(songMessage.guild.id).length == 0) {
+        //         voiceChannel.leave();
+        //     } else {
+        //         storage.queue.get(songMessage.guild.id).shift();
+        //         play(songMessage);
+        //     }
+        // });
+
+        // dispatcher.on('finish', () => {
+        //     if (storage.queue.get(songMessage.guild.id).length == 0) {
+        //         voiceChannel.leave();
+        //     } else {
+        //         storage.queue.get(songMessage.guild.id).shift();
+        //         play(songMessage);
+        //     }
+        // })
+//     });
+// }
 
 function addVideo(term, server) {
     youTube.search(term, 1, function (error, result) {

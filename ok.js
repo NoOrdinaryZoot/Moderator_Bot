@@ -2,11 +2,15 @@ require('dotenv').config();
 
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const leaderboard = require('./app.json');
+const storage = require('./app.json');
+
 const fs = require('fs');
 const ytdl = require('ytdl-core');
-const YouTube = require('youtube-node');
-client.commands = new Discord.Collection();
+const Reddit = require('reddit')
+const fetch = require("node-fetch");
+const opusscript = require("opusscript");
+
+var ffmpeg = require('ffmpeg');
 
 var badlist = process.env.blacklist.split(",");
 var quotes = process.env.quotes.split("~");
@@ -14,6 +18,7 @@ var quotes = process.env.quotes.split("~");
 var steamidslocal = process.env.steamids.split(",");
 var steamcodeslocal = process.env.steamcodes.split(",");
 
+const YouTube = require('youtube-node');
 var youTube = new YouTube();
 youTube.setKey('AIzaSyAA1d3H-fhkfSS9O9f0pwpAXImsoxLVgoQ');
 
@@ -23,9 +28,6 @@ const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('
 
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
-
-    // set a new item in the Collection
-    // with the key as the command name and the value as the exported module
     client.commands.set(command.name, command);
 }
 
