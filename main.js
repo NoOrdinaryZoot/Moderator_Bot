@@ -118,7 +118,9 @@ client.on("message", async message => {
                 message.channel.send(`Hi there ${message.author.toString()}`);
                 return;
             case 'play':
-                play(message)
+                console.log(storage.queue);
+                execute(message, storage.queue);
+                // play(message, storage.queue.get[message.guild.id]);
                 // if (storage.queue.get(message.guild.id) == 0) {
 
                 // }
