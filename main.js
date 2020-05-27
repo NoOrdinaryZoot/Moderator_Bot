@@ -125,7 +125,7 @@ client.on("message", async message => {
                 message.channel.send(`${storage.queue.get[message.guild.id].join('\n')}`);
                 return;
             case 'yt':
-                findVideo(args.join(' '), message);
+                addVideo(args.join(' '));
                 return;
             /*====================================================*/
             case 'filter':
