@@ -38,7 +38,6 @@ client.on("ready", () => {
     client.user.setActivity('Life', { type: 'PLAYING' });
     console.log(`client is online!\n users, in servers connected.`);
     storage.queue = new Map();
-    console.log(storage.prefix);
     client.guilds.cache.forEach((guild) => {
         console.log(guild.id);
         storage.queue.set(guild.id, []);
