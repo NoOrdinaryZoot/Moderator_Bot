@@ -159,7 +159,9 @@ client.on("message", async message => {
                 });
                 return;
             case 'yt':
-                findVideo(args.join(' '), message);
+                findVideo(args.join(' ')).then(returnedMessage => {
+                    message.channel.send(returnedMessage);
+                });
                 return;
             /*====================================================*/
             case 'filter':
@@ -346,15 +348,16 @@ function checker(value) {
     return false;
 }
 
-function findVideo(term, messageTerm) {
+function findVideo(term) {
     youTube.search(term, 1, function (error, result) {
         if (error) {
             console.log(error);
         } else {
             console.log(result.items[0].id.videoId);
             if (result.items[0].id.videoId) {
-                messageTerm.channel.send(`https://youtube.com/watch?v=${result.items[0].id.videoId}`);
-                return;
+                //messageTerm.channel.send(`https://youtube.com/watch?v=${result.items[0].id.videoId}`);
+                return `https://youtube.com/watch?v=${result.items[0].id.videoId}`;
+                //return;
             }
         }
         return;
