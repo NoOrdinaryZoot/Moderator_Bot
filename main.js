@@ -38,15 +38,15 @@ client.on("ready", () => {
     client.user.setActivity('Life', { type: 'PLAYING' });
     console.log(`client is online!\n users, in servers connected.`);
     process.env.queues = { 101010: 5 };
+    const queue = new Map();
     client.guilds.cache.forEach((guild) => {
-        console.log(guild.id)
-        process.env.queues[guild.id] = [];
+        console.log(guild.id);
+        queue.set(guild.id, []);
+        console.log(queue.get(guild.id));
+        // queue = guild.map(element => element.id);
+        // process.env.queues[guild.id] = [];
+        console.log(queue);
     })
-    for (var key in process.env.queues) {
-        if (process.env.queues.hasOwnProperty(key)) {
-            console.log(key, process.env.queues[key]);
-        }
-    }
 });
 
 client.on("guildCreate", guild => {
@@ -75,6 +75,7 @@ client.on("message", async message => {
     if (message.content.indexOf(process.env.prefix) === 0) {
 
         const serverQueue = queue.get(message.guild.id);
+        console.log(queue);
 
         switch (command) {
             case 'play':
