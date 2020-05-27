@@ -441,7 +441,7 @@ function addVideo(term) {
         if (error) {
             console.log(error);
         } else {
-            console.log(result.items[0].id.videoId);
+            console.log(result.items[0]);
             if (result.items[0].id.videoId) {
                 messageTerm.channel.send(`https://youtube.com/watch?v=${result.items[0].id.videoId}`);
                 return;

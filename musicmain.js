@@ -57,8 +57,8 @@ async function execute(message, serverQueue) {
             if (error) {
                 console.log(error);
             } else {
-                console.log(result.items[0].id.videoId);
-                return 
+                console.log(result.items[0]);
+                return result.items[0].id.videoId
                 if (result.items[0].id.videoId) {
                     messageTerm.channel.send(`https://youtube.com/watch?v=${result.items[0].id.videoId}`);
                     return;
