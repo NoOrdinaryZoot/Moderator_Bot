@@ -42,13 +42,13 @@ client.on("ready", () => {
         console.log(guild.id)
         process.env.queues[guild.id] = [];
     })
-    for (var key in dictionary) {
-        if (dictionary.hasOwnProperty(key)) {
-            console.log(key, dictionary[key]);
-        }
-    }
+    // for (var key in dictionary) {
+    //     if (dictionary.hasOwnProperty(key)) {
+    //         console.log(key, dictionary[key]);
+    //     }
+    // }
     // client.guilds.forEach(server => process.env.queues[server.id] = []);
-    console.log(JSON.stringify(process.env.queues));
+    // console.log(JSON.stringify(process.env.queues));
 });
 
 client.on("guildCreate", guild => {
@@ -347,7 +347,7 @@ function checker(value) {
 }
 
 function findVideo(term) {
-    youTube.search(term.join(' '), 1, function (error, result) {
+    youTube.search(term, 1, function (error, result) {
         if (error) {
             console.log(error);
         } else {
