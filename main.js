@@ -37,15 +37,14 @@ youTube.setKey('AIzaSyAA1d3H-fhkfSS9O9f0pwpAXImsoxLVgoQ');
 client.on("ready", () => {
     client.user.setActivity('Life', { type: 'PLAYING' });
     console.log(`client is online!\n users, in servers connected.`);
-    process.env.queues = { 101010: 5 };
-    const queue = new Map();
+    process.env.queue = new Map();
     client.guilds.cache.forEach((guild) => {
         console.log(guild.id);
-        queue.set(guild.id, []);
-        console.log(queue.get(guild.id));
+        process.env.queue.set(guild.id, []);
+        console.log(process.env.queue.get(guild.id));
         // queue = guild.map(element => element.id);
         // process.env.queues[guild.id] = [];
-        console.log(queue);
+        console.log(process.env.queue);
     })
 });
 
@@ -74,8 +73,8 @@ client.on("message", async message => {
 
     if (message.content.indexOf(process.env.prefix) === 0) {
 
-        const serverQueue = queue.get(message.guild.id);
-        console.log(queue);
+        const serverQueue = process.env.queue.get(message.guild.id);
+        console.log(process.env.queue);
 
         switch (command) {
             case 'play':
@@ -114,7 +113,6 @@ function addVideo(term, server) {
         } else {
             console.log(result.items[0].id.videoId);
             if (result.items[0].id.videoId) {
-                process.env.queues
                 messageTerm.channel.send(`https://youtube.com/watch?v=${result.items[0].id.videoId}`);
                 return;
             }
@@ -154,7 +152,7 @@ async function execute(message, serverQueue) {
             playing: true
         };
 
-        queue.set(message.guild.id, queueContruct);
+        process.env.queue.set(message.guild.id, queueContruct);
 
         queueContruct.songs.push(song);
 
@@ -164,7 +162,7 @@ async function execute(message, serverQueue) {
             play(message.guild, queueContruct.songs[0]);
         } catch (err) {
             console.log(err);
-            queue.delete(message.guild.id);
+            process.env.queue.delete(message.guild.id);
             return message.channel.send(err);
         }
     } else {
@@ -193,10 +191,10 @@ function stop(message, serverQueue) {
 }
 
 function play(guild, song) {
-    const serverQueue = queue.get(guild.id);
+    const serverQueue = process.env.queue.get(guild.id);
     if (!song) {
         serverQueue.voiceChannel.leave();
-        queue.delete(guild.id);
+        process.env.queue.delete(guild.id);
         return;
     }
 
