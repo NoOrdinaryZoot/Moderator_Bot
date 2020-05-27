@@ -44,6 +44,7 @@ client.on("ready", () => {
         console.log('BEFORE', storage.queue.get(guild.id))
         storage.queue.get(guild.id).push('Anewelement')
         console.log('AFTERONE', storage.queue.get(guild.id))
+        storage.queue.get(guild.id).push('Ansdasdasdsaewelement')
         console.log('AFTERTWO', storage.queue.get(guild.id))
         console.log(storage.queue.get(guild.id));
         console.log(storage.queue);
