@@ -41,11 +41,10 @@ client.on("ready", () => {
     client.guilds.cache.forEach((guild) => {
         console.log(guild.id);
         storage.queue.set(guild.id, []);
-        console.log('BEFORE')
+        console.log('BEFORE', storage.queue.get(guild.id))
         storage.queue.get(guild.id).push('Anewelement')
-        console.log('AFTERONE')
-        storage.queue.get(guild.id) = storage.queue.get(guild.id).push('Anewelement')
-        console.log('AFTERTWO')
+        console.log('AFTERONE', storage.queue.get(guild.id))
+        console.log('AFTERTWO', storage.queue.get(guild.id))
         console.log(storage.queue.get(guild.id));
         console.log(storage.queue);
     })
