@@ -54,7 +54,7 @@ async function getQueue(message) {
 		return message.channel.send('There are no songs in the queue!');
 	}
 	var returnMessage = '```\n';
-	for (var i = 0; i < serverQueue.songs.length; i ++) {
+	for (var i = 0; i < serverQueue.songs.length; i++) {
 		returnMessage += `[${i + 1}] ${serverQueue.songs[i].title} \n`
 	}
 	returnMessage += '```';
@@ -69,8 +69,8 @@ async function execute(message, serverQueue) {
 	if (!permissions.has('CONNECT') || !permissions.has('SPEAK')) {
 		return message.channel.send('I need the permissions to join and speak in your voice channel!');
 	}
-
-	youTube.search(args.join(' '), 1,
+	
+	youTube.related(args.join(' '), 1,
 		async function (error, result) {
 			if (error) throw new Error(error);
 
