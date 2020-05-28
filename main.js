@@ -41,13 +41,7 @@ client.on('message', async message => {
 		stop(message, serverQueue);
 		return;
 	} else if (message.content.startsWith(`${prefix}test`)) {
-		console.log(await addVideo(message.content));
-		message.channel.send(await addVideo(message.content));
-		message.channel.send('1')
-		await message.channel.send(await addVideo(message.content));
-		message.channel.send('2')
-		await message.channel.send(addVideo(message.content));
-		message.channel.send('3')
+		addVideo('OkBoomer');
 		return;
 	} else {
 		message.channel.send('You need to enter a valid command!')
@@ -142,14 +136,23 @@ function play(guild, song) {
 		});
 	dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
 }
-function addVideo(term) {
-	youTube.search(term, 1, 
+async function addVideo(term) {
+	const result = await youTube.search(term, 1, 
 		function (error, result) {
 		if (error) {
 			console.log(error);
 		} else {
 			return [result.items[0].id.videoId, result.items[0].snippet.title];
 		}
-    });
+	});
+	return result;
 }
+
+async function asyncCall() {
+	console.log('calling');
+	const result = await resolveAfter2Seconds();
+	console.log(result);
+	// expected output: 'resolved'
+  }
+
 client.login(process.env.token);
