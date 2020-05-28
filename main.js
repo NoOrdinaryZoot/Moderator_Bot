@@ -50,7 +50,7 @@ client.on('message', async message => {
 
 async function getQueue(message) {
 	const serverQueue = queue.get(message.guild.id);
-	if (serverQueue.songs.length < 1 || !serverQueue.songs) {
+	if (!serverQueue) {
 		return message.channel.send('There are no songs in the queue!');
 	}
 	var returnMessage = '```\n';
