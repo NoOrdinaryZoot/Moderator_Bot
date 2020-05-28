@@ -50,11 +50,15 @@ client.on('message', async message => {
 });
 
 async function addVideo(term) {
-	await youTube.search(term, 1,
-		async function (error, result) {
+	youTube.search(term, 1,
+		function (error, result) {
 			if (error) throw new Error(error);
-			console.log([result.items[0].snippet.title, result.items[0].id.videoId]);
-			return [result.items[0].snippet.title, result.items[0].id.videoId];
+
+			var song = {
+				title: result.items[0].snippet.title,
+				url: result.items[0].id.videoId
+
+			}
 		}
 	);
 }
@@ -67,61 +71,115 @@ async function execute(message, serverQueue) {
 	if (!permissions.has('CONNECT') || !permissions.has('SPEAK')) {
 		return message.channel.send('I need the permissions to join and speak in your voice channel!');
 	}
-	const response = await addVideo(args.join(' '));
-	console.log(response);
-	await console.log(response);
-	console.log(await response);
-	var song = {
-		title: 'Placeholder',
-		url: '6UH6CySotso'
-	}
-	// async function addVideo(term) {
-	// 	await youTube.search(term, 1,
-	// 		function (error, result) {
-	// 			if (error) throw new Error (error);
-	// 			return [result.items[0].snippet.title, result.items[0].id.videoId];
-	// 		}
-	// 	);
-	// }
-	// (async function(){
-	// 	let response = await addVideo(args.join(' '));
-	// 	var song = {
-	// 		title: result[0],
-	// 		url: result[1]
-	// 	}
-	// 	console.log(song);
-	//   })();
-	addVideo(args.join(' '));
-	if (!serverQueue) {
-		const queueContruct = {
-			textChannel: message.channel,
-			voiceChannel: voiceChannel,
-			connection: null,
-			songs: [],
-			volume: 5,
-			playing: true,
-		};
 
-		queue.set(message.guild.id, queueContruct);
+	youTube.search(args.join(' '), 1,
+		function (error, result) {
+			if (error) throw new Error(error);
 
-		queueContruct.songs.push(song);
+			var song = {
+				title: 'Placeholder',
+				url: '6UH6CySotso'
+			}
 
-		try {
-			var connection = await voiceChannel.join();
-			queueContruct.connection = connection;
-			play(message.guild, queueContruct.songs[0]);
-		} catch (err) {
-			console.log(err);
-			queue.delete(message.guild.id);
-			return message.channel.send(err);
+			var song = {
+				title: result.items[0].snippet.title,
+				url: result.items[0].id.videoId
+
+			}
+
+			if (!serverQueue) {
+				const queueContruct = {
+					textChannel: message.channel,
+					voiceChannel: voiceChannel,
+					connection: null,
+					songs: [],
+					volume: 5,
+					playing: true,
+				};
+
+				queue.set(message.guild.id, queueContruct);
+
+				queueContruct.songs.push(song);
+
+				try {
+					var connection = await voiceChannel.join();
+					queueContruct.connection = connection;
+					play(message.guild, queueContruct.songs[0]);
+				} catch (err) {
+					console.log(err);
+					queue.delete(message.guild.id);
+					return message.channel.send(err);
+				}
+			} else {
+				serverQueue.songs.push(song);
+				console.log(serverQueue.songs);
+				return message.channel.send(`${song.title} has been added to the queue!`);
+			}
 		}
-	} else {
-		serverQueue.songs.push(song);
-		console.log(serverQueue.songs);
-		return message.channel.send(`${song.title} has been added to the queue!`);
-	}
-
+	);
 }
+
+
+
+// async function execute(message, serverQueue) {
+// 	const args = message.content.split(' ');
+
+// 	const voiceChannel = message.member.voice.channel;
+// 	if (!voiceChannel) return message.channel.send('You need to be in a voice channel to play music!');
+// 	const permissions = voiceChannel.permissionsFor(message.client.user);
+// 	if (!permissions.has('CONNECT') || !permissions.has('SPEAK')) {
+// 		return message.channel.send('I need the permissions to join and speak in your voice channel!');
+// 	}
+// 	var song = {
+// 		title: 'Placeholder',
+// 		url: '6UH6CySotso'
+// 	}
+// 	// async function addVideo(term) {
+// 	// 	await youTube.search(term, 1,
+// 	// 		function (error, result) {
+// 	// 			if (error) throw new Error (error);
+// 	// 			return [result.items[0].snippet.title, result.items[0].id.videoId];
+// 	// 		}
+// 	// 	);
+// 	// }
+// 	// (async function(){
+// 	// 	let response = await addVideo(args.join(' '));
+// 	// 	var song = {
+// 	// 		title: result[0],
+// 	// 		url: result[1]
+// 	// 	}
+// 	// 	console.log(song);
+// 	//   })();
+// 	if (!serverQueue) {
+// 		const queueContruct = {
+// 			textChannel: message.channel,
+// 			voiceChannel: voiceChannel,
+// 			connection: null,
+// 			songs: [],
+// 			volume: 5,
+// 			playing: true,
+// 		};
+
+// 		queue.set(message.guild.id, queueContruct);
+
+// 		queueContruct.songs.push(song);
+
+// 		try {
+// 			var connection = await voiceChannel.join();
+// 			queueContruct.connection = connection;
+// 			play(message.guild, queueContruct.songs[0]);
+// 		} catch (err) {
+// 			console.log(err);
+// 			queue.delete(message.guild.id);
+// 			return message.channel.send(err);
+// 		}
+// 	} else {
+// 		serverQueue.songs.push(song);
+// 		console.log(serverQueue.songs);
+// 		return message.channel.send(`${song.title} has been added to the queue!`);
+// 	}
+
+// }
 
 function skip(message, serverQueue) {
 	if (!message.member.voice.channel) return message.channel.send('You have to be in a voice channel to stop the music!');
