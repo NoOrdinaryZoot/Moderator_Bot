@@ -41,7 +41,7 @@ client.on('message', async message => {
 		stop(message, serverQueue);
 		return;
 	} else if (message.content.startsWith(`${prefix}test`)) {
-		addVideo('OkBoomer');
+		console.log(addVideo('Despacito one on one'));
 		return;
 	} else {
 		message.channel.send('You need to enter a valid command!')
@@ -61,7 +61,7 @@ async function execute(message, serverQueue) {
 		title: 'Placeholder',
 		url: '6UH6CySotso'
 	}
-	stuff = addVideo(args.join(' '))
+	stuff = await addVideo(args.join(' '))
 	song = {
 		title: stuff[1],
 		url: stuff[0],
@@ -147,12 +147,5 @@ async function addVideo(term) {
 	});
 	return result;
 }
-
-async function asyncCall() {
-	console.log('calling');
-	const result = await resolveAfter2Seconds();
-	console.log(result);
-	// expected output: 'resolved'
-  }
 
 client.login(process.env.token);
