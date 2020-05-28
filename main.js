@@ -62,18 +62,19 @@ async function execute(message, serverQueue) {
 		title: 'Placeholder',
 		url: '6UH6CySotso'
 	}
-	searchResult = addVideo(args.join(' '))
-	song = {
-		title: searchResult[0],
-		url: searchResult[1],
-	};
-	// addVideo(args.join(' ')).then(stuff => {
-	// 	song = {
-	//         title: stuff[1],
-	//         url: stuff[0],
-	//     };
-	// });
-
+	function addVideo(term) {
+		youTube.search(term, 1,
+			function (error, result) {
+				if (error) throw new Error (error);
+				song = {
+				  title: result[0],
+					url: result[1],
+				};
+				/* do whatever you wanted to do with song */
+			}
+		);
+	}
+	addVideo(args.join(' '));
 	if (!serverQueue) {
 		const queueContruct = {
 			textChannel: message.channel,
