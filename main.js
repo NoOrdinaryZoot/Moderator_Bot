@@ -49,6 +49,14 @@ client.on('message', async message => {
 	}
 });
 
+async function addVideo(term) {
+	await youTube.search(term, 1,
+		async function (error, result) {
+			if (error) throw new Error(error);
+			return [result.items[0].snippet.title, result.items[0].id.videoId];
+		}
+	);
+}
 async function execute(message, serverQueue) {
 	const args = message.content.split(' ');
 
@@ -58,26 +66,28 @@ async function execute(message, serverQueue) {
 	if (!permissions.has('CONNECT') || !permissions.has('SPEAK')) {
 		return message.channel.send('I need the permissions to join and speak in your voice channel!');
 	}
-	// var song = {
-	// 	title: 'Placeholder',
-	// 	url: '6UH6CySotso'
-	// }
-	async function addVideo(term) {
-		await youTube.search(term, 1,
-			function (error, result) {
-				if (error) throw new Error (error);
-				return [result.items[0].snippet.title, result.items[0].id.videoId];
-			}
-		);
+	const response = await addVideo(args.join(' '));
+	console.log(response);
+	var song = {
+		title: 'Placeholder',
+		url: '6UH6CySotso'
 	}
-	(async function(){
-		let response = await addVideo(args.join(' '));
-		var song = {
-			title: result[0],
-			url: result[1]
-		}
-		console.log(song);
-	  })();
+	// async function addVideo(term) {
+	// 	await youTube.search(term, 1,
+	// 		function (error, result) {
+	// 			if (error) throw new Error (error);
+	// 			return [result.items[0].snippet.title, result.items[0].id.videoId];
+	// 		}
+	// 	);
+	// }
+	// (async function(){
+	// 	let response = await addVideo(args.join(' '));
+	// 	var song = {
+	// 		title: result[0],
+	// 		url: result[1]
+	// 	}
+	// 	console.log(song);
+	//   })();
 	addVideo(args.join(' '));
 	if (!serverQueue) {
 		const queueContruct = {
