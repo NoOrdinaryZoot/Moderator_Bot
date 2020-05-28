@@ -136,6 +136,15 @@ function play(guild, song) {
 			serverQueue.songs.shift();
 			play(guild, serverQueue.songs[0]);
 		})
+		.on('finish', () => {
+			if (serverQueue.songs[1]) {
+				console.log(`Music ended! ${serverQueue.songs[1]} is now playing`);
+			} else {
+				console.log(`Queue ended`)
+			}
+			serverQueue.songs.shift();
+			play(guild, serverQueue.songs[0]);
+		})
 		.on('error', error => {
 			console.error(error);
 		});
