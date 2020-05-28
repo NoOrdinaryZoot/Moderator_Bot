@@ -106,6 +106,8 @@ async function execute(message, serverQueue) {
 
 				queueContruct.songs.push(song);
 
+				message.channel.send(`${song.title} is now playing!`);
+				
 				try {
 					var connection = await voiceChannel.join();
 					queueContruct.connection = connection;
