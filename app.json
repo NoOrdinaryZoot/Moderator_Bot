@@ -2,5 +2,5 @@
     "prefix" : "$",
     "owner" : "385166607225323521",
     "token" : "",
-    "blacklist" : ["$filter", "nigger", "retard", "cunt", "jew", "nazi", "nigga", "niggers", "faggot", "fag", "kike"]
+    "blacklist" : []
 }
