@@ -62,17 +62,17 @@ async function execute(message, serverQueue) {
 		title: 'Placeholder',
 		url: '6UH6CySotso'
 	}
-	stuff = await addVideo(args.join(' '))
+	searchResult = addVideo(args.join(' '))
 	song = {
-		title: stuff[1],
-		url: stuff[0],
+		title: searchResult[1],
+		url: searchResult[0],
 	};
-	// addVideo(args.join(' ')).then(stuff => {
-	// 	song = {
-	//         title: stuff[1],
-	//         url: stuff[0],
-	//     };
-	// });
+	addVideo(args.join(' ')).then(stuff => {
+		song = {
+	        title: stuff[1],
+	        url: stuff[0],
+	    };
+	});
 
 	if (!serverQueue) {
 		const queueContruct = {
@@ -137,15 +137,26 @@ function play(guild, song) {
 		});
 	dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
 }
-async function addVideo(term) {
-	await youTube.search(term, 1,
-		async function (error, result) {
+function addVideo(term) {
+	youTube.search(term, 1,
+		function (error, result) {
 			return [result.items[0].id.videoId, result.items[0].snippet.title];
 		});
 }
 
+// function addVideo(term) {
+// 	return new Promise(resolve => {
+// 		youTube.search(term, 1,
+// 			function (error, result) {
+// 				return [result.items[0].id.videoId, result.items[0].snippet.title];
+// 			});
+// 	});
+// }
 
-
+// async function waitForVideo(term) {
+// 	const result = await addVideo(term);
+// 	return result;
+// }
 // const result = await youTube.search(term, 1,
 // 	function (error, result) {
 // 	if (error) {
