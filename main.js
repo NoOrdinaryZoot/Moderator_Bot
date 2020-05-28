@@ -81,16 +81,29 @@ async function execute(message, serverQueue) {
 
 			console.log(result.items);
 
+			matchArray = [];
+
 			for (var i = 0; i < result.items.length; i++) {
 				console.log(result.items[i]);
-				if (result.items[i].id.videoId) {
-					var song = {
-						title: result.items[i].snippet.title,
-						url: result.items[i].id.videoId
+				matchArray[i] = 0;
+				for (var x = 0; x < args.length; x ++) {
+					if(result.items.title.includes(args[x])) {
+						matchArray[i] += 1;
 					}
-					break;
 				}
+				console.log(result.items[indexOf(Math.max(matchArray))].snippet.title);
+				console.log(result.items[indexOf(Math.max(matchArray))].id.videoId);
+				// if(result.items[i].snippet.title)
+				// if (result.items[i].id.videoId) {
+				// 	var song = {
+				// 		title: result.items[i].snippet.title,
+				// 		url: result.items[i].id.videoId
+				// 	}
+				// 	break;
+				// }
 			}
+
+			
 
 			if (!serverQueue) {
 				const queueContruct = {
