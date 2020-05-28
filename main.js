@@ -66,16 +66,16 @@ async function execute(message, serverQueue) {
 		await youTube.search(term, 1,
 			function (error, result) {
 				if (error) throw new Error (error);
-				var song = {
-				  title: result[0],
-					url: result[1],
-				};
-				/* do whatever you wanted to do with song */
+				return [result.items[0].snippet.title, result.items[0].id.videoId];
 			}
 		);
 	}
 	(async function(){
 		let response = await addVideo(args.join(' '));
+		var song = {
+			title: result[0],
+			url: result[1]
+		}
 		console.log(song);
 	  })();
 	addVideo(args.join(' '));
