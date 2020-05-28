@@ -41,7 +41,8 @@ client.on('message', async message => {
 		stop(message, serverQueue);
 		return;
 	} else if (message.content.startsWith(`${prefix}test`)) {
-		console.log(addVideo('Despacito one on one'));
+		console.log(await addVideo('Despacito one on one'));
+		await console.log(addVideo('Despacito one on one'));
 		return;
 	} else {
 		message.channel.send('You need to enter a valid command!')
@@ -137,15 +138,18 @@ function play(guild, song) {
 	dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
 }
 async function addVideo(term) {
-	const result = await youTube.search(term, 1, 
-		function (error, result) {
-		if (error) {
-			console.log(error);
-		} else {
-			return [result.items[0].id.videoId, result.items[0].snippet.title];
-		}
-	});
-	return result;
+	youTube.search(term, 1).then(function() {
+        return [result.items[0].id.videoId, result.items[0].snippet.title];
+    })
+	// const result = await youTube.search(term, 1,
+	// 	function (error, result) {
+	// 	if (error) {
+	// 		console.log(error);
+	// 	} else {
+	// 		return [result.items[0].id.videoId, result.items[0].snippet.title];
+	// 	}
+	// });
+	// return result;
 }
 
 client.login(process.env.token);
