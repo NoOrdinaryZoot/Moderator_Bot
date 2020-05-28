@@ -67,12 +67,12 @@ async function execute(message, serverQueue) {
 		title: stuff[1],
 		url: stuff[0],
 	};
-    // addVideo(args.join(' ')).then(stuff => {
+	// addVideo(args.join(' ')).then(stuff => {
 	// 	song = {
-    //         title: stuff[1],
-    //         url: stuff[0],
-    //     };
-    // });
+	//         title: stuff[1],
+	//         url: stuff[0],
+	//     };
+	// });
 
 	if (!serverQueue) {
 		const queueContruct = {
@@ -138,20 +138,21 @@ function play(guild, song) {
 	dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
 }
 async function addVideo(term) {
-	await youTube.search(term, 1).then(result => {
-        return [result.items[0].id.videoId, result.items[0].snippet.title];
-    });
+	await youTube.search(term, 1,
+		async function (error, result) {
+			return [result.items[0].id.videoId, result.items[0].snippet.title];
+		});
 }
 
 
 
 // const result = await youTube.search(term, 1,
-	// 	function (error, result) {
-	// 	if (error) {
-	// 		console.log(error);
-	// 	} else {
-	// 		return [result.items[0].id.videoId, result.items[0].snippet.title];
-	// 	}
-	// });
-	// return result;
+// 	function (error, result) {
+// 	if (error) {
+// 		console.log(error);
+// 	} else {
+// 		return [result.items[0].id.videoId, result.items[0].snippet.title];
+// 	}
+// });
+// return result;
 client.login(process.env.token);
