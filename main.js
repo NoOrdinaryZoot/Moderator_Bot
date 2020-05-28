@@ -64,15 +64,15 @@ async function execute(message, serverQueue) {
 	}
 	searchResult = addVideo(args.join(' '))
 	song = {
-		title: searchResult[1],
-		url: searchResult[0],
+		title: searchResult[0],
+		url: searchResult[1],
 	};
-	addVideo(args.join(' ')).then(stuff => {
-		song = {
-	        title: stuff[1],
-	        url: stuff[0],
-	    };
-	});
+	// addVideo(args.join(' ')).then(stuff => {
+	// 	song = {
+	//         title: stuff[1],
+	//         url: stuff[0],
+	//     };
+	// });
 
 	if (!serverQueue) {
 		const queueContruct = {
@@ -140,7 +140,7 @@ function play(guild, song) {
 function addVideo(term) {
 	youTube.search(term, 1,
 		function (error, result) {
-			return [result.items[0].id.videoId, result.items[0].snippet.title];
+			return [result.items[0].snippet.title, result.items[0].id.videoId];
 		});
 }
 
