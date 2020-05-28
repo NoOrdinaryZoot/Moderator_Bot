@@ -58,12 +58,17 @@ async function execute(message, serverQueue) {
 		title: 'Placeholder',
 		url: '6UH6CySotso'
 	}
-    addVideo(args.join(' ')).then(stuff => {
-        song = {
-            title: stuff[1],
-            url: stuff[0],
-        };
-    });
+	stuff = addVideo(args.join(' '))
+	song = {
+		title: stuff[1],
+		url: stuff[0],
+	};
+    // addVideo(args.join(' ')).then(stuff => {
+	// 	song = {
+    //         title: stuff[1],
+    //         url: stuff[0],
+    //     };
+    // });
 
 	if (!serverQueue) {
 		const queueContruct = {
