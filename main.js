@@ -70,7 +70,7 @@ async function execute(message, serverQueue) {
 		return message.channel.send('I need the permissions to join and speak in your voice channel!');
 	}
 
-	youTube.search(args.join(' '), 1,
+	youTube.search(args.join(' '), 20,
 		async function (error, result) {
 			if (error) throw new Error(error);
 
@@ -84,26 +84,35 @@ async function execute(message, serverQueue) {
 			matchArray = [];
 
 			for (var i = 0; i < result.items.length; i++) {
-				console.log(result.items[i]);
-				matchArray[i] = 0;
-				for (var x = 0; x < args.length; x ++) {
-					if(result.items[i].snippet.title.includes(args[x])) {
-						matchArray[i] += 1;
-					}
+				for (arg in args) {
+					if (result.items[i].snippet.title.includes(arg))
+						matchArray[i] += 1
 				}
-				console.log(result.items.indexOf(Math.max(matchArray)).snippet.title);
-				console.log(result.items.indexOf(Math.max(matchArray)).id.videoId);
-				// if(result.items[i].snippet.title)
-				// if (result.items[i].id.videoId) {
-				// 	var song = {
-				// 		title: result.items[i].snippet.title,
-				// 		url: result.items[i].id.videoId
-				// 	}
-				// 	break;
-				// }
 			}
+			console.log(Math.max(matchArray), result.items[matchArray.indexOf(Math.max(matchArray))].snippet.title);
 
-			
+			// for (var i = 0; i < result.items.length; i++) {
+			// 	console.log(result.items[i]);
+			// 	matchArray[i] = 0;
+			// 	for (var x = 0; x < args.length; x ++) {
+			// 		if(result.items[i].snippet.title.includes(args[x])) {
+			// 			matchArray[i] += 1;
+			// 		}
+			// 	}
+			// 	console.log(indexOf(Math.max()))
+			// 	console.log(result.items.indexOf(Math.max(matchArray)).snippet.title);
+			// 	console.log(result.items.indexOf(Math.max(matchArray)).id.videoId);
+			// 	// if(result.items[i].snippet.title)
+			// 	// if (result.items[i].id.videoId) {
+			// 	// 	var song = {
+			// 	// 		title: result.items[i].snippet.title,
+			// 	// 		url: result.items[i].id.videoId
+			// 	// 	}
+			// 	// 	break;
+			// 	// }
+			// }
+
+
 
 			if (!serverQueue) {
 				const queueContruct = {
@@ -120,7 +129,7 @@ async function execute(message, serverQueue) {
 				queueContruct.songs.push(song);
 
 				message.channel.send(`${song.title} is now playing!`);
-				
+
 				try {
 					var connection = await voiceChannel.join();
 					queueContruct.connection = connection;
