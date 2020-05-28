@@ -73,7 +73,7 @@ async function execute(message, serverQueue) {
 	}
 
 	youTube.search(args.join(' '), 1,
-		function (error, result) {
+		async function (error, result) {
 			if (error) throw new Error(error);
 
 			var song = {
