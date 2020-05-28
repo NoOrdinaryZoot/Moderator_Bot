@@ -130,8 +130,6 @@ function play(guild, song) {
 		return;
 	}
 
-	message.channel.send(`Now playing ${song.title}`);
-
 	const dispatcher = serverQueue.connection.play(ytdl(song.url))
 		.on('end', () => {
 			console.log('Music ended!');
