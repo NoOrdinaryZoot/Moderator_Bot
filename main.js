@@ -87,7 +87,7 @@ async function execute(message, serverQueue) {
 				console.log(result.items[i]);
 				matchArray[i] = 0;
 				for (var x = 0; x < args.length; x ++) {
-					if(result.items.title.includes(args[x])) {
+					if(result.items[i].snippet.title.includes(args[x])) {
 						matchArray[i] += 1;
 					}
 				}
