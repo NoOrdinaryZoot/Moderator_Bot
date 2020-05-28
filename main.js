@@ -41,22 +41,21 @@ client.on('message', async message => {
 		stop(message, serverQueue);
 		return;
 	} else if (message.content.startsWith(`${prefix}queue`)) {
-		queue(message);
+		getQueue(message);
 	} else {
 		message.channel.send('You need to enter a valid command!')
 	}
 });
 
 
-async function queue(message) {
+async function getQueue(message) {
 	const serverQueue = queue.get(message.guild.id);
 	var returnMessage = '```\n';
 	for (var i = 0; i < serverQueue.songs.length; i ++) {
 		returnMessage += `[${i + 1}] ${songs[i].title} \n`
 	}
 	returnMessage += '```';
-	message.channel.send(returnMessage);
-
+	return message.channel.send(returnMessage);
 }
 async function execute(message, serverQueue) {
 	const args = message.content.split(' ');
@@ -125,6 +124,7 @@ async function execute(message, serverQueue) {
 function skip(message, serverQueue) {
 	if (!message.member.voice.channel) return message.channel.send('You have to be in a voice channel to stop the music!');
 	if (!serverQueue) return message.channel.send('There is no song that I could skip!');
+	message.channel.send(`${serverQueue.songs[0].title} has been removed from the queue!`)
 	serverQueue.connection.dispatcher.end();
 }
 
