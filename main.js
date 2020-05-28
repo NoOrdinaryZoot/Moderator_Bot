@@ -138,10 +138,14 @@ function play(guild, song) {
 	dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
 }
 async function addVideo(term) {
-	youTube.search(term, 1).then(function() {
+	await youTube.search(term, 1).then(result => {
         return [result.items[0].id.videoId, result.items[0].snippet.title];
-    })
-	// const result = await youTube.search(term, 1,
+    });
+}
+
+
+
+// const result = await youTube.search(term, 1,
 	// 	function (error, result) {
 	// 	if (error) {
 	// 		console.log(error);
@@ -150,6 +154,4 @@ async function addVideo(term) {
 	// 	}
 	// });
 	// return result;
-}
-
 client.login(process.env.token);
