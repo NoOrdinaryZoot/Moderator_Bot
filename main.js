@@ -89,6 +89,8 @@ async function execute(message, serverQueue) {
 						matchArray[i] += 1
 				}
 			}
+			console.log(Math.max(matchArray));
+			console.log(matchArray.indexOf(Math.max(matchArray)));
 			console.log(Math.max(matchArray), result.items[matchArray.indexOf(Math.max(matchArray))].snippet.title);
 
 			// for (var i = 0; i < result.items.length; i++) {
