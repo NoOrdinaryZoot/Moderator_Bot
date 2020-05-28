@@ -53,6 +53,7 @@ async function addVideo(term) {
 	await youTube.search(term, 1,
 		async function (error, result) {
 			if (error) throw new Error(error);
+			console.log([result.items[0].snippet.title, result.items[0].id.videoId]);
 			return [result.items[0].snippet.title, result.items[0].id.videoId];
 		}
 	);
@@ -68,6 +69,8 @@ async function execute(message, serverQueue) {
 	}
 	const response = await addVideo(args.join(' '));
 	console.log(response);
+	await console.log(response);
+	console.log(await response);
 	var song = {
 		title: 'Placeholder',
 		url: '6UH6CySotso'
