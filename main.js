@@ -40,6 +40,15 @@ client.on('message', async message => {
 	} else if (message.content.startsWith(`${prefix}stop`)) {
 		stop(message, serverQueue);
 		return;
+	} else if (message.content.startsWith(`${prefix}test`)) {
+		console.log(await addVideo(message.content));
+		message.channel.send(await addVideo(message.content));
+		message.channel.send('1')
+		await message.channel.send(await addVideo(message.content));
+		message.channel.send('2')
+		await message.channel.send(addVideo(message.content));
+		message.channel.send('3')
+		return;
 	} else {
 		message.channel.send('You need to enter a valid command!')
 	}
@@ -133,12 +142,14 @@ function play(guild, song) {
 		});
 	dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
 }
-
 function addVideo(term) {
-    youTube.search(term, 1, function (error, result) {
-        // return [result.items[0].id.videoId, result.items[0].snippet.title]
-    }).then(results => {
-		return [result.items[0].id.videoId, result.items[0].snippet.title];
-	});
+	youTube.search(term, 1, 
+		function (error, result) {
+		if (error) {
+			console.log(error);
+		} else {
+			return [result.items[0].id.videoId, result.items[0].snippet.title];
+		}
+    });
 }
 client.login(process.env.token);
