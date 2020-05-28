@@ -58,15 +58,15 @@ async function execute(message, serverQueue) {
 	if (!permissions.has('CONNECT') || !permissions.has('SPEAK')) {
 		return message.channel.send('I need the permissions to join and speak in your voice channel!');
 	}
-	var song = {
-		title: 'Placeholder',
-		url: '6UH6CySotso'
-	}
-	function addVideo(term) {
-		youTube.search(term, 1,
+	// var song = {
+	// 	title: 'Placeholder',
+	// 	url: '6UH6CySotso'
+	// }
+	async function addVideo(term) {
+		await youTube.search(term, 1,
 			function (error, result) {
 				if (error) throw new Error (error);
-				song = {
+				var song = {
 				  title: result[0],
 					url: result[1],
 				};
@@ -74,6 +74,10 @@ async function execute(message, serverQueue) {
 			}
 		);
 	}
+	(async function(){
+		let response = await addVideo(args.join(' '));
+		console.log(song);
+	  })();
 	addVideo(args.join(' '));
 	if (!serverQueue) {
 		const queueContruct = {
