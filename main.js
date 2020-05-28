@@ -40,28 +40,11 @@ client.on('message', async message => {
 	} else if (message.content.startsWith(`${prefix}stop`)) {
 		stop(message, serverQueue);
 		return;
-	} else if (message.content.startsWith(`${prefix}test`)) {
-		console.log(await addVideo('Despacito one on one'));
-		await console.log(addVideo('Despacito one on one'));
-		return;
 	} else {
 		message.channel.send('You need to enter a valid command!')
 	}
 });
 
-async function addVideo(term) {
-	youTube.search(term, 1,
-		function (error, result) {
-			if (error) throw new Error(error);
-
-			var song = {
-				title: result.items[0].snippet.title,
-				url: result.items[0].id.videoId
-
-			}
-		}
-	);
-}
 async function execute(message, serverQueue) {
 	const args = message.content.split(' ');
 
@@ -81,10 +64,15 @@ async function execute(message, serverQueue) {
 				url: '6UH6CySotso'
 			}
 
-			var song = {
-				title: result.items[0].snippet.title,
-				url: result.items[0].id.videoId
-
+			for (item in result.items[0]) {
+				console.log(item);
+				if (item.snippet.title && item.id.videoId) {
+					var song = {
+						title: result.items[0].snippet.title,
+						url: result.items[0].id.videoId
+					}
+					return;
+				}
 			}
 
 			if (!serverQueue) {
@@ -119,68 +107,6 @@ async function execute(message, serverQueue) {
 	);
 }
 
-
-
-// async function execute(message, serverQueue) {
-// 	const args = message.content.split(' ');
-
-// 	const voiceChannel = message.member.voice.channel;
-// 	if (!voiceChannel) return message.channel.send('You need to be in a voice channel to play music!');
-// 	const permissions = voiceChannel.permissionsFor(message.client.user);
-// 	if (!permissions.has('CONNECT') || !permissions.has('SPEAK')) {
-// 		return message.channel.send('I need the permissions to join and speak in your voice channel!');
-// 	}
-// 	var song = {
-// 		title: 'Placeholder',
-// 		url: '6UH6CySotso'
-// 	}
-// 	// async function addVideo(term) {
-// 	// 	await youTube.search(term, 1,
-// 	// 		function (error, result) {
-// 	// 			if (error) throw new Error (error);
-// 	// 			return [result.items[0].snippet.title, result.items[0].id.videoId];
-// 	// 		}
-// 	// 	);
-// 	// }
-// 	// (async function(){
-// 	// 	let response = await addVideo(args.join(' '));
-// 	// 	var song = {
-// 	// 		title: result[0],
-// 	// 		url: result[1]
-// 	// 	}
-// 	// 	console.log(song);
-// 	//   })();
-// 	if (!serverQueue) {
-// 		const queueContruct = {
-// 			textChannel: message.channel,
-// 			voiceChannel: voiceChannel,
-// 			connection: null,
-// 			songs: [],
-// 			volume: 5,
-// 			playing: true,
-// 		};
-
-// 		queue.set(message.guild.id, queueContruct);
-
-// 		queueContruct.songs.push(song);
-
-// 		try {
-// 			var connection = await voiceChannel.join();
-// 			queueContruct.connection = connection;
-// 			play(message.guild, queueContruct.songs[0]);
-// 		} catch (err) {
-// 			console.log(err);
-// 			queue.delete(message.guild.id);
-// 			return message.channel.send(err);
-// 		}
-// 	} else {
-// 		serverQueue.songs.push(song);
-// 		console.log(serverQueue.songs);
-// 		return message.channel.send(`${song.title} has been added to the queue!`);
-// 	}
-
-// }
-
 function skip(message, serverQueue) {
 	if (!message.member.voice.channel) return message.channel.send('You have to be in a voice channel to stop the music!');
 	if (!serverQueue) return message.channel.send('There is no song that I could skip!');
@@ -202,6 +128,8 @@ function play(guild, song) {
 		return;
 	}
 
+	message.channel.send(`Now playing ${song.title}`);
+
 	const dispatcher = serverQueue.connection.play(ytdl(song.url))
 		.on('end', () => {
 			console.log('Music ended!');
@@ -213,33 +141,5 @@ function play(guild, song) {
 		});
 	dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
 }
-function addVideo(term) {
-	youTube.search(term, 1,
-		function (error, result) {
-			return [result.items[0].snippet.title, result.items[0].id.videoId];
-		});
-}
 
-// function addVideo(term) {
-// 	return new Promise(resolve => {
-// 		youTube.search(term, 1,
-// 			function (error, result) {
-// 				return [result.items[0].id.videoId, result.items[0].snippet.title];
-// 			});
-// 	});
-// }
-
-// async function waitForVideo(term) {
-// 	const result = await addVideo(term);
-// 	return result;
-// }
-// const result = await youTube.search(term, 1,
-// 	function (error, result) {
-// 	if (error) {
-// 		console.log(error);
-// 	} else {
-// 		return [result.items[0].id.videoId, result.items[0].snippet.title];
-// 	}
-// });
-// return result;
 client.login(process.env.token);
