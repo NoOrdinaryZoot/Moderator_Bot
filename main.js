@@ -69,8 +69,8 @@ async function execute(message, serverQueue) {
 	if (!permissions.has('CONNECT') || !permissions.has('SPEAK')) {
 		return message.channel.send('I need the permissions to join and speak in your voice channel!');
 	}
-	
-	youTube.related(args.join(' '), 1,
+
+	youTube.search(args.join(' '), 1,
 		async function (error, result) {
 			if (error) throw new Error(error);
 
