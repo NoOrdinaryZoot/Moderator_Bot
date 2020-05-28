@@ -64,14 +64,16 @@ async function execute(message, serverQueue) {
 				url: '6UH6CySotso'
 			}
 
+			console.log(result.items);
+
 			for (var i = 0; i < result.items.length; i++) {
 				console.log(result.items[i]);
-				if (result.items[i].snippet.title && result.items[i].id.videoId) {
+				if (result.items[i].id.videoId) {
 					var song = {
 						title: result.items[i].snippet.title,
 						url: result.items[i].id.videoId
 					}
-					return;
+					break;
 				}
 			}
 
