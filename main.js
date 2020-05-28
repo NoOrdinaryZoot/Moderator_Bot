@@ -64,7 +64,7 @@ async function execute(message, serverQueue) {
 				url: '6UH6CySotso'
 			}
 
-			for (item in result.items[0]) {
+			for (item in result) {
 				console.log(item);
 				if (item.snippet.title && item.id.videoId) {
 					var song = {
