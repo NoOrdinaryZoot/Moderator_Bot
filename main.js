@@ -91,8 +91,8 @@ async function execute(message, serverQueue) {
 						matchArray[i] += 1;
 					}
 				}
-				console.log(result.items[indexOf(Math.max(matchArray))].snippet.title);
-				console.log(result.items[indexOf(Math.max(matchArray))].id.videoId);
+				console.log(result.items.indexOf(Math.max(matchArray)).snippet.title);
+				console.log(result.items.indexOf(Math.max(matchArray)).id.videoId);
 				// if(result.items[i].snippet.title)
 				// if (result.items[i].id.videoId) {
 				// 	var song = {
