@@ -40,11 +40,24 @@ client.on('message', async message => {
 	} else if (message.content.startsWith(`${prefix}stop`)) {
 		stop(message, serverQueue);
 		return;
+	} else if (message.content.startsWith(`${prefix}queue`)) {
+		queue(message);
 	} else {
 		message.channel.send('You need to enter a valid command!')
 	}
 });
 
+
+async function queue(message) {
+	const serverQueue = queue.get(message.guild.id);
+	var returnMessage = '```\n';
+	for (var i = 0; i < serverQueue.songs.length; i ++) {
+		returnMessage += `[${i + 1}] ${songs[i].title} \n`
+	}
+	returnMessage += '```';
+	message.channel.send(returnMessage);
+
+}
 async function execute(message, serverQueue) {
 	const args = message.content.split(' ');
 
