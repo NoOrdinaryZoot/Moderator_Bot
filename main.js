@@ -18,6 +18,8 @@ const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
 
+	console.log(command.name, command.description)
+
 	// With the key as the command name and the value as the exported module
 	// Key is command name and value is exported module -> (command.name, command) or (command name, value)
 	client.commands.set(command.name, command);
@@ -86,30 +88,31 @@ client.on('message', async message => {
 			getQueue(message);
 			return;
 		default:
-			try {
-				client.commands.get(command).execute(message, args);
-			} catch {
-				if (command == 'help') {
-					if (args.length > 0) {
-						try {
-							message.channel.send(client.commands.get(args[0].description));
-							return;
-						} catch {
-							message.channel.send('Invalid command name!');
-							return;
-						}
-					} else {
-						returnMessage = `$ - Prefix, $[command] [args] - Formatting\n`;
-						for (var x = 0; x < client.commands.keys().length; x++) {
-							returnMessage += `${client.commands.keys()[x]}\n`;
-						}
-						message.channel.send(returnMessage);
-						return;
-					}
-				}
-				message.channel.send('Invalid command name!')
-				return;
-			}
+			client.commands.get(command).execute(message, args);
+			// try {
+			// 	client.commands.get(command).execute(message, args);
+			// } catch {
+			// 	if (command == 'help') {
+			// 		if (args.length > 0) {
+			// 			try {
+			// 				message.channel.send(client.commands.get(args[0].description));
+			// 				return;
+			// 			} catch {
+			// 				message.channel.send('Invalid command name!');
+			// 				return;
+			// 			}
+			// 		} else {
+			// 			returnMessage = `$ - Prefix, $[command] [args] - Formatting\n`;
+			// 			for (var x = 0; x < client.commands.keys().length; x++) {
+			// 				returnMessage += `${client.commands.keys()[x]}\n`;
+			// 			}
+			// 			message.channel.send(returnMessage);
+			// 			return;
+			// 		}
+			// 	}
+			// 	message.channel.send('Invalid command name!')
+			// 	return;
+			// }
 	}
 });
 
@@ -156,14 +159,18 @@ async function run(message, serverQueue) {
 						matchArray[i] += 1
 				}
 			}
-			console.log(matchArray);
-			console.log(largestElement(matchArray));
-			console.log(matchArray.indexOf(largestElement(matchArray)));
-			console.log(largestElement(matchArray), result.items[matchArray.indexOf(largestElement(matchArray))].snippet.title);
+			console.log(result.items[matchArray.indexOf(largestElement(matchArray))].snippet.title);
 
-			var song = {
-				title: result.items[matchArray.indexOf(largestElement(matchArray))].snippet.title,
-				url: result.items[matchArray.indexOf(largestElement(matchArray))].id.videoId
+			if (largestElement(matchArray) == 0) {
+				var song = {
+					title: result.items[0].snippet.title,
+					url: result.items[0].id.videoId
+				}
+			} else {
+				var song = {
+					title: result.items[matchArray.indexOf(largestElement(matchArray))].snippet.title,
+					url: result.items[matchArray.indexOf(largestElement(matchArray))].id.videoId
+				}
 			}
 
 			console.log(song.url)
