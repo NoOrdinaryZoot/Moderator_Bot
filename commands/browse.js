@@ -2,9 +2,10 @@ module.exports = {
 	name: 'browse',
 	description: 'Fetches top posts from subreddit\nSyntax is ```$browse [subreddit]{amount}```',
 	execute(message, args) {
-		const Reddit = require('reddit')
 		const fetch = require("node-fetch");
+
 		console.log('Inside-Command')
+
 		function GrabPosts() {
 			fetch(`https://www.reddit.com/r/${args[0]}.json?limit=100&?sort=top&t=today`)
 				.then(res => res.json())
