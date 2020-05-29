@@ -24,6 +24,7 @@ module.exports = {
 				try {
 					console.log(filter[i], randomLINK);
 					if (!message.channel.nsfw && filter[i] == true) {
+					} else {
 						var randomTITLE = titles[i];
 						var randomURL = urls[i];
 						var randomLINK = links[i];
