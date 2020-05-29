@@ -82,14 +82,12 @@ client.on('message', async message => {
 		case 'stop':
 			stop(message, serverQueue);
 			return;
-		// case 'queue':
-		// 	getQueue(message);
-		// 	return;
+		case 'queue':
+			getQueue(message);
+			return;
 		default:
 			try {
 				client.commands.get(command).execute(message, args);
-				console.log(message);
-				console.log(args);
 			} catch {
 				if (command == 'help') {
 					if (args.length > 0) {

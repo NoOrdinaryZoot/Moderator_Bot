@@ -4,6 +4,7 @@ module.exports = {
 	execute(message, args) {
 		const Reddit = require('reddit')
 		const fetch = require("node-fetch");
+		console.log('Inside-Command')
 		function GrabPosts() {
 			fetch(`https://www.reddit.com/r/${args[0]}.json?limit=100&?sort=top&t=today`)
 				.then(res => res.json())
@@ -13,6 +14,7 @@ module.exports = {
 					titles = json.data.children.map(s => s.data.title);
 					links = json.data.children.map(d => d.data.permalink);
 					console.log(isNSFW);
+					console.log('ContentLol')
 					RedditToDiscord(urls, titles, links, args[1], isNSFW);
 				})
 		}
