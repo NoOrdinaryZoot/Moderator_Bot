@@ -91,10 +91,14 @@ async function execute(message, serverQueue) {
 				}
 			}
 			console.log(matchArray);
-			console.log(Math.max(matchArray));
-			console.log(matchArray.indexOf(Math.max(matchArray)));
-			console.log(Math.max(matchArray), result.items[matchArray.indexOf(Math.max(matchArray))].snippet.title);
+			console.log(largestElement(matchArray));
+			console.log(matchArray.indexOf(largestElement(matchArray)));
+			console.log(largestElement(matchArray), result.items[matchArray.indexOf(largestElement(matchArray))].snippet.title);
 
+			var song = {
+				title: result.items[matchArray.indexOf(largestElement(matchArray))].snippet.title,
+				url: result.items[matchArray.indexOf(largestElement(matchArray))].id.videoId
+			}
 			// for (var i = 0; i < result.items.length; i++) {
 			// 	console.log(result.items[i]);
 			// 	matchArray[i] = 0;
@@ -103,9 +107,9 @@ async function execute(message, serverQueue) {
 			// 			matchArray[i] += 1;
 			// 		}
 			// 	}
-			// 	console.log(indexOf(Math.max()))
-			// 	console.log(result.items.indexOf(Math.max(matchArray)).snippet.title);
-			// 	console.log(result.items.indexOf(Math.max(matchArray)).id.videoId);
+			// 	console.log(indexOf(largestElement()))
+			// 	console.log(result.items.indexOf(largestElement(matchArray)).snippet.title);
+			// 	console.log(result.items.indexOf(largestElement(matchArray)).id.videoId);
 			// 	// if(result.items[i].snippet.title)
 			// 	// if (result.items[i].id.videoId) {
 			// 	// 	var song = {
@@ -195,4 +199,14 @@ function play(guild, song) {
 	dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
 }
 
+function largestElement(array) {
+	var largest = 0;
+	var array = [0, 0, 0, 0, 2, 0, 0, 2, 0]
+	for (i = 0; i < array.length; i++) {
+		if (array[i] > largest) {
+			var largest = array[i];
+		}
+	}
+	return largest;
+}
 client.login(process.env.token);
