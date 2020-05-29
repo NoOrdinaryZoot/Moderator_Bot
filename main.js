@@ -23,7 +23,7 @@ var youTube = new YouTube();
 youTube.setKey('AIzaSyAA1d3H-fhkfSS9O9f0pwpAXImsoxLVgoQ');
 
 client.on("ready", () => {
-    client.user.setActivity('Server Management...', { type: 'CUSTOM_STATUS'})
+    client.user.setActivity('Server Management...', { type: 'CUSTOM_STATUS' })
     client.user.setActivity('Servers', { type: 'WATCHING' });
     console.log(`I am online. ${client.guilds.cache.size} servers are online as well!`);
 });
@@ -59,28 +59,29 @@ client.on("message", async message => {
                             titles = json.data.children.map(s => s.data.title);
                             links = json.data.children.map(d => d.data.permalink);
                             console.log(links);
-                            RedditToDiscord(urls, titles, links, args[1]);
+                            RedditToDiscord(urls, titles, links, args[1], filter);
                         })
                 }
 
-                function RedditToDiscord(urls, titles, links, limit) {
+                function RedditToDiscord(urls, titles, links, limit, filter) {
                     var randSelector = Math.floor(Math.random() * urls.length) + 1;
-                    console.log(urls, titles, links, limit);
+                    console.log(urls, titles, links, limit, filter);
                     for (var i = 0; i < limit; i++) {
                         try {
-                            if (!message.channel.nsfw && filter[i] == true) {
-                                var randomTITLE = titles[i];
-                                var randomURL = urls[i];
-                                var randomLINK = links[i];
-                                var embed = new Discord.MessageEmbed({
-                                    title: randomTITLE,
-                                    url: `https://www.reddit.com${randomLINK}`,
-                                    image: {
-                                        url: randomURL
-                                    }
-                                });
-                                message.channel.send(embed);
+                            var randomTITLE = titles[i];
+                            var randomURL = urls[i];
+                            var randomLINK = links[i];
+                            var embed = new Discord.MessageEmbed({
+                                title: randomTITLE,
+                                url: `https://www.reddit.com${randomLINK}`,
+                                image: {
+                                    url: randomURL
+                                }
+                            });
+                            if (!message.channel.nsfw && filter[i].nsfw) {
+                                return;
                             }
+                            message.channel.send(embed);
                         } catch {
                             message.channel.send('No more posts were found')
                             break;
