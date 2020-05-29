@@ -15,7 +15,6 @@ module.exports = {
 					titles = json.data.children.map(s => s.data.title);
 					links = json.data.children.map(d => d.data.permalink);
 					console.log(isNSFW);
-					console.log('ContentLol')
 					RedditToDiscord(urls, titles, links, args[1], isNSFW);
 				})
 		}
@@ -24,29 +23,47 @@ module.exports = {
 			var randSelector = Math.floor(Math.random() * urls.length) + 1;
 			console.log(checkSFW);
 			for (var i = 0; i < limit; i++) {
-				try {
-					var randomTITLE = titles[i];
-					var randomURL = urls[i];
-					var randomLINK = links[i];
-					var embed = new Discord.MessageEmbed({
-						title: randomTITLE,
-						url: `https://www.reddit.com${randomLINK}`,
-						image: {
-							url: randomURL
-						}
-					});
-					console.log(message.channel.nsfw, checkSFW[i].nsfw);
-					if (!message.channel.nsfw && checkSFW[i] == true) {
-						message.channel.send('Removed for NSFW content [Sorry!]')
-						break;
-					} else {
-						message.channel.send(embed);
+				var randomTITLE = titles[i];
+				var randomURL = urls[i];
+				var randomLINK = links[i];
+				var embed = new Discord.MessageEmbed({
+					title: randomTITLE,
+					url: `https://www.reddit.com${randomLINK}`,
+					image: {
+						url: randomURL
 					}
-					message.channel.send(embed);
-				} catch {
-					message.channel.send('No more posts were found')
+				});
+				console.log(message.channel.nsfw, checkSFW[i].nsfw);
+				if (!message.channel.nsfw && checkSFW[i] == true) {
+					message.channel.send('Removed for NSFW content [Sorry!]')
 					break;
+				} else {
+					message.channel.send(embed);
 				}
+				message.channel.send(embed);
+				// try {
+				// 	var randomTITLE = titles[i];
+				// 	var randomURL = urls[i];
+				// 	var randomLINK = links[i];
+				// 	var embed = new Discord.MessageEmbed({
+				// 		title: randomTITLE,
+				// 		url: `https://www.reddit.com${randomLINK}`,
+				// 		image: {
+				// 			url: randomURL
+				// 		}
+				// 	});
+				// 	console.log(message.channel.nsfw, checkSFW[i].nsfw);
+				// 	if (!message.channel.nsfw && checkSFW[i] == true) {
+				// 		message.channel.send('Removed for NSFW content [Sorry!]')
+				// 		break;
+				// 	} else {
+				// 		message.channel.send(embed);
+				// 	}
+				// 	message.channel.send(embed);
+				// } catch {
+				// 	message.channel.send('No more posts were found')
+				// 	break;
+				// }
 			}
 		}
 		GrabPosts();
