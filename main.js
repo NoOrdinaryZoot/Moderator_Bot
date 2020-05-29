@@ -100,7 +100,7 @@ client.on('message', async message => {
 						}
 					} else {
 						returnMessage = `$ - Prefix, $[command] [args] - Formatting\n`;
-						for (var x = 0; x < client.commands.key().length; x++) {
+						for (var x = 0; x < client.commands.keys().length; x++) {
 							returnMessage += `${client.commands.keys()[x]}\n`;
 						}
 						message.channel.send(returnMessage);

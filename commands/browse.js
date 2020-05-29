@@ -12,6 +12,8 @@ module.exports = {
 					urls = json.data.children.map(v => v.data.url);
 					titles = json.data.children.map(s => s.data.title);
 					links = json.data.children.map(d => d.data.permalink);
+					console.log(links);
+					console.log(titles);
 					RedditToDiscord(urls, titles, links, args[1]);
 				})
 		}
