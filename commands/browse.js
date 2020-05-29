@@ -33,9 +33,10 @@ module.exports = {
 						}
 					});
 					if (!message.channel.nsfw && filter[i].nsfw) {
-						return;
+						message.channel.send('Removed for NSFW content [Sorry!]')
+					} else {
+						message.channel.send(embed);
 					}
-					message.channel.send(embed);
 				} catch {
 					message.channel.send('No more posts were found')
 					break;
