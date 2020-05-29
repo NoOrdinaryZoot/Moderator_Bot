@@ -70,31 +70,6 @@ client.on('message', async message => {
 
 	const serverQueue = queue.get(message.guild.id);
 
-	try {
-		client.commands.get(command).execute(message, args);
-	} catch {
-		if (command == 'help') {
-			if (args.length > 0) {
-				try {
-					message.channel.send(client.commands.get(args[0].description));
-					return;
-				} catch {
-					message.channel.send('Invalid command name!');
-					return;
-				}
-			} else {
-				returnMessage = `$ - Prefix, $[command] [args] - Formatting\n`;
-				for (var x = 0; x < client.commands.key.length; x++) {
-					returnMessage += `${client.commands.keys()[x]}\n`;
-				}
-				message.channel.send(returnMessage);
-				return;
-			}
-		}
-		message.channel.send('Invalid command name!')
-		return;
-	}
-
 	switch (command) {
 		case 'play':
 			run(message, serverQueue);
@@ -109,7 +84,30 @@ client.on('message', async message => {
 			getQueue(message);
 			return;
 		default:
-			return message.channel.send('Command was not recognised!');
+			try {
+				client.commands.get(command).execute(message, args);
+			} catch {
+				if (command == 'help') {
+					if (args.length > 0) {
+						try {
+							message.channel.send(client.commands.get(args[0].description));
+							return;
+						} catch {
+							message.channel.send('Invalid command name!');
+							return;
+						}
+					} else {
+						returnMessage = `$ - Prefix, $[command] [args] - Formatting\n`;
+						for (var x = 0; x < client.commands.key.length; x++) {
+							returnMessage += `${client.commands.keys()[x]}\n`;
+						}
+						message.channel.send(returnMessage);
+						return;
+					}
+				}
+				message.channel.send('Invalid command name!')
+				return;
+			}
 	}
 });
 
