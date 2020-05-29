@@ -4,5 +4,8 @@ module.exports = {
 	execute(message, args) {
 		const Reddit = require('reddit');
         const fetch = require("node-fetch");
+
+        //Whatever you want down here
+        //message.channel.send is generally a good idea.
     }
 };
