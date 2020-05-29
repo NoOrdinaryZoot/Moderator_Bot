@@ -65,9 +65,9 @@ client.on("message", async message => {
 
                 function RedditToDiscord(urls, titles, links, limit) {
                     var randSelector = Math.floor(Math.random() * urls.length) + 1;
+                    console.log(urls, titles, links, limit);
                     for (var i = 0; i < limit; i++) {
                         try {
-                            console.log(filter[i]);
                             if (!message.channel.nsfw && filter[i] == true) {
                                 var randomTITLE = titles[i];
                                 var randomURL = urls[i];
