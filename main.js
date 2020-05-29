@@ -3,15 +3,32 @@ const {
 	prefix,
 	token,
 } = require('./config.json');
-const ytdl = require('ytdl-core');
 
 const client = new Discord.Client();
 
+const fs = require('fs');
+const Reddit = require('reddit')
+const fetch = require("node-fetch");
+const opusscript = require("opusscript");
+
+var ffmpeg = require('ffmpeg');
+
+const ytdl = require('ytdl-core');
 const YouTube = require('youtube-node');
 var youTube = new YouTube();
 youTube.setKey('AIzaSyAA1d3H-fhkfSS9O9f0pwpAXImsoxLVgoQ');
 
+const Entities = require('html-entities').AllHtmlEntities;
+ 
+const entities = new Entities();
+
 const queue = new Map();
+
+var badlist = process.env.blacklist.split(",");
+var quotes = process.env.quotes.split("~");
+
+var steamidslocal = process.env.steamids.split(",");
+var steamcodeslocal = process.env.steamcodes.split(",");
 
 client.once('ready', () => {
 	console.log('Ready!');
@@ -29,21 +46,31 @@ client.on('message', async message => {
 	if (message.author.bot) return;
 	if (!message.content.startsWith(prefix)) return;
 
+	let msg = message.content.slice(process.env.prefix.length);
+
+    let args = msg.split(" ");
+
+    let command = args[0].toLowerCase();
+
+    args.shift();
+
 	const serverQueue = queue.get(message.guild.id);
 
-	if (message.content.startsWith(`${prefix}play`)) {
-		execute(message, serverQueue);
-		return;
-	} else if (message.content.startsWith(`${prefix}skip`)) {
-		skip(message, serverQueue);
-		return;
-	} else if (message.content.startsWith(`${prefix}stop`)) {
-		stop(message, serverQueue);
-		return;
-	} else if (message.content.startsWith(`${prefix}queue`)) {
-		getQueue(message);
-	} else {
-		message.channel.send('You need to enter a valid command!')
+	switch(command) {
+		case 'play':
+			execute(message, serverQueue);
+			return;
+		case 'skip':
+			skip(message, serverQueue);
+			return;
+		case 'stop':
+			stop(message, serverQueue);
+			return;
+		case 'queue':
+			getQueue(message);
+			return;
+		default:
+			return message.channel.send('Command was not recognised!');
 	}
 });
 
@@ -99,28 +126,8 @@ async function execute(message, serverQueue) {
 				title: result.items[matchArray.indexOf(largestElement(matchArray))].snippet.title,
 				url: result.items[matchArray.indexOf(largestElement(matchArray))].id.videoId
 			}
-			// for (var i = 0; i < result.items.length; i++) {
-			// 	console.log(result.items[i]);
-			// 	matchArray[i] = 0;
-			// 	for (var x = 0; x < args.length; x ++) {
-			// 		if(result.items[i].snippet.title.includes(args[x])) {
-			// 			matchArray[i] += 1;
-			// 		}
-			// 	}
-			// 	console.log(indexOf(largestElement()))
-			// 	console.log(result.items.indexOf(largestElement(matchArray)).snippet.title);
-			// 	console.log(result.items.indexOf(largestElement(matchArray)).id.videoId);
-			// 	// if(result.items[i].snippet.title)
-			// 	// if (result.items[i].id.videoId) {
-			// 	// 	var song = {
-			// 	// 		title: result.items[i].snippet.title,
-			// 	// 		url: result.items[i].id.videoId
-			// 	// 	}
-			// 	// 	break;
-			// 	// }
-			// }
 
-
+			console.log(song.url, )
 
 			if (!serverQueue) {
 				const queueContruct = {
