@@ -84,11 +84,13 @@ async function execute(message, serverQueue) {
 			matchArray = [];
 
 			for (var i = 0; i < result.items.length; i++) {
+				matchArray[i] = 0;
 				for (arg in args) {
 					if (result.items[i].snippet.title.includes(arg))
 						matchArray[i] += 1
 				}
 			}
+			console.log(matchArray);
 			console.log(Math.max(matchArray));
 			console.log(matchArray.indexOf(Math.max(matchArray)));
 			console.log(Math.max(matchArray), result.items[matchArray.indexOf(Math.max(matchArray))].snippet.title);
