@@ -6,9 +6,13 @@ const {
 	token,
 } = require('./config.json');
 
+const fs = require('fs');
+
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
+
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
 
@@ -17,7 +21,6 @@ for (const file of commandFiles) {
 	client.commands.set(command.name, command);
 }
 
-const fs = require('fs');
 const Reddit = require('reddit')
 const fetch = require("node-fetch");
 const opusscript = require("opusscript");
@@ -30,7 +33,7 @@ var youTube = new YouTube();
 youTube.setKey('AIzaSyAA1d3H-fhkfSS9O9f0pwpAXImsoxLVgoQ');
 
 const Entities = require('html-entities').AllHtmlEntities;
- 
+
 const entities = new Entities();
 
 const queue = new Map();
@@ -59,16 +62,42 @@ client.on('message', async message => {
 
 	let msg = message.content.slice(process.env.prefix.length);
 
-    let args = msg.split(" ");
+	let args = msg.split(" ");
 
-    let command = args[0].toLowerCase();
+	let command = args[0].toLowerCase();
 
-    args.shift();
+	args.shift();
 
 	const serverQueue = queue.get(message.guild.id);
+	
+	try {
+		client.commands.get(command).execute(message, args);
+	} catch {
+		if (command == 'help') {
+			if (args.length > 0) {
+				try {
+					message.channel.send(client.commands.get(args[0].description));
+					return;
+				} catch {
+					message.channel.send('Invalid command name!');
+					return;
+				}
+			} else {
+				returnMessage = `$ - Prefix, $[command] [args] - Formatting\n`;
+				for (var x = 0; x < client.commands.key.length; x++) {
+					returnMessage += `${client.commands.keys()[x]}\n`;
+				}
+				message.channel.send(returnMessage);
+				return;
+			}
+		}
+		message.channel.send('Invalid command name!')
+		return;
+	}
 
-	switch(command) {
+	switch (command) {
 		case 'play':
+			client.commands.get('ping').execute(message, args);
 			execute(message, serverQueue);
 			return;
 		case 'skip':
@@ -138,7 +167,7 @@ async function execute(message, serverQueue) {
 				url: result.items[matchArray.indexOf(largestElement(matchArray))].id.videoId
 			}
 
-			console.log(song.url, )
+			console.log(song.url)
 
 			if (!serverQueue) {
 				const queueContruct = {
