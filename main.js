@@ -78,6 +78,7 @@ client.on("message", async message => {
                                     url: randomURL
                                 }
                             });
+                            console.log(message.channel.nsfw, filter[i].nsfw);
                             if (!message.channel.nsfw && filter[i].nsfw) {
                                 message.channel.send('Removed for NSFW content [Sorry!]')
                                 break;
