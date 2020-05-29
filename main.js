@@ -99,13 +99,6 @@ client.on("message", async message => {
             case 'hi' || 'hello':
                 message.channel.send(`Hi there ${message.author.toString()}`);
                 return;
-            case 'play':
-                console.log(storage.queue);
-                execute(message, storage.queue);
-                return;
-            case 'queue':
-                message.channel.send(`${storage.queue.get[message.guild.id].join('\n')}`);
-                return;
             case 'yt':
                 findVideo(args.join(' '), message);
                 return;
