@@ -58,14 +58,14 @@ client.on("message", async message => {
                             urls = json.data.children.map(v => v.data.url);
                             titles = json.data.children.map(s => s.data.title);
                             links = json.data.children.map(d => d.data.permalink);
-                            console.log(nsfw);
+                            console.log(isNSFW);
                             RedditToDiscord(urls, titles, links, args[1], isNSFW);
                         })
                 }
 
-                function RedditToDiscord(urls, titles, links, limit, isNSFW) {
+                function RedditToDiscord(urls, titles, links, limit, checkSFW) {
                     var randSelector = Math.floor(Math.random() * urls.length) + 1;
-                    console.log(isNSFW);
+                    console.log(checkSFW);
                     for (var i = 0; i < limit; i++) {
                         try {
                             var randomTITLE = titles[i];
@@ -78,8 +78,8 @@ client.on("message", async message => {
                                     url: randomURL
                                 }
                             });
-                            console.log(message.channel.nsfw, isNSFW[i].nsfw);
-                            if (!message.channel.nsfw && isNSFW[i] == true) {
+                            console.log(message.channel.nsfw, checkSFW[i].nsfw);
+                            if (!message.channel.nsfw && checkSFW[i] == true) {
                                 message.channel.send('Removed for NSFW content [Sorry!]')
                                 break;
                             } else {
