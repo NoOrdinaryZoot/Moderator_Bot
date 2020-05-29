@@ -79,7 +79,10 @@ client.on("message", async message => {
                                 }
                             });
                             if (!message.channel.nsfw && filter[i].nsfw) {
-                                return;
+                                message.channel.send('Removed for NSFW content [Sorry!]')
+                                break;
+                            } else {
+                                message.channel.send(embed);
                             }
                             message.channel.send(embed);
                         } catch {
