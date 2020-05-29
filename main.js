@@ -12,11 +12,13 @@ const opusscript = require("opusscript");
 
 var ffmpeg = require('ffmpeg');
 
-var badlist = storage.blacklist.split(",");
-var quotes = storage.quotes.split("~");
+var quotes = process.env.quotes.split("~");
 
 storage.steamids = [];
+storage.blacklist = ','
 storage.storage.steamcodes = [];
+
+var badlist = storage.blacklist.split(",");
 
 const YouTube = require('youtube-node');
 var youTube = new YouTube();
