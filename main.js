@@ -67,7 +67,7 @@ client.on("message", async message => {
                     var randSelector = Math.floor(Math.random() * urls.length) + 1;
                     for (var i = 0; i < limit; i++) {
                         try {
-                            console.log(filter[i], randomLINK);
+                            console.log(filter[i]);
                             if (!message.channel.nsfw && filter[i] == true) {
                                 var randomTITLE = titles[i];
                                 var randomURL = urls[i];
