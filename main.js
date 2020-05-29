@@ -69,7 +69,7 @@ client.on('message', async message => {
 	args.shift();
 
 	const serverQueue = queue.get(message.guild.id);
-	
+
 	try {
 		client.commands.get(command).execute(message, args);
 	} catch {
@@ -97,8 +97,7 @@ client.on('message', async message => {
 
 	switch (command) {
 		case 'play':
-			client.commands.get('ping').execute(message, args);
-			execute(message, serverQueue);
+			run(message, serverQueue);
 			return;
 		case 'skip':
 			skip(message, serverQueue);
@@ -127,7 +126,7 @@ async function getQueue(message) {
 	returnMessage += '```';
 	return message.channel.send(returnMessage);
 }
-async function execute(message, serverQueue) {
+async function run(message, serverQueue) {
 	const args = message.content.split(' ');
 
 	const voiceChannel = message.member.voice.channel;
