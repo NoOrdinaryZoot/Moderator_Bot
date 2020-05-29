@@ -8,18 +8,18 @@ module.exports = {
 			fetch(`https://www.reddit.com/r/${args[0]}.json?limit=100&?sort=top&t=today`)
 				.then(res => res.json())
 				.then(json => {
-					filter = json.data.children.map(o => o.data.over_18);
+					isNSFW = json.data.children.map(o => o.data.over_18);
 					urls = json.data.children.map(v => v.data.url);
 					titles = json.data.children.map(s => s.data.title);
 					links = json.data.children.map(d => d.data.permalink);
-					console.log(links);
-					RedditToDiscord(urls, titles, links, args[1], filter);
+					console.log(isNSFW);
+					RedditToDiscord(urls, titles, links, args[1], isNSFW);
 				})
 		}
 
-		function RedditToDiscord(urls, titles, links, limit, filter) {
+		function RedditToDiscord(urls, titles, links, limit, checkSFW) {
 			var randSelector = Math.floor(Math.random() * urls.length) + 1;
-			console.log(urls, titles, links, limit, filter);
+			console.log(checkSFW);
 			for (var i = 0; i < limit; i++) {
 				try {
 					var randomTITLE = titles[i];
@@ -32,11 +32,14 @@ module.exports = {
 							url: randomURL
 						}
 					});
-					if (!message.channel.nsfw && filter[i].nsfw) {
+					console.log(message.channel.nsfw, checkSFW[i].nsfw);
+					if (!message.channel.nsfw && checkSFW[i] == true) {
 						message.channel.send('Removed for NSFW content [Sorry!]')
+						break;
 					} else {
 						message.channel.send(embed);
 					}
+					message.channel.send(embed);
 				} catch {
 					message.channel.send('No more posts were found')
 					break;

@@ -12,11 +12,11 @@ const opusscript = require("opusscript");
 
 var ffmpeg = require('ffmpeg');
 
-var badlist = process.env.blacklist.split(",");
-var quotes = process.env.quotes.split("~");
+var badlist = storage.blacklist.split(",");
+var quotes = storage.quotes.split("~");
 
-var steamidslocal = process.env.steamids.split(",");
-var steamcodeslocal = process.env.steamcodes.split(",");
+storage.steamids = [];
+storage.storage.steamcodes = [];
 
 const YouTube = require('youtube-node');
 var youTube = new YouTube();
@@ -116,7 +116,7 @@ client.on("message", async message => {
             case 'add':
                 try {
                     badlist.push(args.join(' ').toLowerCase());
-                    process.env.blacklist = badlist.join(",");
+                    storage.blacklist = badlist.join(",");
                     message.channel.send(`${args} was succesfully added to the blacklist.`);
                 } catch (err) {
                     message.channel.send(`${args} was unsuccessfully added to the blacklist.`);
@@ -125,7 +125,7 @@ client.on("message", async message => {
             case 'remove':
                 try {
                     badlist = badlist.filter(e => e !== args.join(' ').toLowerCase());
-                    process.env.blacklist = badlist.join(",");
+                    storage.blacklist = badlist.join(",");
                     message.channel.send(`${args} was successfully removed from the blacklist.`);
                 } catch (err) {
                     message.channel.send(`${args} was unsuccessfully removed from the blacklist.`);
@@ -141,8 +141,8 @@ client.on("message", async message => {
             /*====================================================*/
             /*====================================================*/
             case 'logsteamdetails':
-                console.log(steamcodeslocal);
-                console.log(steamidslocal);
+                console.log(storage.steamcodeslocal);
+                console.log(storage.steamids);
                 message.channel.send('Steamdetails were logged to Heroku.');
                 return;
             case 'getcodes':
@@ -156,20 +156,17 @@ client.on("message", async message => {
                         }
                         if (msg.content.length == "76561198071984065".length) {
                             console.log(`New steamid from ${msg.author.username}, id is ${msg.content}`);
-                            steamidslocal.push(`${msg.author.id}~${msg.content}`);
-                            process.env.steamids = steamidslocal;
+                            storage.steamids.push([msg.author.id, msg.content]);
                         } else if (msg.content.length == "120844861".length) {
                             console.log(`New friendcode from ${msg.author.username}, code is ${msg.content}`);
-                            steamcodeslocal.push(`${msg.author.id}~${msg.content}`);
-                            process.env.steamcodeslocal = steamcodeslocal;
+                            storage.steamcodeslocal.push([msg.author.id, msg.content]);
                         } else if (msg.content.includes('steamcommunity.com/id/')) {
                             console.log(`New steamid from ${msg.author.username}, id is ${msg.content.split('/id/')[1]}`);
-                            steamidslocal.push(`${msg.author.id}~${msg.content.split('/id/')[1]}`);
-                            process.env.steamids = steamidslocal;
+                            storage.steamids.push([msg.author.id, msg.content.split('/id/')[1]]);
                         }
                     });
-                    console.log(steamidslocal);
-                    console.log(steamcodeslocal);
+                    console.log(storage.steamids);
+                    console.log(storage.steamcodeslocal);
                 }).catch(err => {
                     console.log('Error while doing Bulk Delete');
                 });
@@ -179,20 +176,20 @@ client.on("message", async message => {
                 console.log(userTest);
                 return;
             case 'steamid':
-                console.log(steamidslocal);
-                for (var i = 0; i < steamidslocal.length; i++) {
-                    if (steamidslocal[i].includes(message.mentions.members.first().user.id)) {
-                        message.channel.send(`User ${message.mentions.members.first().user.username} -> Steam ID is ${steamidslocal[i].replace("~", "").replace(message.mentions.members.first().user.id, "")}.`);
+                console.log(storage.steamids);
+                for (var i = 0; i < storage.steamids.length; i++) {
+                    if (storage.steamids[i].indexOf(message.mentions.members.first().user.id) >= 1) {
+                        message.channel.send(`User ${message.mentions.members.first().user.username} -> Steam ID is ${storage.steamids[i][1]}.`);
                         return;
                     }
                 }
                 message.channel.send(`No ID found for ${message.mentions.members.first().user.username}.`);
                 return;
             case 'steamfriendcode':
-                console.log(steamcodeslocal);
-                for (var i = 0; i < steamcodeslocal.length; i++) {
-                    if (steamcodeslocal[i].includes(message.mentions.members.first().user.id)) {
-                        message.channel.send(`User ${message.mentions.members.first().user.username} -> Steam Friend Code is ${steamcodeslocal[i].replace("~", "").replace(message.mentions.members.first().user.id, "")}.`);
+                console.log(storage.steamcodeslocal);
+                for (var i = 0; i < storage.steamcodeslocal.length; i++) {
+                    if (storage.steamcodeslocal[i].includes(message.mentions.members.first().user.id)) {
+                        message.channel.send(`User ${message.mentions.members.first().user.username} -> Steam Friend Code is ${storage.steamcodeslocal[i].replace("~", "").replace(message.mentions.members.first().user.id, "")}.`);
                         return;
                     }
                 }
@@ -244,20 +241,16 @@ client.on("message", async message => {
         if (message.channel.id == 666818300432613395) {
             if (message.content.length == "76561198071984065".length) {
                 console.log(`New steamid from ${message.author.username}, id is ${message.content}`);
-                steamidslocal.push(`${message.author.id}~${message.content}`);
-                process.env.steamids = steamidslocal;
+                storage.steamids.push([message.author.id,message.content]);
             } else if (message.content.length == "120844861".length) {
                 console.log(`New friendcode from ${message.author.username}, code is ${message.content}`);
-                steamcodeslocal.push(`${message.author.id}~${message.content}`);
-                process.env.steamcodeslocal = steamcodeslocal;
+                storage.steamcodeslocal.push([message.author.id,message.content]);
             } else if (message.content.toLowerCase().includes('steamcommunity.com/id/')) {
                 console.log(`New steamid from ${message.author.username}, id is ${message.content.split('/id/')[1]}`);
-                steamidslocal.push(`${message.author.id}~${message.content.split('/id/')[1]}`);
-                process.env.steamids = steamidslocal;
+                storage.steamids.push([message.author.id,message.content.split('/id/')[1]]);
             } else if (message.content.toLowerCase().includes('friend code:')) {
                 console.log(`New steamid from ${message.author.username}, id is ${message.content.split('friend code:')[1]}`);
-                steamidslocal.push(`${message.author.id}~${message.content.split('friend code:')[1]}`);
-                process.env.steamids = steamidslocal;
+                storage.steamids.push([message.author.id, message.content.split('friend code:')[1]]);
             }
         }
         var whitelistedids = [""]
