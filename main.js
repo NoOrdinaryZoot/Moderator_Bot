@@ -16,7 +16,7 @@ var quotes = process.env.quotes.split("~");
 
 storage.steamids = [];
 storage.blacklist = ','
-storage.storage.steamcodes = [];
+storage.steamcodes = [];
 
 var badlist = storage.blacklist.split(",");
 
