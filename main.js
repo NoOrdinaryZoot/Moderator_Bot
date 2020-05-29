@@ -25,14 +25,7 @@ youTube.setKey('AIzaSyAA1d3H-fhkfSS9O9f0pwpAXImsoxLVgoQ');
 client.on("ready", () => {
     client.user.setActivity('Server Management...', { type: 'CUSTOM_STATUS'})
     client.user.setActivity('Servers', { type: 'WATCHING' });
-    console.log(`client is online!\n users, in servers connected.`);
-    storage.queue = new Map();
-    client.guilds.cache.forEach((guild) => {
-        console.log(guild.id);
-        storage.queue.set(guild.id, []);
-        console.log(storage.queue.get(guild.id));
-        console.log(storage.queue);
-    })
+    console.log(`I am online. ${client.guilds.cache.size} servers are online as well!`);
 });
 
 client.on("message", async message => {
