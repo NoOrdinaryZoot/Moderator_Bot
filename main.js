@@ -72,6 +72,9 @@ client.on('message', async message => {
 
 	args.shift();
 
+	console.log(args);
+	console.log(args.shift());
+
 	const serverQueue = queue.get(message.guild.id);
 
 	switch (command) {
