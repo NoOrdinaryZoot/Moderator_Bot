@@ -2,6 +2,7 @@ module.exports = {
 	name: 'browse',
 	description: 'Fetches top posts from subreddit\nSyntax is ```$browse [subreddit]{amount}```',
 	execute(message, args) {
+		const Discord = require('discord.js');
 		const fetch = require("node-fetch");
 
 		console.log('Inside-Command')
