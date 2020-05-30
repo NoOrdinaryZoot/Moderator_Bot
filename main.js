@@ -142,7 +142,7 @@ async function getQueue(message) {
 	return message.channel.send(returnMessage);
 }
 async function run(message, serverQueue) {
-	const args = message.content.split(' ');
+	const args = message.content.split(' ').shift();
 
 	const voiceChannel = message.member.voice.channel;
 	if (!voiceChannel) return message.channel.send('You need to be in a voice channel to play music!');
@@ -171,13 +171,16 @@ async function run(message, serverQueue) {
 			}
 
 			if (largestElement(matchArray) == 0) {
-				var choice = rand(0, result.items.length - 1);
-				var song = {
-					title: result.items[choice].snippet.title,
-					url: result.items[choice].id.videoId,
-					description: result.items[choice].snippet.description,
-					channel: result.items[choice].channelId
-				};
+				try {
+					var song = {
+						title: result.items[0].snippet.title,
+						url: result.items[0].id.videoId,
+						description: result.items[0].snippet.description,
+						channel: result.items[0].channelId
+					};
+				} catch {
+					return message.channel.send(`No results were found for ${args.join(' ')}`);
+				}
 			} else {
 				try {
 					var song = {
