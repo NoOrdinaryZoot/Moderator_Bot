@@ -75,6 +75,9 @@ client.on('message', async message => {
 	const serverQueue = queue.get(message.guild.id);
 
 	switch (command) {
+		case 'themesong':
+			message.content = 'Al Assad 10 hour Version'
+			run(message, serverQueue);
 		case 'play':
 			run(message, serverQueue);
 			return;
