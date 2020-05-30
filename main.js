@@ -89,7 +89,9 @@ client.on('message', async message => {
 			stop(message, serverQueue);
 			return;
 		case 'motivation':
-			message.content = 'Al Assad ear rape'
+			message.content = 'Al Assad ear rape';
+			run(message, serverQueue);
+			return;
 		case 'queue':
 			getQueue(message);
 			return;
