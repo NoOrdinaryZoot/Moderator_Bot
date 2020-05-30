@@ -89,16 +89,16 @@ client.on('message', async message => {
 			return;
 		case 'channel':
 			var tempQueue = queue.get(message.guild.id);
-			return message.channel.send(`**Channel**\nhttps://youtube.com/channel/${tempQueue.songs[0].channel}`);
+			return message.channel.send(`**Channel ID**\n${tempQueue.songs[0].channel}`);
 		case 'description':
 			var tempQueue = queue.get(message.guild.id);
 			return message.channel.send(`**Description**\n${tempQueue.songs[0].description}`);
-			case 'description':
-				var tempQueue = queue.get(message.guild.id);
-				return message.channel.send(`**Description**\n${tempQueue.songs[0].url}`);
+		case 'url':
+			var tempQueue = queue.get(message.guild.id);
+			return message.channel.send(`**Video ID**\n${tempQueue.songs[0].url}`);
 		case 'info':
 			var tempQueue = queue.get(message.guild.id);
-			return message.channel.send(`**Title**\n${tempQueue.songs[0].title}\n**Channel**\n${tempQueue.songs[0].channel}\n**Url**\nhttps://youtube.com/watch?v=${tempQueue.songs[0].url}\n**Description**\n${tempQueue.songs[0].description}`);
+			return message.channel.send(`**Title**\n${tempQueue.songs[0].title}\n**Channel ID**\n${tempQueue.songs[0].channel}\n**Video ID**\n${tempQueue.songs[0].url}\n**Description**\n${tempQueue.songs[0].description}`);
 		default:
 			client.commands.get(command).execute(message, args);
 		// try {
