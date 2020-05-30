@@ -87,6 +87,18 @@ client.on('message', async message => {
 		case 'queue':
 			getQueue(message);
 			return;
+		case 'channel':
+			let tempQueue = queue.get(message.guild.id);
+			return message.channel.send(`**Channel**\nhttps://youtube.com/channel/${tempQueue.songs[0].channel}`);
+		case 'description':
+			let tempQueue = queue.get(message.guild.id);
+			return message.channel.send(`**Description**\n${tempQueue.songs[0].description}`);
+			case 'description':
+				let tempQueue = queue.get(message.guild.id);
+				return message.channel.send(`**Description**\n${tempQueue.songs[0].url}`);
+		case 'info':
+			let tempQueue = queue.get(message.guild.id);
+			return message.channel.send(`**Title**\n${tempQueue.songs[0].title}\n**Channel**\n${tempQueue.songs[0].channel}\n**Url**\nhttps://youtube.com/watch?v=${tempQueue.songs[0].url}\n**Description**\n${tempQueue.songs[0].description}`);
 		default:
 			client.commands.get(command).execute(message, args);
 		// try {
@@ -156,11 +168,6 @@ async function run(message, serverQueue) {
 					if (result.items[i].snippet.title.includes(arg))
 						matchArray[i] += 1
 				}
-			}
-
-			var song = {
-				title: result.items[0].snippet.title,
-				url: result.items[0].id.videoId
 			}
 
 			if (largestElement(matchArray) == 0) {
@@ -235,7 +242,6 @@ function stop(message, serverQueue) {
 
 function play(guild, song) {
 	const serverQueue = queue.get(guild.id);
-
 	if (!song) {
 		serverQueue.voiceChannel.leave();
 		queue.delete(guild.id);
