@@ -139,7 +139,7 @@ async function run(message, serverQueue) {
 		return message.channel.send('I need the permissions to join and speak in your voice channel!');
 	}
 
-	youTube.search(args.join(' '), 1,
+	youTube.search(args.join(' '), 10,
 		async function (error, result) {
 			if (error) throw new Error(error);
 
@@ -167,6 +167,7 @@ async function run(message, serverQueue) {
 					url: result.items[0].id.videoId
 				}
 			} else {
+				console.log(result.items)
 				var song = {
 					title: result.items[matchArray.indexOf(largestElement(matchArray))].snippet.title,
 					url: result.items[matchArray.indexOf(largestElement(matchArray))].id.videoId
