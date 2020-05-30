@@ -89,30 +89,30 @@ client.on('message', async message => {
 			return;
 		default:
 			client.commands.get(command).execute(message, args);
-			// try {
-			// 	client.commands.get(command).execute(message, args);
-			// } catch {
-			// 	if (command == 'help') {
-			// 		if (args.length > 0) {
-			// 			try {
-			// 				message.channel.send(client.commands.get(args[0].description));
-			// 				return;
-			// 			} catch {
-			// 				message.channel.send('Invalid command name!');
-			// 				return;
-			// 			}
-			// 		} else {
-			// 			returnMessage = `$ - Prefix, $[command] [args] - Formatting\n`;
-			// 			for (var x = 0; x < client.commands.keys().length; x++) {
-			// 				returnMessage += `${client.commands.keys()[x]}\n`;
-			// 			}
-			// 			message.channel.send(returnMessage);
-			// 			return;
-			// 		}
-			// 	}
-			// 	message.channel.send('Invalid command name!')
-			// 	return;
-			// }
+		// try {
+		// 	client.commands.get(command).execute(message, args);
+		// } catch {
+		// 	if (command == 'help') {
+		// 		if (args.length > 0) {
+		// 			try {
+		// 				message.channel.send(client.commands.get(args[0].description));
+		// 				return;
+		// 			} catch {
+		// 				message.channel.send('Invalid command name!');
+		// 				return;
+		// 			}
+		// 		} else {
+		// 			returnMessage = `$ - Prefix, $[command] [args] - Formatting\n`;
+		// 			for (var x = 0; x < client.commands.keys().length; x++) {
+		// 				returnMessage += `${client.commands.keys()[x]}\n`;
+		// 			}
+		// 			message.channel.send(returnMessage);
+		// 			return;
+		// 		}
+		// 	}
+		// 	message.channel.send('Invalid command name!')
+		// 	return;
+		// }
 	}
 });
 
@@ -148,8 +148,6 @@ async function run(message, serverQueue) {
 				url: '6UH6CySotso'
 			}
 
-			console.log(result.items);
-
 			matchArray = [];
 
 			for (var i = 0; i < result.items.length; i++) {
@@ -159,13 +157,6 @@ async function run(message, serverQueue) {
 						matchArray[i] += 1
 				}
 			}
-			console.log(matchArray);
-			try {
-				console.log(matchArray.indexOf(largestElement(matchArray)));
-			} catch {
-				console.log('Error cannot log matchArray');
-			}
-			console.log(largestElement(matchArray));
 
 			var song = {
 				title: result.items[0].snippet.title,
@@ -173,22 +164,21 @@ async function run(message, serverQueue) {
 			}
 
 			if (largestElement(matchArray) == 0) {
+				let choice = rand(0, result.items.length - 1);
 				var song = {
-					title: result.items[0].snippet.title,
-					url: result.items[0].id.videoId
-				}
+					title: result.items[choice].snippet.title,
+					url: result.items[choice].id.videoId,
+					description: result.items[choice].snippet.description,
+					channel: result.items[choice].channelId
+				};
 			} else {
-				console.log(result.items)
-				try {
-					console.log(result.items);
-				} catch {
-					console.log('Errorman');
-				}
 				try {
 					var song = {
 						title: result.items[matchArray.indexOf(largestElement(matchArray))].snippet.title,
-						url: result.items[matchArray.indexOf(largestElement(matchArray))].id.videoId
-					}
+						url: result.items[matchArray.indexOf(largestElement(matchArray))].id.videoId,
+						description: result.items[matchArray.indexOf(largestElement(matchArray))].snippet.description,
+						channel: result.items[matchArray.indexOf(largestElement(matchArray))].channelId
+					};
 				} catch {
 					console.log('Matcharray error when writing to song.');
 				}
@@ -281,5 +271,11 @@ function largestElement(array) {
 		}
 	}
 	return largest;
+}
+
+function rand(min, max) {
+	min = Math.ceil(min);
+	max = Math.floor(max);
+	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 client.login(process.env.token);
