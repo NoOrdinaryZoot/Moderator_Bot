@@ -100,7 +100,12 @@ client.on('message', async message => {
 			var tempQueue = queue.get(message.guild.id);
 			return message.channel.send(`**Title**\n${tempQueue.songs[0].title}\n**Channel ID**\n${tempQueue.songs[0].channel}\n**Video ID**\n${tempQueue.songs[0].url}\n**Description**\n${tempQueue.songs[0].description}`);
 		default:
-			client.commands.get(command).execute(message, args);
+			try {
+				client.commands.get(command).execute(message, args);
+				return;
+			} catch {
+				return message.channel.send('Command was not recognised.');
+			}
 		// try {
 		// 	client.commands.get(command).execute(message, args);
 		// } catch {
