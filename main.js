@@ -159,7 +159,7 @@ async function run(message, serverQueue) {
 						matchArray[i] += 1
 				}
 			}
-			console.log(result.items[matchArray.indexOf(largestElement(matchArray))].snippet.title);
+			console.log(largestElement(matchArray));
 
 			if (largestElement(matchArray) == 0) {
 				var song = {
