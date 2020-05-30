@@ -139,7 +139,7 @@ async function run(message, serverQueue) {
 		return message.channel.send('I need the permissions to join and speak in your voice channel!');
 	}
 
-	youTube.search(args.join(' '), 20,
+	youTube.search(args.join(' '), 1,
 		async function (error, result) {
 			if (error) throw new Error(error);
 
