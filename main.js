@@ -159,7 +159,18 @@ async function run(message, serverQueue) {
 						matchArray[i] += 1
 				}
 			}
+			console.log(matchArray);
+			try {
+				console.log(matchArray.indexOf(largestElement(matchArray)));
+			} catch {
+				console.log('Error cannot log matchArray');
+			}
 			console.log(largestElement(matchArray));
+
+			var song = {
+				title: result.items[0].snippet.title,
+				url: result.items[0].id.videoId
+			}
 
 			if (largestElement(matchArray) == 0) {
 				var song = {
@@ -168,9 +179,18 @@ async function run(message, serverQueue) {
 				}
 			} else {
 				console.log(result.items)
-				var song = {
-					title: result.items[matchArray.indexOf(largestElement(matchArray))].snippet.title,
-					url: result.items[matchArray.indexOf(largestElement(matchArray))].id.videoId
+				try {
+					console.log(result.items);
+				} catch {
+					console.log('Errorman');
+				}
+				try {
+					var song = {
+						title: result.items[matchArray.indexOf(largestElement(matchArray))].snippet.title,
+						url: result.items[matchArray.indexOf(largestElement(matchArray))].id.videoId
+					}
+				} catch {
+					console.log('Matcharray error when writing to song.');
 				}
 			}
 
