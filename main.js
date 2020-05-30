@@ -147,7 +147,7 @@ async function getQueue(message) {
 	return message.channel.send(returnMessage);
 }
 async function run(message, serverQueue) {
-	const args = message.content.split(' ').shift();
+	const args = message.content.split(' ');
 
 	const voiceChannel = message.member.voice.channel;
 	if (!voiceChannel) return message.channel.send('You need to be in a voice channel to play music!');
@@ -155,6 +155,9 @@ async function run(message, serverQueue) {
 	if (!permissions.has('CONNECT') || !permissions.has('SPEAK')) {
 		return message.channel.send('I need the permissions to join and speak in your voice channel!');
 	}
+
+	console.log(args.join(' '));
+	console.log(args);
 
 	youTube.search(args.join(' '), 10,
 		async function (error, result) {
