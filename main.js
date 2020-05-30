@@ -275,7 +275,6 @@ function play(guild, song) {
 
 function largestElement(array) {
 	var largest = 0;
-	var array = [0, 0, 0, 0, 2, 0, 0, 2, 0]
 	for (i = 0; i < array.length; i++) {
 		if (array[i] > largest) {
 			var largest = array[i];
