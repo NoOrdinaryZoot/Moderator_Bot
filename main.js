@@ -72,9 +72,6 @@ client.on('message', async message => {
 
 	args.shift();
 
-	console.log(args);
-	console.log(args.shift());
-
 	const serverQueue = queue.get(message.guild.id);
 
 	switch (command) {
@@ -150,7 +147,11 @@ async function getQueue(message) {
 	return message.channel.send(returnMessage);
 }
 async function run(message, serverQueue) {
-	const args = message.content.split(' ');
+	let msg = message.content.slice(process.env.prefix.length);
+
+	let args = msg.split(" ");
+
+	args.shift();
 
 	const voiceChannel = message.member.voice.channel;
 	if (!voiceChannel) return message.channel.send('You need to be in a voice channel to play music!');
