@@ -78,6 +78,7 @@ client.on('message', async message => {
 		case 'themesong':
 			message.content = 'Al Assad 10 hour Version'
 			run(message, serverQueue);
+			return;
 		case 'play':
 			run(message, serverQueue);
 			return;
@@ -87,6 +88,8 @@ client.on('message', async message => {
 		case 'stop':
 			stop(message, serverQueue);
 			return;
+		case 'motivation':
+			message.content = 'Al Assad ear rape'
 		case 'queue':
 			getQueue(message);
 			return;
