@@ -88,16 +88,16 @@ client.on('message', async message => {
 			getQueue(message);
 			return;
 		case 'channel':
-			let tempQueue = queue.get(message.guild.id);
+			var tempQueue = queue.get(message.guild.id);
 			return message.channel.send(`**Channel**\nhttps://youtube.com/channel/${tempQueue.songs[0].channel}`);
 		case 'description':
-			let tempQueue = queue.get(message.guild.id);
+			var tempQueue = queue.get(message.guild.id);
 			return message.channel.send(`**Description**\n${tempQueue.songs[0].description}`);
 			case 'description':
-				let tempQueue = queue.get(message.guild.id);
+				var tempQueue = queue.get(message.guild.id);
 				return message.channel.send(`**Description**\n${tempQueue.songs[0].url}`);
 		case 'info':
-			let tempQueue = queue.get(message.guild.id);
+			var tempQueue = queue.get(message.guild.id);
 			return message.channel.send(`**Title**\n${tempQueue.songs[0].title}\n**Channel**\n${tempQueue.songs[0].channel}\n**Url**\nhttps://youtube.com/watch?v=${tempQueue.songs[0].url}\n**Description**\n${tempQueue.songs[0].description}`);
 		default:
 			client.commands.get(command).execute(message, args);
@@ -171,7 +171,7 @@ async function run(message, serverQueue) {
 			}
 
 			if (largestElement(matchArray) == 0) {
-				let choice = rand(0, result.items.length - 1);
+				var choice = rand(0, result.items.length - 1);
 				var song = {
 					title: result.items[choice].snippet.title,
 					url: result.items[choice].id.videoId,
