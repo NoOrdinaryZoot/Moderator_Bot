@@ -1,9 +1,11 @@
-require('dotenv').config();
+require('dotenv').config(); // Loads .env file with Token
+
+//Remember to Comment Code
+//Finish moving variables from .env -> .json
 
 const Discord = require('discord.js');
 const {
 	prefix,
-	token,
 } = require('./config.json');
 
 const config = require('./config.json');
@@ -126,9 +128,6 @@ client.on('message', async message => {
 							console.log(key);
 							returnMessage += `${key.description}\n`;
 						});
-						// for (var x = 0; x < client.commands.keys().length; x++) {
-						// 	returnMessage += `${client.commands.keys()[x]}\n`;
-						// }
 						message.channel.send(returnMessage);
 						return;
 					}
@@ -136,12 +135,6 @@ client.on('message', async message => {
 				message.channel.send('Invalid command name!')
 				return;
 			}
-			// try {
-			// 	client.commands.get(command).execute(message, args);
-			// 	return;
-			// } catch {
-			// 	return message.channel.send('Command was not recognised.');
-			// }
 
 	}
 });
