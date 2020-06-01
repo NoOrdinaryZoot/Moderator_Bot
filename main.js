@@ -122,9 +122,13 @@ client.on('message', async message => {
 						}
 					} else {
 						returnMessage = `$ - Prefix, $[command] [args] - Formatting\n`;
-						for (var x = 0; x < client.commands.keys().length; x++) {
-							returnMessage += `${client.commands.keys()[x]}\n`;
-						}
+						client.commands.forEach(key => {
+							console.log(key);
+							returnMessage += `${key.description}\n`;
+						});
+						// for (var x = 0; x < client.commands.keys().length; x++) {
+						// 	returnMessage += `${client.commands.keys()[x]}\n`;
+						// }
 						message.channel.send(returnMessage);
 						return;
 					}
