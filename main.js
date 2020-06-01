@@ -110,34 +110,35 @@ client.on('message', async message => {
 		default:
 			try {
 				client.commands.get(command).execute(message, args);
-				return;
 			} catch {
-				return message.channel.send('Command was not recognised.');
+				if (command == 'help') {
+					if (args.length > 0) {
+						try {
+							message.channel.send(client.commands.get(args[0]).description);
+							return;
+						} catch {
+							message.channel.send('Invalid command name!');
+							return;
+						}
+					} else {
+						returnMessage = `$ - Prefix, $[command] [args] - Formatting\n`;
+						for (var x = 0; x < client.commands.keys().length; x++) {
+							returnMessage += `${client.commands.keys()[x]}\n`;
+						}
+						message.channel.send(returnMessage);
+						return;
+					}
+				}
+				message.channel.send('Invalid command name!')
+				return;
 			}
-		// try {
-		// 	client.commands.get(command).execute(message, args);
-		// } catch {
-		// 	if (command == 'help') {
-		// 		if (args.length > 0) {
-		// 			try {
-		// 				message.channel.send(client.commands.get(args[0].description));
-		// 				return;
-		// 			} catch {
-		// 				message.channel.send('Invalid command name!');
-		// 				return;
-		// 			}
-		// 		} else {
-		// 			returnMessage = `$ - Prefix, $[command] [args] - Formatting\n`;
-		// 			for (var x = 0; x < client.commands.keys().length; x++) {
-		// 				returnMessage += `${client.commands.keys()[x]}\n`;
-		// 			}
-		// 			message.channel.send(returnMessage);
-		// 			return;
-		// 		}
-		// 	}
-		// 	message.channel.send('Invalid command name!')
-		// 	return;
-		// }
+			// try {
+			// 	client.commands.get(command).execute(message, args);
+			// 	return;
+			// } catch {
+			// 	return message.channel.send('Command was not recognised.');
+			// }
+
 	}
 });
 
