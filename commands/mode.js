@@ -4,10 +4,11 @@ module.exports = {
     mode: 'neutral',
     execute(message, args) {
         const config = require('./config.json');
-        Tstring = 'string';
-        console.log(args[0].toLowerCase())
-        console.log(config.modeIndex.indexOf(args[0].toLowerCase()) != -1)
+        console.log(args[0].toLowerCase());
+        console.log(config.modeIndex.indexOf(args[0].toLowerCase()) != -1);
         console.log(config.modeIndex);
+        message.channel.send(config.modeIndex.join(' '));
+        message.channel.send(args[0].toLowerCase());
         if (args[0].toLowerCase() == config.mode) {
             message.channel.send(`Mode is already '${args[0].toLowerCase()}'`)
         } else if (config.modeIndex.indexOf(args[0].toLowerCase()) != -1) {
