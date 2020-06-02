@@ -5,6 +5,9 @@ module.exports = {
     execute(message, args) {
         const config = require('./config.json');
         Tstring = 'string';
+        console.log(args[0].toLowerCase())
+        console.log(config.modeIndex.indexOf(args[0].toLowerCase()) != -1)
+        console.log(config.modeIndex);
         if (args[0].toLowerCase() == config.mode) {
             message.channel.send(`Mode is already '${args[0].toLowerCase()}'`)
         } else if (config.modeIndex.indexOf(args[0].toLowerCase()) != -1) {
