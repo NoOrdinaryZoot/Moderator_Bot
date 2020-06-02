@@ -104,9 +104,6 @@ client.on("message", async message => {
             case 'filter':
                 message.channel.messages.fetch().then(messages => {
                     const botMessages = messages.filter(checker);
-                    for (msg in botMessages) {
-                        console.log(msg.content);
-                    }
                     message.channel.bulkDelete(botMessages);
 
                 }).catch(err => {

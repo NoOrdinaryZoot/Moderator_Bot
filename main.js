@@ -8,7 +8,7 @@ const {
 	prefix,
 } = require('./config.json');
 
-const config = require('./config.json');
+const storage = require('./storage.json');
 
 const fs = require('fs');
 
@@ -29,26 +29,16 @@ for (const file of commandFiles) {
 
 const Reddit = require('reddit')
 const fetch = require("node-fetch");
-const opusscript = require("opusscript");
 
-var ffmpeg = require('ffmpeg');
+const ffmpeg = require('ffmpeg');
+const opusscript = require("opusscript");
 
 const ytdl = require('ytdl-core');
 const YouTube = require('youtube-node');
 var youTube = new YouTube();
 youTube.setKey('AIzaSyAA1d3H-fhkfSS9O9f0pwpAXImsoxLVgoQ');
 
-const Entities = require('html-entities').AllHtmlEntities;
-
-const entities = new Entities();
-
 const queue = new Map();
-
-var badlist = process.env.blacklist.split(",");
-var quotes = process.env.quotes.split("~");
-
-var steamidslocal = process.env.steamids.split(",");
-var steamcodeslocal = process.env.steamcodes.split(",");
 
 client.once('ready', () => {
 	console.log('Ready!');
