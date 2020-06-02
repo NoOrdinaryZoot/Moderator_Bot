@@ -1,6 +1,5 @@
 {
     "prefix" : "$",
-    "owner" : "385166607225323521",
-    "token" : "",
-    "blacklist" : ["badwordsandstuff"]
+    "mode" : "entertainment",
+    "modeIndex" : ["entertainment", "moderate"]
 }

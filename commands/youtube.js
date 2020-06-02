@@ -1,6 +1,7 @@
 module.exports = {
     name: 'youtube',
     description: 'Fetches videos from youtube\nSyntax is ```$youtube [video name]```',
+    mode: 'entertainment',
     execute(message, args) {
         const YouTube = require('youtube-node');
         var youTube = new YouTube();

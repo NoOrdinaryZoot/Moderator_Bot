@@ -6,9 +6,18 @@ require('dotenv').config(); // Loads .env file with Token
 const Discord = require('discord.js');
 const {
 	prefix,
+	mode,
 } = require('./config.json');
 
-const storage = require('./storage.json');
+// let filterWords = storage.filter;
+// checkValue = value.content.toLowerCase().split(' ');
+// for (var i = 0; i < filterWords.length; i++) {
+// 	for (var x = 0; x < checkValue.length; x++) {
+// 		if (checkValue[x].includes(filterWords[i])) {
+// 			console.log(`${value.author.username} censored for message ${value.content} : ${filterWords[i]}`);
+// 		}
+// 	}
+// }
 
 const fs = require('fs');
 
@@ -66,66 +75,71 @@ client.on('message', async message => {
 
 	const serverQueue = queue.get(message.guild.id);
 
-	switch (command) {
-		case 'themesong':
-			message.content = 'Al Assad 10 hour Version'
-			run(message, serverQueue);
-			return;
-		case 'play':
-			run(message, serverQueue);
-			return;
-		case 'skip':
-			skip(message, serverQueue);
-			return;
-		case 'stop':
-			stop(message, serverQueue);
-			return;
-		case 'motivation':
-			message.content = 'Al Assad ear rape';
-			run(message, serverQueue);
-			return;
-		case 'queue':
-			getQueue(message);
-			return;
-		case 'channel':
-			var tempQueue = queue.get(message.guild.id);
-			return message.channel.send(`**Channel ID**\n${tempQueue.songs[0].channel}`);
-		case 'description':
-			var tempQueue = queue.get(message.guild.id);
-			return message.channel.send(`**Description**\n${tempQueue.songs[0].description}`);
-		case 'url':
-			var tempQueue = queue.get(message.guild.id);
-			return message.channel.send(`**Video ID**\n${tempQueue.songs[0].url}`);
-		case 'info':
-			var tempQueue = queue.get(message.guild.id);
-			return message.channel.send(`**Title**\n${tempQueue.songs[0].title}\n**Channel ID**\n${tempQueue.songs[0].channel}\n**Video ID**\n${tempQueue.songs[0].url}\n**Description**\n${tempQueue.songs[0].description}`);
-		default:
-			try {
-				client.commands.get(command).execute(message, args);
-			} catch {
-				if (command == 'help') {
-					if (args.length > 0) {
-						try {
-							message.channel.send(client.commands.get(args[0]).description);
-							return;
-						} catch {
-							message.channel.send('Invalid command name!');
-							return;
-						}
-					} else {
-						returnMessage = `$ - Prefix, $[command] [args] - Formatting\n`;
-						client.commands.forEach(key => {
-							console.log(key);
-							returnMessage += `${key.description}\n`;
-						});
-						message.channel.send(returnMessage);
-						return;
-					}
+	if (mode == "entertainment") {
+		switch (command) {
+			case 'themesong':
+				message.content = 'Al Assad 10 hour Version'
+				run(message, serverQueue);
+				return;
+			case 'play':
+				run(message, serverQueue);
+				return;
+			case 'skip':
+				skip(message, serverQueue);
+				return;
+			case 'stop':
+				stop(message, serverQueue);
+				return;
+			case 'motivation':
+				message.content = 'Al Assad ear rape';
+				run(message, serverQueue);
+				return;
+			case 'queue':
+				getQueue(message);
+				return;
+			case 'channel':
+				var tempQueue = queue.get(message.guild.id);
+				return message.channel.send(`**Channel ID**\n${tempQueue.songs[0].channel}`);
+			case 'description':
+				var tempQueue = queue.get(message.guild.id);
+				return message.channel.send(`**Description**\n${tempQueue.songs[0].description}`);
+			case 'url':
+				var tempQueue = queue.get(message.guild.id);
+				return message.channel.send(`**Video ID**\n${tempQueue.songs[0].url}`);
+			case 'info':
+				var tempQueue = queue.get(message.guild.id);
+				return message.channel.send(`**Title**\n${tempQueue.songs[0].title}\n**Channel ID**\n${tempQueue.songs[0].channel}\n**Video ID**\n${tempQueue.songs[0].url}\n**Description**\n${tempQueue.songs[0].description}`);
+
+		}
+	}
+	try {
+		if (client.commands.get(command).mode == mode || client.commands.get(command).mode == "neutral") {
+			client.commands.get(command).execute(message, args);
+		} else {
+			message.channel.send('Bot is in wrong mode, use $mode to specify which commands you would like to use.')
+		}
+	} catch {
+		if (command == 'help') {
+			if (args.length > 0) {
+				try {
+					message.channel.send(client.commands.get(args[0]).description);
+					return;
+				} catch {
+					message.channel.send('Invalid command name!');
+					return;
 				}
-				message.channel.send('Invalid command name!')
+			} else {
+				returnMessage = `$ - Prefix, $[command] [args] - Formatting\n`;
+				client.commands.forEach(key => {
+					console.log(key);
+					returnMessage += `${key.description}\n`;
+				});
+				message.channel.send(returnMessage);
 				return;
 			}
-
+		}
+		message.channel.send('Invalid command name!')
+		return;
 	}
 });
 
