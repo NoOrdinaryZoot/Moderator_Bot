@@ -5,6 +5,7 @@ module.exports = {
     execute(message, args) {
         const config = require('./config.json');
         console.log(args[0].toLowerCase());
+        return;
         console.log(config.modeIndex.indexOf(args[0].toLowerCase()) != -1);
         console.log(config.modeIndex);
         message.channel.send(config.modeIndex.join(' '));
