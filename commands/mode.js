@@ -3,7 +3,7 @@ module.exports = {
     description: 'Changes the mode of the bot \nSyntax is ```$mode [mode name]```',
     mode: 'neutral',
     execute(message, args) {
-        const config = require('./config.json');
+        const config = require('../config.json');
         console.log(args[0].toLowerCase());
         console.log(config.modeIndex.indexOf(args[0].toLowerCase()));
         console.log(config.modeIndex);
