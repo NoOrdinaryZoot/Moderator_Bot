@@ -89,19 +89,9 @@ client.on('message', async message => {
 			case 'queue':
 				getQueue(message);
 				return;
-			case 'channel':
+			case 'song':
 				var tempQueue = queue.get(message.guild.id);
-				return message.channel.send(`**Channel ID**\n${tempQueue.songs[0].channel}`);
-			case 'description':
-				var tempQueue = queue.get(message.guild.id);
-				return message.channel.send(`**Description**\n${tempQueue.songs[0].description}`);
-			case 'url':
-				var tempQueue = queue.get(message.guild.id);
-				return message.channel.send(`**Video ID**\n${tempQueue.songs[0].url}`);
-			case 'info':
-				var tempQueue = queue.get(message.guild.id);
-				return message.channel.send(`**Title**\n${tempQueue.songs[0].title}\n**Channel ID**\n${tempQueue.songs[0].channel}\n**Video ID**\n${tempQueue.songs[0].url}\n**Description**\n${tempQueue.songs[0].description}`);
-
+				return message.channel.send(`****Title**\n${tempQueue.songs[0].title}\nVideo ID**\n${tempQueue.songs[0].url}`);
 		}
 	}
 	try {
@@ -191,8 +181,6 @@ async function run(message, serverQueue) {
 					var song = {
 						title: result.items[0].snippet.title,
 						url: result.items[0].id.videoId,
-						description: result.items[0].snippet.description,
-						channel: result.items[0].channelId
 					};
 				} catch {
 					return message.channel.send(`No results were found for ${args.join(' ')}`);
@@ -202,8 +190,6 @@ async function run(message, serverQueue) {
 					var song = {
 						title: result.items[matchArray.indexOf(largestElement(matchArray))].snippet.title,
 						url: result.items[matchArray.indexOf(largestElement(matchArray))].id.videoId,
-						description: result.items[matchArray.indexOf(largestElement(matchArray))].snippet.description,
-						channel: result.items[matchArray.indexOf(largestElement(matchArray))].channelId
 					};
 				} catch {
 					console.log('Matcharray error when writing to song.');
