@@ -9,15 +9,7 @@ const {
 	mode,
 } = require('./config.json');
 
-// let filterWords = storage.filter;
-// checkValue = value.content.toLowerCase().split(' ');
-// for (var i = 0; i < filterWords.length; i++) {
-// 	for (var x = 0; x < checkValue.length; x++) {
-// 		if (checkValue[x].includes(filterWords[i])) {
-// 			console.log(`${value.author.username} censored for message ${value.content} : ${filterWords[i]}`);
-// 		}
-// 	}
-// }
+const config = require('./config.json');
 
 const fs = require('fs');
 
