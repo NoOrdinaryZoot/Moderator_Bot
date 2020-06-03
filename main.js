@@ -108,6 +108,7 @@ client.on('message', async message => {
 		if (client.commands.get(command).mode == mode || client.commands.get(command).mode == "neutral") {
 			client.commands.get(command).execute(message, args);
 			console.log(config.modeIndex);
+			console.log(config.mode);
 		} else {
 			message.channel.send('Bot is in wrong mode, use $mode to specify which commands you would like to use.')
 		}
