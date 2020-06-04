@@ -40,6 +40,8 @@ var youTube = new YouTube();
 youTube.setKey('AIzaSyAA1d3H-fhkfSS9O9f0pwpAXImsoxLVgoQ');
 
 const queue = new Map();
+storage.filters = new Map();
+storage.games = new Map();
 
 client.once('ready', () => {
 	console.log('Ready!');
@@ -57,7 +59,7 @@ client.on('message', async message => {
 	if (message.author.bot) return;
 	if (!message.content.startsWith(prefix)) return;
 
-	let msg = message.content.slice(process.env.prefix.length);
+	let msg = message.content.slice(prefix.length);
 
 	let args = msg.split(" ");
 
@@ -140,8 +142,29 @@ async function getQueue(message) {
 	returnMessage += '```';
 	return message.channel.send(returnMessage);
 }
+
+async function volume(message) {
+	let msg = message.content.slice(prefix.length);
+	let args = msg.split(" ");
+	args.shift();
+
+	try {
+		const serverQueue = queue.get(message.guild.id);
+		if (!serverQueue) {
+			return message.channel.send('There are no songs in the queue!');
+		}
+		serverQueue.volume = args[0];
+		const dispatcher = serverQueue.connection;
+		dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
+		return message.channel.send(`Volume was set to ${args[0]}`);
+	} catch {
+		return message.channel.send(`Error setting volume.`);
+	}
+
+	
+}
 async function run(message, serverQueue) {
-	let msg = message.content.slice(process.env.prefix.length);
+	let msg = message.content.slice(prefix.length);
 
 	let args = msg.split(" ");
 

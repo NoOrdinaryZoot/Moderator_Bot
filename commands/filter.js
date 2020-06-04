@@ -6,10 +6,17 @@ module.exports = {
         const storage = require('./storage.json');
 
         var censorCount = 0;
+        
+        storage.filters = new Map();
 
+        const serverFilter = storage.filters.get(message.guild.id);
+
+        if (!serverFilter) {
+            storage.filters.set(message.guild.id, []);
+        }
         message.channel.messages.fetch().then(messages => {
             const filterMessages = messages.filter(value => {
-                let filterWords = storage.filter;
+                let filterWords = serverFilter;
                 checkValue = value.content.toLowerCase().split(' ');
                 for (var i = 0; i < filterWords.length; i++) {
                     for (var x = 0; x < checkValue.length; x++) {
