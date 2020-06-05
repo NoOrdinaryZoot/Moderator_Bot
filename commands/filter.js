@@ -11,6 +11,8 @@ module.exports = {
             return message.channel.send('There is no blacklist present in this server!');
         }
         
+        var censorCount = 0;
+        
         message.channel.messages.fetch().then(messages => {
             const filterMessages = messages.filter(value => {
                 var filterWords = serverFilter;
