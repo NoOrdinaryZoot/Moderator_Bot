@@ -10,7 +10,7 @@ const {
 } = require('./config.json');
 
 const config = require('./config.json');
-
+const storage = require('./storage.json');
 const fs = require('fs');
 
 const client = new Discord.Client();
