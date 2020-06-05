@@ -4,10 +4,11 @@ module.exports = {
     execute(message, args) {
         const storage = require('../storage.json');
 
-        const serverFilter = storage.filters.get(message.guild.id);
+        var serverFilter = storage.filters.get(message.guild.id);
 
         if (!serverFilter) {
             storage.filters.set(message.guild.id, []);
+            serverFilter = storage.filters.get(message.guild.id);
             return message.channel.send('There is no blacklist present in this server!');
         }
         
