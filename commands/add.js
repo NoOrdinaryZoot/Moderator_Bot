@@ -14,11 +14,11 @@ module.exports = {
         console.log('Start')
         console.log(args);
         console.log(args.join(' '))
+        serverFilter.push(args.join(' '));
         console.log(storage.filters.get(message.guild.id));
         console.log(serverFilter);
         console.log('End')
 
-        serverFilter.push(args.join(' '));
         // storage.filters.set(message.guild.id, serverFilter);
 
         // try {
