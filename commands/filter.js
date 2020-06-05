@@ -12,7 +12,7 @@ module.exports = {
         }
         
         var censorCount = 0;
-        
+
         message.channel.messages.fetch().then(messages => {
             const filterMessages = messages.filter(value => {
                 var filterWords = serverFilter;
@@ -22,6 +22,7 @@ module.exports = {
                         if (checkValue[x].includes(filterWords[i])) {
                             censorCount += 1;
                             console.log(`${value.author.username} censored for message ${value.content} : ${filterWords[i]}`);
+                            return true;
                         }
                     }
                 }
