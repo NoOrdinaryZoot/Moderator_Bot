@@ -10,11 +10,16 @@ module.exports = {
             storage.filters.set(message.guild.id, []);
         }
 
-        serverFilter.push(args.join(' '));
-        // storage.filters.set(message.guild.id, serverFilter);
 
+        console.log('Start')
+        console.log(args);
+        console.log(args.join(' '))
         console.log(storage.filters.get(message.guild.id));
         console.log(serverFilter);
+        console.log('End')
+
+        serverFilter.push(args.join(' '));
+        // storage.filters.set(message.guild.id, serverFilter);
 
         // try {
         //     if (serverFilter.indexOf(args.join(' ')) > -1) {

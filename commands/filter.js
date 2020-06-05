@@ -30,6 +30,7 @@ module.exports = {
             message.channel.send(`${censorCount} messages were filtered.`)
 
         }).catch(err => {
+            console.log(err);
             console.log('Error while doing Bulk Delete');
         });
     }
