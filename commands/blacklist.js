@@ -3,7 +3,7 @@ module.exports = {
     description: 'Prints out blacklisted words \nSyntax is ```$blacklist```',
     execute(message, args) {
         const storage = require('./storage.json');
-
+//O
         const serverFilter = storage.filters.get(message.guild.id);
 
         if (!serverFilter) {
