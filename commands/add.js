@@ -9,8 +9,8 @@ module.exports = {
         if (!serverFilter) {
             storage.filters.set(message.guild.id, []);
         }
-
-        serverFilter.append(args.join(' '));
+        
+        serverFilter.push(args.join(' '));
         storage.filters.set(message.guild.id, serverFilter);
 
         console.log(storage.filters.get(message.guild.id));
