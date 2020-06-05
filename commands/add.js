@@ -1,7 +1,7 @@
 module.exports = {
     name: 'add',
     description: 'Adds a blacklisted word \nSyntax is ```$add [word]```',
-    mode: "moderate",
+    mode: 'moderate',
     execute(message, args) {
         const storage = require('./storage.json');
 

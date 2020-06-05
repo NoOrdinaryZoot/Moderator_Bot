@@ -25,6 +25,7 @@ for (const file of commandFiles) {
 
 	// With the key as the command name and the value as the exported module
 	// Key is command name and value is exported module -> (command.name, command) or (command name, value)
+	// Command is set in format (key, value)
 	client.commands.set(command.name, command);
 }
 
@@ -85,11 +86,14 @@ client.on('message', async message => {
 				stop(message, serverQueue);
 				return;
 			case 'motivation':
-				message.content = 'Al Assad ear rape';
+				message.content = 'Al Assad Ear Rape';
 				run(message, serverQueue);
 				return;
 			case 'queue':
 				getQueue(message);
+				return;
+			case 'volume':
+				volume(message);
 				return;
 			case 'song':
 				var tempQueue = queue.get(message.guild.id);
@@ -160,8 +164,6 @@ async function volume(message) {
 	} catch {
 		return message.channel.send(`Error setting volume.`);
 	}
-
-	
 }
 async function run(message, serverQueue) {
 	let msg = message.content.slice(prefix.length);
