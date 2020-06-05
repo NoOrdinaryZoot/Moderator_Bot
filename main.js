@@ -6,7 +6,6 @@ require('dotenv').config(); // Loads .env file with Token
 const Discord = require('discord.js');
 const {
 	prefix,
-	mode,
 } = require('./config.json');
 
 const config = require('./config.json');
@@ -69,45 +68,36 @@ client.on('message', async message => {
 	args.shift();
 
 	const serverQueue = queue.get(message.guild.id);
-
-	if (mode == "entertainment") {
-		switch (command) {
-			case 'themesong':
-				message.content = 'Al Assad 10 hour Version'
-				run(message, serverQueue);
-				return;
-			case 'play':
-				run(message, serverQueue);
-				return;
-			case 'skip':
-				skip(message, serverQueue);
-				return;
-			case 'stop':
-				stop(message, serverQueue);
-				return;
-			case 'motivation':
-				message.content = 'Al Assad Ear Rape';
-				run(message, serverQueue);
-				return;
-			case 'queue':
-				getQueue(message);
-				return;
-			case 'volume':
-				volume(message);
-				return;
-			case 'song':
-				var tempQueue = queue.get(message.guild.id);
-				return message.channel.send(`****Title**\n${tempQueue.songs[0].title}\nVideo ID**\n${tempQueue.songs[0].url}`);
-		}
+	switch (command) {
+		case 'themesong':
+			message.content = 'Al Assad 10 hour Version'
+			run(message, serverQueue);
+			return;
+		case 'play':
+			run(message, serverQueue);
+			return;
+		case 'skip':
+			skip(message, serverQueue);
+			return;
+		case 'stop':
+			stop(message, serverQueue);
+			return;
+		case 'motivation':
+			message.content = 'Al Assad Ear Rape';
+			run(message, serverQueue);
+			return;
+		case 'queue':
+			getQueue(message);
+			return;
+		case 'volume':
+			volume(message);
+			return;
+		case 'song':
+			var tempQueue = queue.get(message.guild.id);
+			return message.channel.send(`****Title**\n${tempQueue.songs[0].title}\nVideo ID**\n${tempQueue.songs[0].url}`);
 	}
 	try {
-		if (client.commands.get(command).mode == mode || client.commands.get(command).mode == "neutral") {
-			client.commands.get(command).execute(message, args);
-			console.log(config.modeIndex);
-			console.log(config.mode);
-		} else {
-			message.channel.send('Bot is in wrong mode, use $mode to specify which commands you would like to use.')
-		}
+		client.commands.get(command).execute(message, args);
 	} catch {
 		if (command == 'help') {
 			if (args.length > 0) {

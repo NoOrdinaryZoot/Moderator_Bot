@@ -1,7 +1,6 @@
 module.exports = {
 	name: 'template',
     description: 'Acts as a template command \nSyntax is ```$template```',
-    mode: 'moderate or entertainment',
 	execute(message, args) {
 		const Reddit = require('reddit');
         const fetch = require("node-fetch");

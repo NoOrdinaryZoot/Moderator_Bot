@@ -1,7 +1,6 @@
 module.exports = {
     name: 'mode',
     description: 'Changes the mode of the bot \nSyntax is ```$mode [mode name]```',
-    mode: 'neutral',
     execute(message, args) {
         const config = require('../config.json');
         if (args[0].toLowerCase() == config.mode) {

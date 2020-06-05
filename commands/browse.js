@@ -1,7 +1,6 @@
 module.exports = {
 	name: 'browse',
 	description: 'Fetches top posts from subreddit\nSyntax is ```$browse [subreddit]{amount}```',
-	mode: 'entertainment',
 	execute(message, args) {
 		const Discord = require('discord.js');
 		const fetch = require("node-fetch");

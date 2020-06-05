@@ -1,7 +1,6 @@
 module.exports = {
     name: 'blacklist',
     description: 'Prints out blacklisted words \nSyntax is ```$blacklist```',
-    mode: 'moderate',
     execute(message, args) {
         const storage = require('./storage.json');
 
