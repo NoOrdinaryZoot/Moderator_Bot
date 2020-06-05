@@ -2,7 +2,7 @@ module.exports = {
     name: 'add',
     description: 'Adds a blacklisted word \nSyntax is ```$add [word]```',
     execute(message, args) {
-        const storage = require('./storage.json');
+        const storage = require('../storage.json');
 
         const serverFilter = storage.filters.get(message.guild.id);
 

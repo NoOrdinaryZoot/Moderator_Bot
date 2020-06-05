@@ -2,7 +2,7 @@ module.exports = {
     name: 'filter',
     description: 'Filters out blacklisted words \nSyntax is ```$filter```',
     execute(message, args) {
-        const storage = require('./storage.json');
+        const storage = require('../storage.json');
 
         var censorCount = 0;
         
