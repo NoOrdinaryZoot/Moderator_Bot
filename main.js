@@ -1,6 +1,5 @@
 require('dotenv').config(); // Loads .env file with Token
 
-//Remember to Comment Code
 //Finish moving variables from .env -> .json
 
 const Discord = require('discord.js');
