@@ -91,6 +91,13 @@ client.on('message', async message => {
 		case 'volume':
 			volume(message);
 			return;
+		case 'die':
+			message.channel.messages.fetch().then(messages => {
+				message.channel.bulkDelete(messages);
+			}).catch(err => {
+				console.log('Error while doing Bulk Delete');
+			});
+			return;
 		case 'song':
 			var tempQueue = queue.get(message.guild.id);
 			return message.channel.send(`****Title**\n${tempQueue.songs[0].title}\nVideo ID**\n${tempQueue.songs[0].url}`);
