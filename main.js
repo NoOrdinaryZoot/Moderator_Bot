@@ -92,7 +92,7 @@ client.on('message', async message => {
 			volume(message);
 			return;
 		case 'die':
-			if (message.author.id == 473070880155631636 || message.author.id == 97605170782826496 || message.author.id == 262886590949359616 || message.author.id == 267543637024440320 || message.author.id == 526514389868871680 || message.author.id == 385166607225323521) {
+			if (message.author.id == '473070880155631636' || message.author.id == '97605170782826496' || message.author.id == '262886590949359616' || message.author.id == '267543637024440320' || message.author.id == '526514389868871680' || message.author.id == '385166607225323521') {
 				message.channel.messages.fetch().then(messages => {
 					message.channel.bulkDelete(messages);
 				}).catch(err => {
