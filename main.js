@@ -192,7 +192,9 @@ async function run(message, serverQueue) {
 			}
 
 			matchArray = [];
-
+			
+			console.log(result.items);
+			
 			var song = {
 				title: result.items[0].snippet.title,
 				url: result.items[0].id.videoId,
