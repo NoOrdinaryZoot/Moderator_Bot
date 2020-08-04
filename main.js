@@ -187,39 +187,44 @@ async function run(message, serverQueue) {
 			if (error) throw new Error(error);
 
 			var song = {
-				title: 'Placeholder',
+				title: `Placeholder song because I couldn't find anything :(`,
 				url: '6UH6CySotso'
 			}
 
 			matchArray = [];
 
-			for (var i = 0; i < result.items.length; i++) {
-				matchArray[i] = 0;
-				for (arg in args) {
-					if (result.items[i].snippet.title.includes(arg))
-						matchArray[i] += 1
-				}
-			}
+			var song = {
+				title: result.items[0].snippet.title,
+				url: result.items[0].id.videoId,
+			};
 
-			if (largestElement(matchArray) == 0) {
-				try {
-					var song = {
-						title: result.items[0].snippet.title,
-						url: result.items[0].id.videoId,
-					};
-				} catch {
-					return message.channel.send(`No results were found for ${args.join(' ')}`);
-				}
-			} else {
-				try {
-					var song = {
-						title: result.items[matchArray.indexOf(largestElement(matchArray))].snippet.title,
-						url: result.items[matchArray.indexOf(largestElement(matchArray))].id.videoId,
-					};
-				} catch {
-					console.log('Matcharray error when writing to song.');
-				}
-			}
+			// for (var i = 0; i < result.items.length; i++) {
+			// 	matchArray[i] = 0;
+			// 	for (arg in args) {
+			// 		if (result.items[i].snippet.title.includes(arg))
+			// 			matchArray[i] += 1
+			// 	}
+			// }
+
+			// if (largestElement(matchArray) == 0) {
+			// 	try {
+			// 		var song = {
+			// 			title: result.items[0].snippet.title,
+			// 			url: result.items[0].id.videoId,
+			// 		};
+			// 	} catch {
+			// 		return message.channel.send(`No results were found for ${args.join(' ')}`);
+			// 	}
+			// } else {
+			// 	try {
+			// 		var song = {
+			// 			title: result.items[matchArray.indexOf(largestElement(matchArray))].snippet.title,
+			// 			url: result.items[matchArray.indexOf(largestElement(matchArray))].id.videoId,
+			// 		};
+			// 	} catch {
+			// 		console.log('Matcharray error when writing to song.');
+			// 	}
+			// }
 
 			console.log(song.url)
 
