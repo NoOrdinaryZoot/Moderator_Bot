@@ -10,15 +10,8 @@ module.exports = {
             storage.filters.set(message.guild.id, []);
             serverFilter = storage.filters.get(message.guild.id);
         }
-
-
-        console.log('Start')
-        console.log(args);
-        console.log(args.join(' '))
+        
         serverFilter.push(args.join(' '));
-        console.log(storage.filters.get(message.guild.id));
-        console.log(serverFilter);
-        console.log('End')
 
         // storage.filters.set(message.guild.id, serverFilter);
 

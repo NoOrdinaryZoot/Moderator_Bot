@@ -11,19 +11,7 @@ module.exports = {
             serverFilter = storage.filters.get(message.guild.id);
             return message.channel.send('There is no blacklist present in this server!')
         }
-        console.log(storage.filters.get(message.guild.id));
-        console.log(storage.filters);
-        console.log(serverFilter);
 
-        // try {
-        //     if (blacklist.length > 0) {
-        //         return message.channel.send(`Blacklisted words include ${serverFilter.join(', ')}`)
-        //     }
-        // } catch {
-        //     return message.channel.send('Error when sending blacklisted words!')
-        // }
         return message.channel.send('There is no blacklist present in this server!')
-        //Whatever you want down here
-        //message.channel.send is generally a good idea.
     }
 };
