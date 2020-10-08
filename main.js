@@ -54,6 +54,14 @@ client.once('disconnect', () => {
 	console.log('Disconnect!');
 });
 
+client.on('guildMemberAdd', member => {
+	member.send('Welcome to the largest Insurgency Discord Server for the AU/NZ region!\nWe play both casual game modes and competitively on both NWI and PGL servers.\nFor more info feel free to message one of the mods or admins.\nIf you are a content creator, contact a moderator to gain the content creator role.')
+
+    // Don't know the role id?
+    const role = guild.roles.find(role => role.name === 'your role name');
+    member.addRole(role);
+});
+
 client.on('message', async message => {
 	if (message.author.bot) return;
 	if (!message.content.startsWith(prefix)) return;
