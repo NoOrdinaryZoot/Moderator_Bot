@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/HatBreakingDad/Moderator_Bot#readme",
   "dependencies": {
-    "@discordjs/opus": "^0.2.1",
+    "@discordjs/opus": "^0.8.0",
     "chess-image-generator": "^1.0.3",
     "chess-web-api": "^1.0.9",
     "chess.js": "^0.10.3",
